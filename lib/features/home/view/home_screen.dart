@@ -23,11 +23,12 @@ class HomeScreen extends StatelessWidget {
           body: child,
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: theme.primaryColor,
-            unselectedItemColor: theme.hintColor,
+            unselectedItemColor: theme.hintColor.withOpacity(0.3),
             currentIndex: tabsRouter.activeIndex,
             onTap: (index) => _openPage(index, tabsRouter),
-            items: const [
+            items: [
               BottomNavigationBarItem(
+                backgroundColor: theme.shadowColor,
                 icon: Icon(Icons.home),
                 label: 'Главная',
               ),
@@ -36,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                 label: 'Поиск',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle),
+                icon: Icon(Icons.add_circle, size: 40),
                 label: 'Добавить',
               ),
               BottomNavigationBarItem(

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import 'main_menu_container.dart';
+
 @RoutePage()
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -61,51 +63,3 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class MainMenuContainer extends StatelessWidget {
-  const MainMenuContainer({
-    super.key,
-    required this.imageUrl,
-    required this.label,
-  });
-
-  final String imageUrl;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black),
-      ),
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Container(
-            height: 35,
-            color: theme.hintColor,
-            child: Center(
-              child: Text(
-                label,
-                style: const TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

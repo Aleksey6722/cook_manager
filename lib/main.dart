@@ -22,6 +22,7 @@ class _CookManagerState extends State<CookManager> {
       title: 'CookManager',
       theme: ThemeData(
         primaryColor: Colors.black,
+        shadowColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.black, onPrimary: Colors.white),
         useMaterial3: true,
