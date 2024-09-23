@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/features/add/view/base_form_field.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -10,6 +11,8 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final _addRecepieFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +29,12 @@ class _AddScreenState extends State<AddScreen> {
             child: Padding(
               padding: EdgeInsets.only(top: 20, left: 20, right: 20),
               child: Form(
+                  key: _addRecepieFormKey,
                   child: Column(
-                children: [],
-              )),
+                    children: [
+                      BaseFormField(),
+                    ],
+                  )),
             ),
           ),
         ],
