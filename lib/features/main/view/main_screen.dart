@@ -14,15 +14,16 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Категории'),
+        surfaceTintColor: theme.colorScheme.surface,
+        backgroundColor: theme.colorScheme.surface,
+        shadowColor: theme.colorScheme.surface,
+        elevation: 2,
+      ),
       body: CustomScrollView(slivers: [
-        SliverAppBar(
-          pinned: true,
-          title: Text('Категории'),
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.transparent,
-        ),
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -62,9 +63,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         )
-      ]
-          //
-          ),
+      ]),
     );
   }
 }
