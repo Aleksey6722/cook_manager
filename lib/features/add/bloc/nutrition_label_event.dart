@@ -6,15 +6,15 @@ sealed class NutritionLabelEvent extends Equatable {
 }
 
 class NutritionLabelEventFocusedChanged extends NutritionLabelEvent {
-  final FocusNode focus1;
-  final FocusNode focus2;
-  final FocusNode focus3;
-  final FocusNode focus4;
+  final FocusNode callories;
+  final FocusNode carbones;
+  final FocusNode fats;
+  final FocusNode proteins;
 
   NutritionLabelEventFocusedChanged({
-    required this.focus1,
-    required this.focus2,
-    required this.focus3,
-    required this.focus4,
+    required this.callories,
+    required this.carbones,
+    required this.fats,
+    required this.proteins,
   });
 }

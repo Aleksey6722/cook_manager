@@ -51,113 +51,134 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
       decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlocProvider(
-            create: (context) => _labelColorBloc,
-            child: BlocBuilder<NutritionLabelBloc, NutritionLabelState>(
-                builder: (BuildContext context, state) {
-              return Text(
-                'Пищевая ценность',
-                style: theme.textTheme.bodyMedium!.copyWith(
-                    color: state.isLabelFocused
-                        ? _currentPrimaryColor
-                        : _currentTextColor),
-              );
-            }),
-          ),
-          SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Белки: "),
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  focusNode: _focusNodeProteins,
-                  decoration: InputDecoration(
-                    hintText: '20 г',
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 1),
-                    border: InputBorder.none,
-                  ),
+      child: BlocProvider(
+        create: (context) => _labelColorBloc,
+        child: BlocBuilder<NutritionLabelBloc, NutritionLabelState>(
+          builder: (BuildContext context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Пищевая ценность',
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                      color: state.isLabelFocused
+                          ? _currentPrimaryColor
+                          : _currentTextColor),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Жиры: "),
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  focusNode: _focusNodeFats,
-                  decoration: InputDecoration(
-                    hintText: '20 г',
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 1),
-                    border: InputBorder.none,
-                    constraints: BoxConstraints(),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Белки: ",
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          color: state.isProteinsLabelFocused
+                              ? _currentPrimaryColor
+                              : _currentTextColor),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        focusNode: _focusNodeProteins,
+                        decoration: const InputDecoration(
+                          hintText: '20 г',
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Углеводы: "),
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  focusNode: _focusNodeCarb,
-                  decoration: InputDecoration(
-                    hintText: '20 г',
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 1),
-                    border: InputBorder.none,
-                    constraints: BoxConstraints(),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Жиры: ",
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          color: state.isFatsLabelFocused
+                              ? _currentPrimaryColor
+                              : _currentTextColor),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        focusNode: _focusNodeFats,
+                        decoration: const InputDecoration(
+                          hintText: '20 г',
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          border: InputBorder.none,
+                          constraints: BoxConstraints(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Калории: "),
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  focusNode: _focusNodeCallories,
-                  decoration: InputDecoration(
-                    hintText: '342',
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 1),
-                    border: InputBorder.none,
-                    constraints: BoxConstraints(),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Углеводы: ",
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          color: state.isCarbsLabelFocused
+                              ? _currentPrimaryColor
+                              : _currentTextColor),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        focusNode: _focusNodeCarb,
+                        decoration: const InputDecoration(
+                          hintText: '20 г',
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          border: InputBorder.none,
+                          constraints: BoxConstraints(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("Калории: ", style: theme.textTheme.bodyMedium!.copyWith(
+                        color: state.isCallorLabelFocused
+                            ? _currentPrimaryColor
+                            : _currentTextColor),),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        focusNode: _focusNodeCallories,
+                        decoration: const InputDecoration(
+                          hintText: '342',
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          border: InputBorder.none,
+                          constraints: BoxConstraints(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 
   void _listenFocus() {
     _labelColorBloc.add(NutritionLabelEventFocusedChanged(
-      focus1: _focusNodeCallories,
-      focus2: _focusNodeCarb,
-      focus3: _focusNodeFats,
-      focus4: _focusNodeProteins,
+      callories: _focusNodeCallories,
+      carbones: _focusNodeCarb,
+      fats: _focusNodeFats,
+      proteins: _focusNodeProteins,
     ));
   }
 }
