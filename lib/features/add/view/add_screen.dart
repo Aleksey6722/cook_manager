@@ -19,7 +19,7 @@ class _AddScreenState extends State<AddScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Добавить рецепт'),
+        title: Text('Добавить рецепт', style: theme.textTheme.headlineSmall),
         leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
         surfaceTintColor: theme.colorScheme.surface,
         backgroundColor: theme.colorScheme.surface,
@@ -37,19 +37,37 @@ class _AddScreenState extends State<AddScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
-                      BaseFormField(labelText: 'Название'),
+                      BaseFormField(
+                        labelText: 'Название',
+                        underlined: true,
+                        validator: (val) {
+                          if(val!.isEmpty){
+                            return 'Введите название';
+                          }
+                          return null;
+                        },
+                      ),
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Время приготовления',
                         hintText: 'Часов',
-                        isOnlyNumber: true,
+                        onlyNumber: true,
+                        underlined: true,
+                        validator: (val) {
+                          if(val!.isEmpty) {
+                            return 'Введите время приготовления';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 10),
                       BaseFormField(
-                          labelText: 'Количество порций', hintText: '4'),
+                        labelText: 'Количество порций',
+                        initialValue: '4',
+                        underlined: true,
+                      ),
                       const SizedBox(height: 10),
-                      BaseFormField(
-                          labelText: 'Категория', withSufficsIcon: true),
+                      CategoryFormField(),
                       const SizedBox(height: 10),
                       BaseFormField(labelText: 'Описание', expandable: true),
                       const SizedBox(height: 10),
@@ -58,6 +76,7 @@ class _AddScreenState extends State<AddScreen> {
                       BaseFormField(
                         labelText: 'Ссылка на источник',
                         hintText: 'https://',
+                        underlined: true,
                       ),
                       SizedBox(height: 50),
                     ],
@@ -76,7 +95,12 @@ class _AddScreenState extends State<AddScreen> {
                       backgroundColor: theme.colorScheme.primary,
                       foregroundColor: theme.colorScheme.onPrimary,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_addRecepieFormKey.currentState!.validate()) {
+                        print('Data is valid !');
+                      }
+                      ;
+                    },
                     child: Text('Добавить рецепт'),
                   ),
                 ),

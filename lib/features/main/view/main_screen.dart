@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/utils/categories.dart';
 import 'package:flutter/material.dart';
 
 import 'main_menu_container.dart';
@@ -12,12 +13,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final categories = Categories();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Категории'),
+        title: const Text('Категории'),
         surfaceTintColor: theme.colorScheme.surface,
         backgroundColor: theme.colorScheme.surface,
         shadowColor: theme.colorScheme.surface,
@@ -26,40 +29,15 @@ class _MainScreenState extends State<MainScreen> {
       body: CustomScrollView(slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: Column(
-              children: [
-                MainMenuContainer(
-                  imageUrl: "assets/images/salad.jpg",
-                  label: 'Салаты',
-                ),
-                SizedBox(height: 20),
-                MainMenuContainer(
-                  imageUrl: "assets/images/snaks.jpg",
-                  label: "Закуски",
-                ),
-                SizedBox(height: 20),
-                MainMenuContainer(
-                  imageUrl: "assets/images/soup.jpg",
-                  label: 'Первые блюда',
-                ),
-                SizedBox(height: 20),
-                MainMenuContainer(
-                  imageUrl: "assets/images/main_dishes.jpg",
-                  label: 'Главные блюда',
-                ),
-                SizedBox(height: 20),
-                MainMenuContainer(
-                  imageUrl: "assets/images/desert.jpg",
-                  label: 'Десерты и выпечка',
-                ),
-                SizedBox(height: 20),
-                MainMenuContainer(
-                  imageUrl: "assets/images/drinks.jpg",
-                  label: 'Напитки',
-                ),
-                SizedBox(height: 20),
-              ],
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) => MainMenuContainer(
+                  imageUrl: categories.items[index].imageUrl,
+                  label: categories.items[index].name),
+              separatorBuilder: (context, index) => const SizedBox(height: 20),
+              itemCount: categories.items.length,
             ),
           ),
         )
