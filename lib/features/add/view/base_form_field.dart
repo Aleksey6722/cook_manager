@@ -10,7 +10,7 @@ class BaseFormField extends StatelessWidget {
     this.expandable = false,
     this.underlined = false,
     this.validator,
-    this.initialValue,
+    this.initialValue, this.onSaved,
   });
 
   final String labelText;
@@ -20,11 +20,13 @@ class BaseFormField extends StatelessWidget {
   final bool expandable;
   final bool underlined;
   final String? Function(String?)? validator;
+  final Function(String?)? onSaved;
   final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final currentTextColor = theme.colorScheme.onSurface;
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 16, left: 12, right: 12),
       decoration: BoxDecoration(
@@ -43,6 +45,8 @@ class BaseFormField extends StatelessWidget {
                 child: Text(labelText),
               ),
               hintText: hintText,
+              hintStyle: theme.textTheme.bodyMedium!.copyWith(
+                  color: currentTextColor.withOpacity(0.5)),
               border: underlined ? null : InputBorder.none,
               suffixIcon: withSufficsIcon
                   ? const Icon(Icons.keyboard_arrow_down_outlined, size: 30)
@@ -51,6 +55,7 @@ class BaseFormField extends StatelessWidget {
             ),
             validator: validator,
             textInputAction: TextInputAction.none,
+            onSaved: onSaved,
           ),
         ],
       ),

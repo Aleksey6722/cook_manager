@@ -13,6 +13,14 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final _addRecepieFormKey = GlobalKey<FormState>();
+  String? name,
+      time,
+      numberOfPortions,
+      category,
+      description,
+      proteins,
+      carbs,
+      fats;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,6 @@ class _AddScreenState extends State<AddScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Добавить рецепт', style: theme.textTheme.headlineSmall),
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
         surfaceTintColor: theme.colorScheme.surface,
         backgroundColor: theme.colorScheme.surface,
         shadowColor: theme.colorScheme.surface,
@@ -41,10 +48,13 @@ class _AddScreenState extends State<AddScreen> {
                         labelText: 'Название',
                         underlined: true,
                         validator: (val) {
-                          if(val!.isEmpty){
+                          if (val!.isEmpty) {
                             return 'Введите название';
                           }
                           return null;
+                        },
+                        onSaved: (val) {
+                          name = val;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -54,10 +64,13 @@ class _AddScreenState extends State<AddScreen> {
                         onlyNumber: true,
                         underlined: true,
                         validator: (val) {
-                          if(val!.isEmpty) {
+                          if (val!.isEmpty) {
                             return 'Введите время приготовления';
                           }
                           return null;
+                        },
+                        onSaved: (val) {
+                          time = val;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -65,11 +78,30 @@ class _AddScreenState extends State<AddScreen> {
                         labelText: 'Количество порций',
                         initialValue: '4',
                         underlined: true,
+                        onSaved: (val) {
+                          numberOfPortions = val;
+                        },
                       ),
                       const SizedBox(height: 10),
-                      CategoryFormField(),
+                      CategoryFormField(
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return 'Выберите категорию';
+                          }
+                          return null;
+                        },
+                        onSaved: (val) {
+                          category = val;
+                        },
+                      ),
                       const SizedBox(height: 10),
-                      BaseFormField(labelText: 'Описание', expandable: true),
+                      BaseFormField(
+                        labelText: 'Описание',
+                        expandable: true,
+                        onSaved: (val) {
+                          description = val;
+                        },
+                      ),
                       const SizedBox(height: 10),
                       NutritionalValueWidget(),
                       const SizedBox(height: 10),
@@ -97,9 +129,10 @@ class _AddScreenState extends State<AddScreen> {
                     ),
                     onPressed: () {
                       if (_addRecepieFormKey.currentState!.validate()) {
-                        print('Data is valid !');
+                        _addRecepieFormKey.currentState!.save();
+                        print(
+                            '$name, $time, $numberOfPortions, $category, $description');
                       }
-                      ;
                     },
                     child: Text('Добавить рецепт'),
                   ),

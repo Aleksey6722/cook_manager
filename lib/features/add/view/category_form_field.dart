@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 
 class CategoryFormField extends StatefulWidget {
   const CategoryFormField({
-    super.key, this.validator,
+    super.key, this.validator, this.onSaved,
   });
 
   final String? Function(String?)? validator;
+  final Function(String?)? onSaved;
 
   @override
   State<CategoryFormField> createState() => _CategoryFormFieldState();
@@ -19,6 +20,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   late AnimationController _animationController;
   late Animation<double> _boxAnimation;
   late Animation<double> _iconAnimation;
+  final TextEditingController _categoryFieldController = TextEditingController();
 
   final categories = Categories();
 
@@ -61,7 +63,9 @@ class _CategoryFormFieldState extends State<CategoryFormField>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            controller: _categoryFieldController,
             onTap: _toggle,
+            onSaved: widget.onSaved,
             readOnly: true,
             decoration: InputDecoration(
               label: Container(
@@ -90,11 +94,13 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    String name = categories.items[index].name;
                     return GestureDetector(
                       onTap: () {
+                        _categoryFieldController.text = name;
                         _toggle();
                       },
-                      child: Text(categories.items[index].name),
+                      child: Text(name),
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(),

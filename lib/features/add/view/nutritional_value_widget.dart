@@ -5,18 +5,7 @@ import 'package:get_it/get_it.dart';
 import '../bloc/nutrition_label_bloc.dart';
 
 class NutritionalValueWidget extends StatefulWidget {
-  const NutritionalValueWidget({
-    super.key,
-    this.hintText,
-    this.isOnlyNumber = false,
-    this.withSufficsIcon = false,
-    this.expandable = false,
-  });
-
-  final String? hintText;
-  final bool isOnlyNumber;
-  final bool withSufficsIcon;
-  final bool expandable;
+  const NutritionalValueWidget({super.key});
 
   @override
   State<NutritionalValueWidget> createState() => _NutritionalValueWidgetState();
@@ -43,8 +32,8 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final _currentPrimaryColor = theme.colorScheme.primary;
-    final _currentTextColor = theme.colorScheme.onSurface;
+    final currentPrimaryColor = theme.colorScheme.primary;
+    final currentTextColor = theme.colorScheme.onSurface;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -62,8 +51,8 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                   'Пищевая ценность',
                   style: theme.textTheme.bodyMedium!.copyWith(
                       color: state.isLabelFocused
-                          ? _currentPrimaryColor
-                          : _currentTextColor),
+                          ? currentPrimaryColor
+                          : currentTextColor),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -73,17 +62,20 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       "Белки: ",
                       style: theme.textTheme.bodyMedium!.copyWith(
                           color: state.isProteinsLabelFocused
-                              ? _currentPrimaryColor
-                              : _currentTextColor),
+                              ? currentPrimaryColor
+                              : currentTextColor),
                     ),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeProteins,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: '20 г',
+                          hintStyle: theme.textTheme.bodyMedium!.copyWith(
+                              color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
                         ),
                       ),
@@ -98,19 +90,21 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       "Жиры: ",
                       style: theme.textTheme.bodyMedium!.copyWith(
                           color: state.isFatsLabelFocused
-                              ? _currentPrimaryColor
-                              : _currentTextColor),
+                              ? currentPrimaryColor
+                              : currentTextColor),
                     ),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeFats,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: '20 г',
+                          hintStyle: theme.textTheme.bodyMedium!.copyWith(
+                              color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
-                          constraints: BoxConstraints(),
+                          constraints: const BoxConstraints(),
                         ),
                       ),
                     ),
@@ -124,19 +118,21 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       "Углеводы: ",
                       style: theme.textTheme.bodyMedium!.copyWith(
                           color: state.isCarbsLabelFocused
-                              ? _currentPrimaryColor
-                              : _currentTextColor),
+                              ? currentPrimaryColor
+                              : currentTextColor),
                     ),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCarb,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           hintText: '20 г',
+                          hintStyle: theme.textTheme.bodyMedium!.copyWith(
+                              color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
-                          constraints: BoxConstraints(),
+                          constraints: const BoxConstraints(),
                         ),
                       ),
                     ),
@@ -146,20 +142,25 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Калории: ", style: theme.textTheme.bodyMedium!.copyWith(
-                        color: state.isCallorLabelFocused
-                            ? _currentPrimaryColor
-                            : _currentTextColor),),
+                    Text(
+                      "Калории: ",
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          color: state.isCallorLabelFocused
+                              ? currentPrimaryColor
+                              : currentTextColor),
+                    ),
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCallories,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: '342',
+                          hintStyle: theme.textTheme.bodyMedium!.copyWith(
+                              color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 1),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
-                          constraints: BoxConstraints(),
+                          constraints: const BoxConstraints(),
                         ),
                       ),
                     ),
