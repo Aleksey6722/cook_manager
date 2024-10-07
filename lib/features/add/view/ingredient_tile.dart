@@ -1,10 +1,20 @@
+import 'package:cook_manager/utils/ingredient.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cook_manager/features/add/add.dart';
 
 class IngredientTile extends StatelessWidget {
-  const IngredientTile({super.key});
+  const IngredientTile({
+    super.key,
+    required this.index,
+    required this.ingredient,
+    required this.totalAmount,
+  });
+
+  final int index;
+  final int totalAmount;
+  final Ingredient ingredient;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +30,7 @@ class IngredientTile extends StatelessWidget {
             borderType: BorderType.RRect,
             borderPadding: const EdgeInsets.all(5),
             padding:
-            const EdgeInsets.only(left: 15, right: 15, bottom: 30, top: 15),
+                const EdgeInsets.only(left: 15, right: 15, bottom: 30, top: 15),
             radius: const Radius.circular(10),
             color: theme.colorScheme.primary,
             strokeWidth: 1.5,
@@ -36,7 +46,7 @@ class IngredientTile extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ButtonsBarWithAddButton(),
+            child: ButtonsBarWithAddButton(index: index, ),
           ),
         ],
       ),

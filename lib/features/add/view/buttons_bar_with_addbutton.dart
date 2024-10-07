@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ButtonsBarWithAddButton extends StatelessWidget {
-  const ButtonsBarWithAddButton({super.key});
+  const ButtonsBarWithAddButton({
+    super.key,
+    required this.index,
+    required this.totalAmount,
+  });
+
+  final int index;
+  final int totalAmount;
 
   @override
   Widget build(BuildContext context) {
+    final bool isFirst = index == 0;
+    if(!isFirst && index == totalAmount-1);
+
     final theme = Theme.of(context);
     return Row(
       children: [
@@ -32,7 +42,9 @@ class ButtonsBarWithAddButton extends StatelessWidget {
                     'assets/icons/chevron-up-circle-outline.svg',
                     height: 32,
                     colorFilter: ColorFilter.mode(
-                      theme.hintColor.withOpacity(0.2),
+                      index == 0
+                          ? theme.hintColor.withOpacity(0.2)
+                          : theme.colorScheme.surface,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -73,7 +85,7 @@ class ButtonsBarWithAddButton extends StatelessWidget {
         const Spacer(flex: 25),
         Visibility(
           visible: true,
-          replacement: Container(height:56),
+          replacement: Container(height: 56),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -81,8 +93,7 @@ class ButtonsBarWithAddButton extends StatelessWidget {
                 height: 30,
                 width: 30,
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
-                    shape: BoxShape.circle),
+                    color: theme.colorScheme.surface, shape: BoxShape.circle),
               ),
               IconButton(
                 onPressed: () {
@@ -98,14 +109,21 @@ class ButtonsBarWithAddButton extends StatelessWidget {
           ),
         ),
         const Spacer(flex: 35),
-        GestureDetector(
-          onTap: () {
-           // TODO: delete tile
-          },
-          child: const Icon(
-            Icons.delete_rounded,
-            size: 40,
-            color: Color(0xFFb84848),
+        Visibility(
+          visible: true,
+          replacement: Container(
+            height: 56,
+            width: 40,
+          ),
+          child: GestureDetector(
+            onTap: () {
+              // TODO: delete tile
+            },
+            child: const Icon(
+              Icons.delete_rounded,
+              size: 40,
+              color: Color(0xFFb84848),
+            ),
           ),
         ),
       ],

@@ -12,6 +12,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../features/add/bloc/nutrition_label_bloc.dart' as _i401;
+import '../features/add/bloc/structure_bloc.dart' as _i273;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -25,6 +26,7 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     gh.singleton<_i401.NutritionLabelBloc>(() => _i401.NutritionLabelBloc());
+    gh.singleton<_i273.StructureBloc>(() => _i273.StructureBloc());
     return this;
   }
 }
