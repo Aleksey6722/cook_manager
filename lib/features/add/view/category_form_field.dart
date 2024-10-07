@@ -55,7 +55,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 16, left: 12, right: 12),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 12),
       decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(10)),
@@ -82,6 +82,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                     ),
               ),
               suffixIconConstraints: const BoxConstraints(maxHeight: 30),
+              // border: InputBorder.none,
             ),
             validator: widget.validator,
           ),

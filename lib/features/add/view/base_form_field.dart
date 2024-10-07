@@ -28,7 +28,7 @@ class BaseFormField extends StatelessWidget {
     final theme = Theme.of(context);
     final currentTextColor = theme.colorScheme.onSurface;
     return Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 16, left: 12, right: 12),
+      padding: EdgeInsets.only(top: 10, bottom: underlined ? 8 : 0, left: 12, right: 12),
       decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(10)),
@@ -37,7 +37,7 @@ class BaseFormField extends StatelessWidget {
         children: [
           TextFormField(
             initialValue: initialValue,
-            maxLines: expandable ? 4 : null,
+            maxLines: expandable ? 3 : null,
             keyboardType: onlyNumber ? TextInputType.number : null,
             decoration: InputDecoration(
               label: Container(

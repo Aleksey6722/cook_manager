@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/features/add/add.dart';
 import 'package:cook_manager/features/add/view/base_form_field.dart';
+import 'package:cook_manager/features/add/view/structure_widget.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -34,7 +35,7 @@ class _AddScreenState extends State<AddScreen> {
         elevation: 2,
       ),
       body: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Stack(children: [
           CustomScrollView(
             slivers: [
@@ -78,6 +79,12 @@ class _AddScreenState extends State<AddScreen> {
                         labelText: 'Количество порций',
                         initialValue: '4',
                         underlined: true,
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return 'Укажите количество порций';
+                          }
+                          return null;
+                        },
                         onSaved: (val) {
                           numberOfPortions = val;
                         },
@@ -110,7 +117,14 @@ class _AddScreenState extends State<AddScreen> {
                         hintText: 'https://',
                         underlined: true,
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Text('Состав', style: theme.textTheme.titleLarge, ),
+                        ],
+                      ),
+                      StructureWidget(),
+                      SizedBox(height: 60),
                     ],
                   ),
                 ),
