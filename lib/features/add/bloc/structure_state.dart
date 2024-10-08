@@ -1,7 +1,7 @@
 part of 'structure_bloc.dart';
 
 sealed class StructureState extends Equatable {
-  late List<Ingredient> _listOfIngredients;
+  late final List<Ingredient> _listOfIngredients;
 
   List<Ingredient> get listOfIngredients => _listOfIngredients;
 
@@ -10,9 +10,12 @@ sealed class StructureState extends Equatable {
 }
 
 class StructureInitState extends StructureState {
-
   @override
-  final List<Ingredient> listOfIngredients = [Ingredient()];
+  final List<Ingredient> listOfIngredients = [
+    Ingredient(),
+    // Ingredient(),
+    // Ingredient(),Ingredient(),Ingredient(),
+  ];
 }
 
 class StructureCurrentState extends StructureState {

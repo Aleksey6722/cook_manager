@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ButtonsBarWithAddButton extends StatelessWidget {
-  const ButtonsBarWithAddButton({
+class ButtonsBar extends StatelessWidget {
+  const ButtonsBar({
     super.key,
     required this.index,
     required this.totalAmount,
@@ -14,7 +14,14 @@ class ButtonsBarWithAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isFirst = index == 0;
-    if(!isFirst && index == totalAmount-1);
+    bool showAddButton = false;
+    bool isLast = false;
+    if (!isFirst && index == totalAmount - 1) {
+      isLast = true;
+    }
+    if (totalAmount == 1 || isLast) {
+      showAddButton = true;
+    }
 
     final theme = Theme.of(context);
     return Row(
@@ -22,9 +29,7 @@ class ButtonsBarWithAddButton extends StatelessWidget {
         Row(
           children: [
             GestureDetector(
-              onTap: () {
-                // TODO: move tile up
-              },
+              onTap: isFirst ? null : _moveTileUp,
               child: Stack(
                 children: [
                   Positioned(
@@ -42,9 +47,9 @@ class ButtonsBarWithAddButton extends StatelessWidget {
                     'assets/icons/chevron-up-circle-outline.svg',
                     height: 32,
                     colorFilter: ColorFilter.mode(
-                      index == 0
+                      isFirst
                           ? theme.hintColor.withOpacity(0.2)
-                          : theme.colorScheme.surface,
+                          : theme.colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -53,12 +58,12 @@ class ButtonsBarWithAddButton extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             GestureDetector(
-              onTap: () {
-                // TODO: move tile down
-              },
+              onTap: isLast || totalAmount == 1 ? null : _moveTileDown,
               child: Stack(
                 children: [
                   Positioned(
+                    left: 4,
+                    top: 4,
                     child: Container(
                       height: 22,
                       width: 22,
@@ -66,14 +71,14 @@ class ButtonsBarWithAddButton extends StatelessWidget {
                           color: theme.colorScheme.surface,
                           shape: BoxShape.circle),
                     ),
-                    left: 4,
-                    top: 4,
                   ),
                   SvgPicture.asset(
                     'assets/icons/chevron-down-circle.svg',
                     height: 32,
                     colorFilter: ColorFilter.mode(
-                      theme.colorScheme.onSurface.withOpacity(0.9),
+                      isLast || totalAmount == 1
+                          ? theme.hintColor.withOpacity(0.2)
+                          : theme.colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -84,7 +89,7 @@ class ButtonsBarWithAddButton extends StatelessWidget {
         ),
         const Spacer(flex: 25),
         Visibility(
-          visible: true,
+          visible: showAddButton,
           replacement: Container(height: 56),
           child: Stack(
             alignment: Alignment.center,
@@ -96,9 +101,7 @@ class ButtonsBarWithAddButton extends StatelessWidget {
                     color: theme.colorScheme.surface, shape: BoxShape.circle),
               ),
               IconButton(
-                onPressed: () {
-                  // TODO: add new tile
-                },
+                onPressed: _addTile,
                 icon: Icon(
                   Icons.add_circle_outline,
                   size: 40,
@@ -110,15 +113,13 @@ class ButtonsBarWithAddButton extends StatelessWidget {
         ),
         const Spacer(flex: 35),
         Visibility(
-          visible: true,
-          replacement: Container(
+          visible: !(totalAmount == 1),
+          replacement: const SizedBox(
             height: 56,
             width: 40,
           ),
           child: GestureDetector(
-            onTap: () {
-              // TODO: delete tile
-            },
+            onTap: _removeTile,
             child: const Icon(
               Icons.delete_rounded,
               size: 40,
@@ -128,5 +129,25 @@ class ButtonsBarWithAddButton extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _addTile() {
+    // TODO: add new tile
+    print('New tile  added after $index');
+  }
+
+  void _moveTileUp() {
+    // TODO: move tile up
+    print('Tile $index moved up');
+  }
+
+  void _moveTileDown() {
+    // TODO: move tile down
+    print('Tile $index moved down');
+  }
+
+  void _removeTile() {
+    // TODO: remove tile
+    print('Tile $index removed');
   }
 }

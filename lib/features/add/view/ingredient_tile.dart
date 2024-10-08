@@ -46,7 +46,10 @@ class IngredientTile extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ButtonsBarWithAddButton(index: index, ),
+            child: ButtonsBar(
+              index: index,
+              totalAmount: totalAmount,
+            ),
           ),
         ],
       ),
