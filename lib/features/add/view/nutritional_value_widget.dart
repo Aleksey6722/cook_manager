@@ -66,7 +66,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                               : currentTextColor),
                     ),
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeProteins,
                         decoration: InputDecoration(
@@ -94,7 +94,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                               : currentTextColor),
                     ),
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeFats,
                         decoration: InputDecoration(
@@ -122,7 +122,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                               : currentTextColor),
                     ),
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCarb,
                         decoration:  InputDecoration(
@@ -150,7 +150,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                               : currentTextColor),
                     ),
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCallories,
                         decoration: InputDecoration(

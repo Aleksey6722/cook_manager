@@ -13,13 +13,13 @@ class StructureInitState extends StructureState {
   @override
   final List<Ingredient> listOfIngredients = [
     Ingredient(),
-    // Ingredient(),
-    // Ingredient(),Ingredient(),Ingredient(),
+    Ingredient(),
+    Ingredient(),
   ];
 }
 
 class StructureCurrentState extends StructureState {
-  StructureCurrentState(this.listOfIngredients);
+  StructureCurrentState({required this.listOfIngredients});
 
   @override
   final List<Ingredient> listOfIngredients;

@@ -1,20 +1,33 @@
+import 'package:cook_manager/utils/field_type_enum.dart';
 import 'package:cook_manager/utils/ingredient.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cook_manager/features/add/add.dart';
+import 'package:get_it/get_it.dart';
 
-class IngredientTile extends StatelessWidget {
+import '../bloc/structure_bloc.dart';
+
+class IngredientTile extends StatefulWidget {
   const IngredientTile({
     super.key,
     required this.index,
     required this.ingredient,
     required this.totalAmount,
+    required this.totalIngredientsList,
   });
 
   final int index;
   final int totalAmount;
   final Ingredient ingredient;
+  final List<Ingredient> totalIngredientsList;
+
+  @override
+  State<IngredientTile> createState() => _IngredientTileState();
+}
+
+class _IngredientTileState extends State<IngredientTile> {
+  final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +51,43 @@ class IngredientTile extends StatelessWidget {
               children: [
                 BaseFormField(
                   labelText: "Ингредиент",
+                  onChanged: _setName,
                 ),
-                SizedBox(height: 6),
-                BaseFormField(labelText: "Количество"),
+                const SizedBox(height: 6),
+                BaseFormField(labelText: "Количество", onChanged: _setValue),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: ButtonsBar(
-              index: index,
-              totalAmount: totalAmount,
+              index: widget.index,
+              totalAmount: widget.totalAmount,
+              totalIngredientsList: widget.totalIngredientsList,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _setValue(String? value) {
+    _structureBloc.add(
+      SetValueEvent(
+        value: value,
+        index: widget.index,
+        currentList: widget.totalIngredientsList,
+        fieldType: FieldType.value,
+      ),
+    );
+  }
+
+  void _setName(String? name) {
+    _structureBloc.add(SetValueEvent(
+      value: name,
+      index: widget.index,
+      currentList: widget.totalIngredientsList,
+      fieldType: FieldType.name,
+    ));
   }
 }

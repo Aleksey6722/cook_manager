@@ -2,7 +2,6 @@ import 'package:cook_manager/features/add/bloc/structure_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import '../../../utils/ingredient.dart';
 import 'ingredient_tile.dart';
 
 class StructureWidget extends StatefulWidget {
@@ -17,7 +16,6 @@ class _StructureWidgetState extends State<StructureWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return BlocProvider(
       create: (context) => _structureBloc,
       child: BlocBuilder<StructureBloc, StructureState>(
@@ -31,6 +29,7 @@ class _StructureWidgetState extends State<StructureWidget> {
                   index: entry.key,
                   ingredient: entry.value,
                   totalAmount: totalAmount,
+                  totalIngredientsList: state.listOfIngredients,
                 ),
               )
             ],

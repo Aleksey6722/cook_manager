@@ -10,7 +10,9 @@ class BaseFormField extends StatelessWidget {
     this.expandable = false,
     this.underlined = false,
     this.validator,
-    this.initialValue, this.onSaved,
+    this.initialValue,
+    this.onSaved,
+    this.onChanged,
   });
 
   final String labelText;
@@ -20,7 +22,8 @@ class BaseFormField extends StatelessWidget {
   final bool expandable;
   final bool underlined;
   final String? Function(String?)? validator;
-  final Function(String?)? onSaved;
+  final void Function(String?)? onSaved;
+  final void Function(String?)? onChanged;
   final String? initialValue;
 
   @override
@@ -56,6 +59,7 @@ class BaseFormField extends StatelessWidget {
             validator: validator,
             textInputAction: TextInputAction.none,
             onSaved: onSaved,
+            onChanged: onChanged,
           ),
         ],
       ),

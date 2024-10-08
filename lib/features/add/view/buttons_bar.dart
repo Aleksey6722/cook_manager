@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../utils/ingredient.dart';
+
 class ButtonsBar extends StatelessWidget {
   const ButtonsBar({
     super.key,
     required this.index,
     required this.totalAmount,
+    required this.totalIngredientsList,
   });
 
   final int index;
   final int totalAmount;
+  final List<Ingredient> totalIngredientsList;
 
   @override
   Widget build(BuildContext context) {

@@ -12,3 +12,17 @@ class RemoveTileEvent extends StructureEvent {}
 class MoveTileUpEvent extends StructureEvent {}
 
 class MoveTileDownEvent extends StructureEvent {}
+
+class SetValueEvent extends StructureEvent {
+  final int index;
+  final String? value;
+  final List<Ingredient> currentList;
+  final FieldType fieldType;
+
+  SetValueEvent({
+    required this.value,
+    required this.index,
+    required this.currentList,
+    required this.fieldType,
+  });
+}
