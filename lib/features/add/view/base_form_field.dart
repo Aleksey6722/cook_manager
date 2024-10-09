@@ -13,6 +13,7 @@ class BaseFormField extends StatelessWidget {
     this.initialValue,
     this.onSaved,
     this.onChanged,
+    this.controller,
   });
 
   final String labelText;
@@ -25,6 +26,7 @@ class BaseFormField extends StatelessWidget {
   final void Function(String?)? onSaved;
   final void Function(String?)? onChanged;
   final String? initialValue;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class BaseFormField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            controller: controller,
             initialValue: initialValue,
             maxLines: expandable ? 3 : null,
             keyboardType: onlyNumber ? TextInputType.number : null,

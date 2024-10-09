@@ -1,29 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../utils/ingredient.dart';
+import '../bloc/structure_bloc.dart';
 
-class ButtonsBar extends StatelessWidget {
+class ButtonsBar extends StatefulWidget {
   const ButtonsBar({
     super.key,
     required this.index,
     required this.totalAmount,
-    required this.totalIngredientsList,
+    required this.currentIngredientsList,
   });
 
   final int index;
   final int totalAmount;
-  final List<Ingredient> totalIngredientsList;
+  final List<Ingredient> currentIngredientsList;
+
+  @override
+  State<ButtonsBar> createState() => _ButtonsBarState();
+}
+
+class _ButtonsBarState extends State<ButtonsBar> {
+  final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
 
   @override
   Widget build(BuildContext context) {
-    final bool isFirst = index == 0;
+    final bool isFirst = widget.index == 0;
     bool showAddButton = false;
     bool isLast = false;
-    if (!isFirst && index == totalAmount - 1) {
+    if (!isFirst && widget.index == widget.totalAmount - 1) {
       isLast = true;
     }
-    if (totalAmount == 1 || isLast) {
+    if (widget.totalAmount == 1 || isLast) {
       showAddButton = true;
     }
 
@@ -62,7 +71,7 @@ class ButtonsBar extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             GestureDetector(
-              onTap: isLast || totalAmount == 1 ? null : _moveTileDown,
+              onTap: isLast || widget.totalAmount == 1 ? null : _moveTileDown,
               child: Stack(
                 children: [
                   Positioned(
@@ -80,7 +89,7 @@ class ButtonsBar extends StatelessWidget {
                     'assets/icons/chevron-down-circle.svg',
                     height: 32,
                     colorFilter: ColorFilter.mode(
-                      isLast || totalAmount == 1
+                      isLast || widget.totalAmount == 1
                           ? theme.hintColor.withOpacity(0.2)
                           : theme.colorScheme.onSurface,
                       BlendMode.srcIn,
@@ -117,7 +126,7 @@ class ButtonsBar extends StatelessWidget {
         ),
         const Spacer(flex: 35),
         Visibility(
-          visible: !(totalAmount == 1),
+          visible: !(widget.totalAmount == 1),
           replacement: const SizedBox(
             height: 56,
             width: 40,
@@ -136,22 +145,35 @@ class ButtonsBar extends StatelessWidget {
   }
 
   void _addTile() {
-    // TODO: add new tile
-    print('New tile  added after $index');
+    _structureBloc.add(
+      AddTileEvent(currentList: widget.currentIngredientsList),
+    );
   }
 
   void _moveTileUp() {
-    // TODO: move tile up
-    print('Tile $index moved up');
+    _structureBloc.add(
+      MoveTileUpEvent(
+        index: widget.index,
+        currentList: widget.currentIngredientsList,
+      ),
+    );
   }
 
   void _moveTileDown() {
-    // TODO: move tile down
-    print('Tile $index moved down');
+    _structureBloc.add(
+      MoveTileDownEvent(
+        index: widget.index,
+        currentList: widget.currentIngredientsList,
+      ),
+    );
   }
 
   void _removeTile() {
-    // TODO: remove tile
-    print('Tile $index removed');
+    _structureBloc.add(
+      RemoveTileEvent(
+        index: widget.index,
+        currentList: widget.currentIngredientsList,
+      ),
+    );
   }
 }

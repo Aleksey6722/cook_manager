@@ -29,7 +29,7 @@ class _StructureWidgetState extends State<StructureWidget> {
                   index: entry.key,
                   ingredient: entry.value,
                   totalAmount: totalAmount,
-                  totalIngredientsList: state.listOfIngredients,
+                  currentIngredientsList: state.listOfIngredients,
                 ),
               )
             ],

@@ -8,19 +8,20 @@ import 'package:get_it/get_it.dart';
 
 import '../bloc/structure_bloc.dart';
 
+
 class IngredientTile extends StatefulWidget {
   const IngredientTile({
     super.key,
     required this.index,
     required this.ingredient,
     required this.totalAmount,
-    required this.totalIngredientsList,
+    required this.currentIngredientsList,
   });
 
   final int index;
   final int totalAmount;
   final Ingredient ingredient;
-  final List<Ingredient> totalIngredientsList;
+  final List<Ingredient> currentIngredientsList;
 
   @override
   State<IngredientTile> createState() => _IngredientTileState();
@@ -31,6 +32,8 @@ class _IngredientTileState extends State<IngredientTile> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameFieldController = TextEditingController(text: widget.ingredient.name);
+    TextEditingController valueFieldController = TextEditingController(text: widget.ingredient.value);
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -51,10 +54,15 @@ class _IngredientTileState extends State<IngredientTile> {
               children: [
                 BaseFormField(
                   labelText: "Ингредиент",
+                  controller: nameFieldController,
                   onChanged: _setName,
                 ),
                 const SizedBox(height: 6),
-                BaseFormField(labelText: "Количество", onChanged: _setValue),
+                BaseFormField(
+                  labelText: "Количество",
+                  controller: valueFieldController,
+                  onChanged: _setValue,
+                ),
               ],
             ),
           ),
@@ -63,7 +71,7 @@ class _IngredientTileState extends State<IngredientTile> {
             child: ButtonsBar(
               index: widget.index,
               totalAmount: widget.totalAmount,
-              totalIngredientsList: widget.totalIngredientsList,
+              currentIngredientsList: widget.currentIngredientsList,
             ),
           ),
         ],
@@ -76,7 +84,7 @@ class _IngredientTileState extends State<IngredientTile> {
       SetValueEvent(
         value: value,
         index: widget.index,
-        currentList: widget.totalIngredientsList,
+        currentList: widget.currentIngredientsList,
         fieldType: FieldType.value,
       ),
     );
@@ -86,7 +94,7 @@ class _IngredientTileState extends State<IngredientTile> {
     _structureBloc.add(SetValueEvent(
       value: name,
       index: widget.index,
-      currentList: widget.totalIngredientsList,
+      currentList: widget.currentIngredientsList,
       fieldType: FieldType.name,
     ));
   }
