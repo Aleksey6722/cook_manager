@@ -1,28 +1,27 @@
+import 'package:cook_manager/features/add/bloc/recipe_steps_widget/recipe_steps_bloc.dart';
+import 'package:cook_manager/utils/recipe_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../utils/ingredient.dart';
-import '../bloc/structure_bloc.dart';
-
-class ButtonsBar extends StatefulWidget {
-  const ButtonsBar({
+class RecipeStepsButtonsBar extends StatefulWidget {
+  const RecipeStepsButtonsBar({
     super.key,
     required this.index,
     required this.totalAmount,
-    required this.currentIngredientsList,
+    required this.currentStepsList,
   });
 
   final int index;
   final int totalAmount;
-  final List<Ingredient> currentIngredientsList;
+  final List<RecipeStep> currentStepsList;
 
   @override
-  State<ButtonsBar> createState() => _ButtonsBarState();
+  State<RecipeStepsButtonsBar> createState() => _RecipeStepsButtonsBarState();
 }
 
-class _ButtonsBarState extends State<ButtonsBar> {
-  final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
+class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
+  final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -145,34 +144,34 @@ class _ButtonsBarState extends State<ButtonsBar> {
   }
 
   void _addTile() {
-    _structureBloc.add(
-      AddTileEvent(currentList: widget.currentIngredientsList),
+    _recipeStepsBloc.add(
+      AddStepEvent(currentList: widget.currentStepsList),
     );
   }
 
   void _moveTileUp() {
-    _structureBloc.add(
-      MoveTileUpEvent(
+    _recipeStepsBloc.add(
+      MoveStepUpEvent(
         index: widget.index,
-        currentList: widget.currentIngredientsList,
+        currentList: widget.currentStepsList,
       ),
     );
   }
 
   void _moveTileDown() {
-    _structureBloc.add(
-      MoveTileDownEvent(
+    _recipeStepsBloc.add(
+      MoveStepDownEvent(
         index: widget.index,
-        currentList: widget.currentIngredientsList,
+        currentList: widget.currentStepsList,
       ),
     );
   }
 
   void _removeTile() {
-    _structureBloc.add(
-      RemoveTileEvent(
+    _recipeStepsBloc.add(
+      RemoveStepEvent(
         index: widget.index,
-        currentList: widget.currentIngredientsList,
+        currentList: widget.currentStepsList,
       ),
     );
   }

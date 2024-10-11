@@ -7,7 +7,7 @@ class BaseFormField extends StatelessWidget {
     this.hintText,
     this.onlyNumber = false,
     this.withSufficsIcon = false,
-    this.expandable = false,
+    this.maxLines,
     this.underlined = false,
     this.validator,
     this.initialValue,
@@ -20,7 +20,7 @@ class BaseFormField extends StatelessWidget {
   final String? hintText;
   final bool onlyNumber;
   final bool withSufficsIcon;
-  final bool expandable;
+  final int? maxLines;
   final bool underlined;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
@@ -43,7 +43,7 @@ class BaseFormField extends StatelessWidget {
           TextFormField(
             controller: controller,
             initialValue: initialValue,
-            maxLines: expandable ? 3 : null,
+            maxLines: maxLines,
             keyboardType: onlyNumber ? TextInputType.number : null,
             decoration: InputDecoration(
               label: Container(

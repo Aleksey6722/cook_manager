@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cook_manager/features/add/add.dart';
 import 'package:get_it/get_it.dart';
 
-import '../bloc/structure_bloc.dart';
+import '../bloc/structure_widget/structure_bloc.dart';
 
 
 class IngredientTile extends StatefulWidget {
@@ -68,7 +68,7 @@ class _IngredientTileState extends State<IngredientTile> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ButtonsBar(
+            child: IngredientsButtonsBar(
               index: widget.index,
               totalAmount: widget.totalAmount,
               currentIngredientsList: widget.currentIngredientsList,

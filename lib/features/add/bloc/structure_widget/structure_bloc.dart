@@ -19,7 +19,7 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
     on<RemoveTileEvent>(_mapRemoveTileEventToState);
   }
 
-  _mapSetValueEventToState(event, emmit) {
+  void _mapSetValueEventToState(SetValueEvent event, emmit) {
     Ingredient ingredient = event.currentList[event.index];
     switch (event.fieldType) {
       case FieldType.name:
@@ -31,7 +31,7 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
     emmit(StructureCurrentState(listOfIngredients: event.currentList));
   }
 
-  _mapMoveTileUpEventToState(event, emmit) {
+  void _mapMoveTileUpEventToState(MoveTileUpEvent event, emmit) {
     Ingredient ingredient = event.currentList[event.index];
     final List<Ingredient> newList = event.currentList.toList();
     newList.insert(event.index - 1, ingredient);
@@ -39,7 +39,7 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
     emmit(StructureCurrentState(listOfIngredients: newList));
   }
 
-  _mapMoveTileDownEventToState(event, emmit) {
+  void _mapMoveTileDownEventToState(MoveTileDownEvent event, emmit) {
     Ingredient ingredient = event.currentList[event.index];
     final List<Ingredient> newList = event.currentList.toList();
     newList.insert(event.index + 2, ingredient);
@@ -47,13 +47,13 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
     emmit(StructureCurrentState(listOfIngredients: newList));
   }
 
-  _mapAddTileEventToState(event, emmit) {
+  void _mapAddTileEventToState(AddTileEvent event, emmit) {
     final List<Ingredient> newList = event.currentList.toList();
     newList.add(Ingredient());
     emmit(StructureCurrentState(listOfIngredients: newList));
   }
 
-  _mapRemoveTileEventToState(event, emmit) {
+  void _mapRemoveTileEventToState(RemoveTileEvent event, emmit) {
     final List<Ingredient> newList = event.currentList.toList();
     newList.removeAt(event.index);
     emmit(StructureCurrentState(listOfIngredients: newList));

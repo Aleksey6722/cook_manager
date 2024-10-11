@@ -1,8 +1,9 @@
-import 'package:cook_manager/features/add/bloc/structure_bloc.dart';
+import 'package:cook_manager/features/add/bloc/structure_widget/structure_bloc.dart';
+import 'package:cook_manager/features/add/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'ingredient_tile.dart';
+
 
 class StructureWidget extends StatefulWidget {
   const StructureWidget({super.key});

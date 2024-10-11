@@ -104,7 +104,7 @@ class _AddScreenState extends State<AddScreen> {
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Описание',
-                        expandable: true,
+                        maxLines: 3,
                         onSaved: (val) {
                           description = val;
                         },
@@ -124,7 +124,14 @@ class _AddScreenState extends State<AddScreen> {
                         ],
                       ),
                       StructureWidget(),
-                      SizedBox(height: 60),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Text('Поэтапный рецепт', style: theme.textTheme.titleLarge, ),
+                        ],
+                      ),
+                      RecipeStepsWidget(),
+                      const SizedBox(height: 60),
                     ],
                   ),
                 ),

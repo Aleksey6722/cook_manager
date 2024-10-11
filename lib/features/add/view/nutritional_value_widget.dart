@@ -1,8 +1,7 @@
+import 'package:cook_manager/features/add/bloc/nutrition_label_widget/nutrition_label_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import '../bloc/nutrition_label_bloc.dart';
 
 class NutritionalValueWidget extends StatefulWidget {
   const NutritionalValueWidget({super.key});
