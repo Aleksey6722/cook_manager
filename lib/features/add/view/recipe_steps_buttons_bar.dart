@@ -1,4 +1,4 @@
-import 'package:cook_manager/features/add/bloc/recipe_steps_widget/recipe_steps_bloc.dart';
+import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/utils/recipe_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -135,7 +135,7 @@ class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
             child: const Icon(
               Icons.delete_rounded,
               size: 40,
-              color: Color(0xFFb84848),
+              color: Color(0xFFd14141),
             ),
           ),
         ),

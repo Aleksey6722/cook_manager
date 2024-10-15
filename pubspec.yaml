@@ -42,6 +42,8 @@ dependencies:
   equatable: ^2.0.5
   dotted_border: ^2.1.0
   flutter_svg: ^2.0.10
+  image_picker: ^1.1.2
+  image_cropper: ^8.0.2
 
 
 dev_dependencies:

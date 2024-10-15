@@ -1,4 +1,4 @@
-import 'package:cook_manager/features/add/bloc/recipe_steps_widget/recipe_steps_bloc.dart';
+import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/features/add/view/recipe_steps_buttons_bar.dart';
 import 'package:cook_manager/utils/recipe_step.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -47,7 +47,7 @@ class _RecipeStepTileState extends State<RecipeStepTile> {
             const EdgeInsets.only(left: 15, right: 15, bottom: 30, top: 15),
             radius: const Radius.circular(10),
             color: theme.colorScheme.primary,
-            strokeWidth: 1.5,
+            strokeWidth: 1,
             child: Column(
               children: [
                 BaseFormField(

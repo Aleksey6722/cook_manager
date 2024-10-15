@@ -63,6 +63,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _categoryFieldController,
             onTap: _toggle,
             onSaved: widget.onSaved,

@@ -41,6 +41,7 @@ class BaseFormField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: controller,
             initialValue: initialValue,
             maxLines: maxLines,

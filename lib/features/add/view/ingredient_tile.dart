@@ -1,3 +1,4 @@
+import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 import 'package:cook_manager/utils/field_type_enum.dart';
 import 'package:cook_manager/utils/ingredient.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:cook_manager/features/add/add.dart';
 import 'package:get_it/get_it.dart';
 
-import '../bloc/structure_widget/structure_bloc.dart';
 
 
 class IngredientTile extends StatefulWidget {
@@ -49,7 +49,7 @@ class _IngredientTileState extends State<IngredientTile> {
                 const EdgeInsets.only(left: 15, right: 15, bottom: 30, top: 15),
             radius: const Radius.circular(10),
             color: theme.colorScheme.primary,
-            strokeWidth: 1.5,
+            strokeWidth: 1,
             child: Column(
               children: [
                 BaseFormField(

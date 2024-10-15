@@ -1,8 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/features/add/add.dart';
+import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dart';
+import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
+import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
+
 import 'package:cook_manager/features/add/view/base_form_field.dart';
+import 'package:cook_manager/features/add/view/image_box.dart';
 import 'package:cook_manager/features/add/view/structure_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class AddScreen extends StatefulWidget {
@@ -20,8 +26,13 @@ class _AddScreenState extends State<AddScreen> {
       category,
       description,
       proteins,
-      carbs,
+      carbo,
+      callories,
       fats;
+
+  final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
+  final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
+  final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +46,7 @@ class _AddScreenState extends State<AddScreen> {
         elevation: 2,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(children: [
           CustomScrollView(
             slivers: [
@@ -44,7 +55,9 @@ class _AddScreenState extends State<AddScreen> {
                   key: _addRecepieFormKey,
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
+                      ImageBox(),
+                      const SizedBox(height: 15),
                       BaseFormField(
                         labelText: 'Название',
                         underlined: true,
@@ -110,7 +123,12 @@ class _AddScreenState extends State<AddScreen> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      NutritionalValueWidget(),
+                      NutritionalValueWidget(
+                        onSavedFats: (val) => fats = val,
+                        onSavedProteins: (val) => proteins = val,
+                        onSavedCarbo: (val) => carbo = val,
+                        onSavedCallories: (val) => callories = val,
+                      ),
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Ссылка на источник',
@@ -120,17 +138,23 @@ class _AddScreenState extends State<AddScreen> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Text('Состав', style: theme.textTheme.titleLarge, ),
+                          Text(
+                            'Состав',
+                            style: theme.textTheme.titleLarge,
+                          ),
                         ],
                       ),
                       StructureWidget(),
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Text('Поэтапный рецепт', style: theme.textTheme.titleLarge, ),
+                          Text(
+                            'Поэтапный рецепт',
+                            style: theme.textTheme.titleLarge,
+                          ),
                         ],
                       ),
-                      RecipeStepsWidget(),
+                      const RecipeStepsWidget(),
                       const SizedBox(height: 60),
                     ],
                   ),
@@ -147,12 +171,19 @@ class _AddScreenState extends State<AddScreen> {
                     style: TextButton.styleFrom(
                       backgroundColor: theme.colorScheme.primary,
                       foregroundColor: theme.colorScheme.onPrimary,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
                     onPressed: () {
                       if (_addRecepieFormKey.currentState!.validate()) {
                         _addRecepieFormKey.currentState!.save();
                         print(
                             '$name, $time, $numberOfPortions, $category, $description');
+                        print(
+                            '$proteins, $fats, $carbo, $callories');
+                        print(_structureBloc.state.listOfIngredients);
+                        print(_recipeStepsBloc.state.listOfSteps);
+                        print(_imageBoxBloc.state.imageBytes);
                       }
                     },
                     child: Text('Добавить рецепт'),

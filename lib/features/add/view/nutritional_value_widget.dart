@@ -1,10 +1,21 @@
-import 'package:cook_manager/features/add/bloc/nutrition_label_widget/nutrition_label_bloc.dart';
+import 'package:cook_manager/features/add/bloc/nutrition_label_bloc/nutrition_label_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class NutritionalValueWidget extends StatefulWidget {
-  const NutritionalValueWidget({super.key});
+  const NutritionalValueWidget({
+    super.key,
+    required this.onSavedFats,
+    required this.onSavedProteins,
+    required this.onSavedCarbo,
+    required this.onSavedCallories,
+  });
+
+  final void Function(String?)? onSavedFats;
+  final void Function(String?)? onSavedProteins;
+  final void Function(String?)? onSavedCarbo;
+  final void Function(String?)? onSavedCallories;
 
   @override
   State<NutritionalValueWidget> createState() => _NutritionalValueWidgetState();
@@ -77,6 +88,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                               const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
                         ),
+                        onSaved: widget.onSavedProteins,
                       ),
                     ),
                   ],
@@ -101,10 +113,12 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                           hintStyle: theme.textTheme.bodyMedium!.copyWith(
                               color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 1),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
                           constraints: const BoxConstraints(),
                         ),
+                        onSaved: widget.onSavedFats,
                       ),
                     ),
                   ],
@@ -124,15 +138,17 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCarb,
-                        decoration:  InputDecoration(
+                        decoration: InputDecoration(
                           hintText: '20 г',
                           hintStyle: theme.textTheme.bodyMedium!.copyWith(
                               color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 1),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
                           constraints: const BoxConstraints(),
                         ),
+                        onSaved: widget.onSavedCarbo,
                       ),
                     ),
                   ],
@@ -157,10 +173,12 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                           hintStyle: theme.textTheme.bodyMedium!.copyWith(
                               color: currentTextColor.withOpacity(0.5)),
                           isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 1),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 1),
                           border: InputBorder.none,
                           constraints: const BoxConstraints(),
                         ),
+                        onSaved: widget.onSavedCallories,
                       ),
                     ),
                   ],

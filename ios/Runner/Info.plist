@@ -14,6 +14,12 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>cook_manager</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Use image as recipe photo</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Use image as recipe photo</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Needs permission to micro</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

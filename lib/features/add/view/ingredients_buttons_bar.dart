@@ -1,4 +1,5 @@
-import 'package:cook_manager/features/add/bloc/structure_widget/structure_bloc.dart';
+
+import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 import 'package:cook_manager/utils/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -136,7 +137,7 @@ class _IngredientsButtonsBarState extends State<IngredientsButtonsBar> {
             child: const Icon(
               Icons.delete_rounded,
               size: 40,
-              color: Color(0xFFb84848),
+              color: Color(0xFFd14141),
             ),
           ),
         ),
