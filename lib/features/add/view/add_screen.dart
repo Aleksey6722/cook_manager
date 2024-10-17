@@ -149,7 +149,7 @@ class _AddScreenState extends State<AddScreen> {
                       Row(
                         children: [
                           Text(
-                            'Поэтапный рецепт',
+                            'Пошаговый рецепт',
                             style: theme.textTheme.titleLarge,
                           ),
                         ],

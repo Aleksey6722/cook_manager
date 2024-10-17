@@ -30,28 +30,30 @@ class _RecipeStepTileState extends State<RecipeStepTile> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController stepFieldController = TextEditingController(text: widget.recipeStep.stepText);
+    TextEditingController stepFieldController =
+        TextEditingController(text: widget.recipeStep.stepText);
 
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Stack(
-        alignment: const Alignment(0, 1.65),
+        alignment: const Alignment(0, 1.3),
         clipBehavior: Clip.none,
         children: [
           DottedBorder(
             dashPattern: const [12, 6],
             borderType: BorderType.RRect,
-            borderPadding: const EdgeInsets.all(5),
+            borderPadding:
+                const EdgeInsets.only(left: 5, right: 5, bottom: 15, top: 5),
             padding:
-            const EdgeInsets.only(left: 15, right: 15, bottom: 30, top: 15),
+                const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 15),
             radius: const Radius.circular(10),
             color: theme.colorScheme.primary,
             strokeWidth: 1,
             child: Column(
               children: [
                 BaseFormField(
-                  labelText: "Шаг ${widget.index+1}",
+                  labelText: "Шаг ${widget.index + 1}",
                   controller: stepFieldController,
                   onChanged: _setName,
                   maxLines: 2,

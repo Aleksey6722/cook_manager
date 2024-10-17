@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:cook_manager/features/add/add.dart';
 import 'package:get_it/get_it.dart';
 
-
-
 class IngredientTile extends StatefulWidget {
   const IngredientTile({
     super.key,
@@ -32,21 +30,24 @@ class _IngredientTileState extends State<IngredientTile> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameFieldController = TextEditingController(text: widget.ingredient.name);
-    TextEditingController valueFieldController = TextEditingController(text: widget.ingredient.value);
+    TextEditingController nameFieldController =
+        TextEditingController(text: widget.ingredient.name);
+    TextEditingController valueFieldController =
+        TextEditingController(text: widget.ingredient.value);
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Stack(
-        alignment: const Alignment(0, 1.42),
+        alignment: const Alignment(0, 1.22),
         clipBehavior: Clip.none,
         children: [
           DottedBorder(
             dashPattern: const [12, 6],
             borderType: BorderType.RRect,
-            borderPadding: const EdgeInsets.all(5),
+            borderPadding:
+                const EdgeInsets.only(left: 5, right: 5, bottom: 15, top: 5),
             padding:
-                const EdgeInsets.only(left: 15, right: 15, bottom: 30, top: 15),
+                const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 15),
             radius: const Radius.circular(10),
             color: theme.colorScheme.primary,
             strokeWidth: 1,

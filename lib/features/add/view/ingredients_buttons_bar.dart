@@ -1,10 +1,8 @@
-
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 import 'package:cook_manager/utils/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
-
 
 class IngredientsButtonsBar extends StatefulWidget {
   const IngredientsButtonsBar({
@@ -42,62 +40,71 @@ class _IngredientsButtonsBarState extends State<IngredientsButtonsBar> {
       children: [
         Row(
           children: [
-            GestureDetector(
-              onTap: isFirst ? null : _moveTileUp,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 4,
-                    top: 4,
-                    child: Container(
-                      height: 22,
-                      width: 22,
-                      decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
-                          shape: BoxShape.circle),
+            Stack(
+              children: [
+                Positioned(
+                  left: 10,
+                  top: 13,
+                  child: Container(
+                    height: 22,
+                    width: 22,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      shape: BoxShape.circle,
                     ),
                   ),
-                  SvgPicture.asset(
-                    'assets/icons/chevron-up-circle-outline.svg',
-                    height: 32,
-                    colorFilter: ColorFilter.mode(
-                      isFirst
-                          ? theme.hintColor.withOpacity(0.2)
-                          : theme.colorScheme.onSurface,
-                      BlendMode.srcIn,
+                ),
+                SizedBox(
+                  width: 40,
+                  child: IconButton(
+                    padding: const EdgeInsets.all(5),
+                    onPressed: isFirst ? null : _moveTileUp,
+                    icon: SvgPicture.asset(
+                      'assets/icons/chevron-up-circle-outline.svg',
+                      height: 32,
+                      colorFilter: ColorFilter.mode(
+                        isFirst
+                            ? theme.hintColor.withOpacity(0.2)
+                            : theme.colorScheme.onSurface,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(width: 5),
-            GestureDetector(
-              onTap: isLast || widget.totalAmount == 1 ? null : _moveTileDown,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 4,
-                    top: 4,
-                    child: Container(
-                      height: 22,
-                      width: 22,
-                      decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
-                          shape: BoxShape.circle),
+            Stack(
+              children: [
+                Positioned(
+                  left: 10,
+                  top: 13,
+                  child: Container(
+                    height: 22,
+                    width: 22,
+                    decoration: BoxDecoration(
+                        color: theme.colorScheme.surface,
+                        shape: BoxShape.circle),
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                  child: IconButton(
+                    padding: const EdgeInsets.all(5),
+                    onPressed:
+                        isLast || widget.totalAmount == 1 ? null : _moveTileDown,
+                    icon: SvgPicture.asset(
+                      'assets/icons/chevron-down-circle.svg',
+                      height: 32,
+                      colorFilter: ColorFilter.mode(
+                        isLast || widget.totalAmount == 1
+                            ? theme.hintColor.withOpacity(0.2)
+                            : theme.colorScheme.onSurface,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                  SvgPicture.asset(
-                    'assets/icons/chevron-down-circle.svg',
-                    height: 32,
-                    colorFilter: ColorFilter.mode(
-                      isLast || widget.totalAmount == 1
-                          ? theme.hintColor.withOpacity(0.2)
-                          : theme.colorScheme.onSurface,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -127,14 +134,17 @@ class _IngredientsButtonsBarState extends State<IngredientsButtonsBar> {
         ),
         const Spacer(flex: 35),
         Visibility(
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
           visible: !(widget.totalAmount == 1),
           replacement: const SizedBox(
             height: 56,
             width: 40,
           ),
-          child: GestureDetector(
-            onTap: _removeTile,
-            child: const Icon(
+          child: IconButton(
+            onPressed: _removeTile,
+            icon: const Icon(
               Icons.delete_rounded,
               size: 40,
               color: Color(0xFFd14141),
