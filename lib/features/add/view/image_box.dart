@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/utils/image_helper.dart';
@@ -17,8 +16,8 @@ class ImageBox extends StatefulWidget {
 }
 
 class _ImageBoxState extends State<ImageBox> {
-  Uint8List? imageBytes;
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +39,13 @@ class _ImageBoxState extends State<ImageBox> {
                 Container(
                   height: (MediaQuery.of(context).size.width - 40) / 1.5,
                   width: MediaQuery.of(context).size.width - 40,
-                  decoration: state.imageBytes != null
+                  decoration: state.imageFile != null
                       ? BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           image: DecorationImage(
-                              image: MemoryImage(state.imageBytes!)))
+                              image: FileImage(File(state.imageFile!.path))))
                       : null,
-                  child: state.imageBytes != null
+                  child: state.imageFile != null
                       ? _buildDeleteIcon()
                       : _buildButtonsColumn(),
                 ),
@@ -120,9 +119,9 @@ class _ImageBoxState extends State<ImageBox> {
 
     if (file == null) return;
 
-    final bytes = await file.readAsBytes();
+    // final bytes = await file.readAsBytes();
 
-    _imageBoxBloc.add(SetPicture(imageBytes: bytes));
+    _imageBoxBloc.add(SetPicture(imageFile: file));
   }
 
   Future _pickImageFromCamera() async {
@@ -133,9 +132,9 @@ class _ImageBoxState extends State<ImageBox> {
 
     if (file == null) return;
 
-    final bytes = await file.readAsBytes();
+    // final bytes = await file.readAsBytes();
 
-    _imageBoxBloc.add(SetPicture(imageBytes: bytes));
+    _imageBoxBloc.add(SetPicture(imageFile: file));
   }
 
   Widget _buildDeleteIcon() {

@@ -6,9 +6,9 @@ sealed class ImageBoxEvent extends Equatable {
 }
 
 class SetPicture extends ImageBoxEvent {
-  final Uint8List? imageBytes;
+  final  CroppedFile? imageFile;
 
-  SetPicture({required this.imageBytes});
+  SetPicture({required this.imageFile});
 }
 
 class RemovePicture extends ImageBoxEvent {}

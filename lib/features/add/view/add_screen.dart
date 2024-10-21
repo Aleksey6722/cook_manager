@@ -180,10 +180,10 @@ class _AddScreenState extends State<AddScreen> {
                         print(
                             '$name, $time, $numberOfPortions, $category, $description');
                         print(
-                            '$proteins, $fats, $carbo, $callories');
+                            '${proteins}, $fats, $carbo, $callories');
                         print(_structureBloc.state.listOfIngredients);
                         print(_recipeStepsBloc.state.listOfSteps);
-                        print(_imageBoxBloc.state.imageBytes);
+                        print(_imageBoxBloc.state.imageFile?.path);
                       }
                     },
                     child: Text('Добавить рецепт'),

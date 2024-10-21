@@ -44,9 +44,12 @@ dependencies:
   flutter_svg: ^2.0.10
   image_picker: ^1.1.2
   image_cropper: ^8.0.2
+  drift: ^2.21.0
+  sqlite3: ^2.4.6
 
 
 dev_dependencies:
+  drift_dev: ^2.21.0
   flutter_test:
     sdk: flutter
   build_runner:
