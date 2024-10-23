@@ -1,6 +1,6 @@
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
-import 'package:cook_manager/utils/field_type_enum.dart';
-import 'package:cook_manager/utils/ingredient.dart';
+import 'package:cook_manager/models/ingredient.dart';
+import 'package:cook_manager/utils/ingredient_field_type_enum.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
@@ -86,7 +86,7 @@ class _IngredientTileState extends State<IngredientTile> {
         value: value,
         index: widget.index,
         currentList: widget.currentIngredientsList,
-        fieldType: FieldType.value,
+        fieldType: IngredientFieldType.value,
       ),
     );
   }
@@ -96,7 +96,7 @@ class _IngredientTileState extends State<IngredientTile> {
       value: name,
       index: widget.index,
       currentList: widget.currentIngredientsList,
-      fieldType: FieldType.name,
+      fieldType: IngredientFieldType.name,
     ));
   }
 }

@@ -1,0 +1,1 @@
+enum IngredientFieldType {name, value}

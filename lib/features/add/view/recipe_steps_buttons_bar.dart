@@ -1,8 +1,10 @@
 import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
-import 'package:cook_manager/utils/recipe_step.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../../models/recipe_step.dart';
 
 class RecipeStepsButtonsBar extends StatefulWidget {
   const RecipeStepsButtonsBar({

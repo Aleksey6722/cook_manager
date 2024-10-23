@@ -1,7 +1,8 @@
-import 'package:cook_manager/utils/recipe_step.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../../models/recipe_step.dart';
 
 part 'recipe_steps_event.dart';
 
@@ -20,8 +21,8 @@ class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
 
   void _mapSetStepValueEvent(SetStepValueEvent event, emmit) {
     RecipeStep step = event.currentList[event.index];
-    step.setStepText = event.value;
-    event.currentList.replaceRange(event.index, event.index+1, [step]);
+    // step.setStepText = event.value;
+    event.currentList.replaceRange(event.index, event.index+1, [step.copyWith(stepText: event.value)]);
     emmit(RecipeStepsCurrentState(listOfSteps: event.currentList));
   }
 

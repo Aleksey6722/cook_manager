@@ -1,5 +1,5 @@
-import 'package:cook_manager/utils/field_type_enum.dart';
-import 'package:cook_manager/utils/ingredient.dart';
+import 'package:cook_manager/models/ingredient.dart';
+import 'package:cook_manager/utils/ingredient_field_type_enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -22,13 +22,15 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
   void _mapSetValueEventToState(SetValueEvent event, emmit) {
     Ingredient ingredient = event.currentList[event.index];
     switch (event.fieldType) {
-      case FieldType.name:
-        ingredient.setName = event.value;
-      case FieldType.value:
-        ingredient.setValue = event.value;
+      case IngredientFieldType.name:
+        Ingredient newIngredient = ingredient.copyWith(name: event.value);
+        event.currentList.replaceRange(event.index, event.index + 1, [newIngredient]);
+        emmit(StructureCurrentState(listOfIngredients: event.currentList));
+      case IngredientFieldType.value:
+        Ingredient newIngredient = ingredient.copyWith(value: event.value);
+        event.currentList.replaceRange(event.index, event.index + 1, [newIngredient]);
+        emmit(StructureCurrentState(listOfIngredients: event.currentList));
     }
-    event.currentList.replaceRange(event.index, event.index + 1, [ingredient]);
-    emmit(StructureCurrentState(listOfIngredients: event.currentList));
   }
 
   void _mapMoveTileUpEventToState(MoveTileUpEvent event, emmit) {

@@ -22,7 +22,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   late Animation<double> _iconAnimation;
   final TextEditingController _categoryFieldController = TextEditingController();
 
-  final categories = Categories();
+  final Categories categories = Categories();
 
 
   @override

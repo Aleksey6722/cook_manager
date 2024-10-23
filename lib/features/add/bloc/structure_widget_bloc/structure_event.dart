@@ -39,7 +39,7 @@ class SetValueEvent extends StructureEvent {
   final int index;
   final String? value;
   final List<Ingredient> currentList;
-  final FieldType fieldType;
+  final IngredientFieldType fieldType;
 
   SetValueEvent({
     required this.value,

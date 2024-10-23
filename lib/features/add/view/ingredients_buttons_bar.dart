@@ -1,5 +1,5 @@
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
-import 'package:cook_manager/utils/ingredient.dart';
+import 'package:cook_manager/models/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';

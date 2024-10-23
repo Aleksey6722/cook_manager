@@ -29,10 +29,10 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    gh.singleton<_i1038.ImageBoxBloc>(() => _i1038.ImageBoxBloc());
     gh.singleton<_i622.NutritionLabelBloc>(() => _i622.NutritionLabelBloc());
     gh.singleton<_i941.RecipeStepsBloc>(() => _i941.RecipeStepsBloc());
     gh.singleton<_i103.StructureBloc>(() => _i103.StructureBloc());
-    gh.singleton<_i1038.ImageBoxBloc>(() => _i1038.ImageBoxBloc());
     return this;
   }
 }
