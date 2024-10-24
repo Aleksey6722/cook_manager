@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/database/database.dart';
 import 'package:cook_manager/features/add/add.dart';
 import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_b
 import 'package:cook_manager/features/add/view/base_form_field.dart';
 import 'package:cook_manager/features/add/view/image_box.dart';
 import 'package:cook_manager/features/add/view/structure_widget.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -19,20 +21,14 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final _addRecepieFormKey = GlobalKey<FormState>();
-  String? name,
-      time,
-      numberOfPortions,
-      category,
-      description,
-      proteins,
-      carbo,
-      callories,
-      fats;
+  final _addRecipeFormKey = GlobalKey<FormState>();
+  String title = '', cookingTime = '', numberOfPortions = '', category = '';
+  String? description, proteins, carbohydrates, calories, fats, recipeUrl;
 
   final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
+  final database = GetIt.instance<CookManagerDatabase>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +48,7 @@ class _AddScreenState extends State<AddScreen> {
             slivers: [
               SliverToBoxAdapter(
                 child: Form(
-                  key: _addRecepieFormKey,
+                  key: _addRecipeFormKey,
                   child: Column(
                     children: [
                       const SizedBox(height: 15),
@@ -68,7 +64,7 @@ class _AddScreenState extends State<AddScreen> {
                           return null;
                         },
                         onSaved: (val) {
-                          name = val;
+                          title = val!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -84,7 +80,7 @@ class _AddScreenState extends State<AddScreen> {
                           return null;
                         },
                         onSaved: (val) {
-                          time = val;
+                          cookingTime = val!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -99,7 +95,7 @@ class _AddScreenState extends State<AddScreen> {
                           return null;
                         },
                         onSaved: (val) {
-                          numberOfPortions = val;
+                          numberOfPortions = val!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -111,7 +107,7 @@ class _AddScreenState extends State<AddScreen> {
                           return null;
                         },
                         onSaved: (val) {
-                          category = val;
+                          category = val!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -126,14 +122,17 @@ class _AddScreenState extends State<AddScreen> {
                       NutritionalValueWidget(
                         onSavedFats: (val) => fats = val,
                         onSavedProteins: (val) => proteins = val,
-                        onSavedCarbo: (val) => carbo = val,
-                        onSavedCallories: (val) => callories = val,
+                        onSavedCarbo: (val) => carbohydrates = val,
+                        onSavedCallories: (val) => calories = val,
                       ),
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Ссылка на источник',
                         hintText: 'https://',
                         underlined: true,
+                        onSaved: (val) {
+                          recipeUrl = val;
+                        },
                       ),
                       const SizedBox(height: 10),
                       Row(
@@ -174,16 +173,32 @@ class _AddScreenState extends State<AddScreen> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
-                    onPressed: () {
-                      if (_addRecepieFormKey.currentState!.validate()) {
-                        _addRecepieFormKey.currentState!.save();
+                    onPressed: () async {
+                      if (_addRecipeFormKey.currentState!.validate()) {
+                        _addRecipeFormKey.currentState!.save();
                         print(
-                            '$name, $time, $numberOfPortions, $category, $description');
-                        print(
-                            '${proteins}, $fats, $carbo, $callories');
+                            '$title, $cookingTime, $numberOfPortions, $category, $description');
+                        print('${proteins}, $fats, $carbohydrates, $calories');
                         print(_structureBloc.state.listOfIngredients);
                         print(_recipeStepsBloc.state.listOfSteps);
                         print(_imageBoxBloc.state.imageFile?.path);
+                        database.insertRecipe(RecipeCompanion(
+                          title: drift.Value(title),
+                          cookingTime: drift.Value(cookingTime),
+                          numberOfPortions: drift.Value(numberOfPortions),
+                          category: drift.Value(1),
+                          description: drift.Value(description),
+                          proteins: drift.Value(proteins),
+                          fats: drift.Value(fats),
+                          carbohydrates: drift.Value(carbohydrates),
+                          calories: drift.Value(calories),
+                          recipeUrl: drift.Value(recipeUrl),
+                          listOfIngredients: drift.Value(_structureBloc.state.listOfIngredients[0].toJson().toString()),
+                          listOfSteps: drift.Value('List of Steps'),
+                          isFavourite: drift.Value(false),
+                        ));
+                        final f = await database.allRecipes;
+                        print(f);
                       }
                     },
                     child: Text('Добавить рецепт'),

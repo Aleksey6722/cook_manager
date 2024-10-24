@@ -1,10 +1,16 @@
+import 'package:cook_manager/database/database.dart';
 import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'di/di.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+  final database = GetIt.instance<CookManagerDatabase>();
+  await database.clearAllTables();
+  await database.insertAllCategories();
   runApp(const CookManager());
 }
 

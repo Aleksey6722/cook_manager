@@ -28,7 +28,7 @@ class Recipe with _$Recipe {
     int? id,
     required String title,
     required String cookingTime,
-    required int numberOfPortions,
+    required String numberOfPortions,
     required Category category,
     String? description,
     String? proteins,

@@ -23,7 +23,7 @@ mixin _$Recipe {
   int? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get cookingTime => throw _privateConstructorUsedError;
-  int get numberOfPortions => throw _privateConstructorUsedError;
+  String get numberOfPortions => throw _privateConstructorUsedError;
   Category get category => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get proteins => throw _privateConstructorUsedError;
@@ -53,7 +53,7 @@ abstract class $RecipeCopyWith<$Res> {
       {int? id,
       String title,
       String cookingTime,
-      int numberOfPortions,
+      String numberOfPortions,
       Category category,
       String? description,
       String? proteins,
@@ -114,7 +114,7 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
       numberOfPortions: null == numberOfPortions
           ? _value.numberOfPortions
           : numberOfPortions // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -180,7 +180,7 @@ abstract class _$$RecipeImplCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       {int? id,
       String title,
       String cookingTime,
-      int numberOfPortions,
+      String numberOfPortions,
       Category category,
       String? description,
       String? proteins,
@@ -240,7 +240,7 @@ class __$$RecipeImplCopyWithImpl<$Res>
       numberOfPortions: null == numberOfPortions
           ? _value.numberOfPortions
           : numberOfPortions // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -316,7 +316,7 @@ class _$RecipeImpl implements _Recipe {
   @override
   final String cookingTime;
   @override
-  final int numberOfPortions;
+  final String numberOfPortions;
   @override
   final Category category;
   @override
@@ -429,7 +429,7 @@ abstract class _Recipe implements Recipe {
       {final int? id,
       required final String title,
       required final String cookingTime,
-      required final int numberOfPortions,
+      required final String numberOfPortions,
       required final Category category,
       final String? description,
       final String? proteins,
@@ -450,7 +450,7 @@ abstract class _Recipe implements Recipe {
   @override
   String get cookingTime;
   @override
-  int get numberOfPortions;
+  String get numberOfPortions;
   @override
   Category get category;
   @override

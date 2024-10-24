@@ -42,9 +42,10 @@ dependencies:
   image_picker: ^1.1.2
   image_cropper: ^8.0.2
   drift: ^2.21.0
-  sqlite3: ^2.4.6
+  drift_flutter: ^0.1.0
   freezed_annotation:
   json_annotation: ^4.9.0
+
 
 dev_dependencies:
   drift_dev: ^2.21.0

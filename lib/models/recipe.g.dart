@@ -10,7 +10,7 @@ _$RecipeImpl _$$RecipeImplFromJson(Map<String, dynamic> json) => _$RecipeImpl(
       id: (json['id'] as num?)?.toInt(),
       title: json['title'] as String,
       cookingTime: json['cookingTime'] as String,
-      numberOfPortions: (json['numberOfPortions'] as num).toInt(),
+      numberOfPortions: json['numberOfPortions'] as String,
       category: Category.fromJson(json['category'] as Map<String, dynamic>),
       description: json['description'] as String?,
       proteins: json['proteins'] as String?,
