@@ -8,9 +8,9 @@ import 'di/di.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
-  final database = GetIt.instance<CookManagerDatabase>();
-  await database.clearAllTables();
-  await database.insertAllCategories();
+  // final database = GetIt.instance<CookManagerDatabase>();
+  // await database.clearAllTables();
+  // await database.insertAllCategories();
   runApp(const CookManager());
 }
 

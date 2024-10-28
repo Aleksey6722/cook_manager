@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/database/database.dart';
 import 'package:cook_manager/features/add/add.dart';
@@ -176,12 +178,6 @@ class _AddScreenState extends State<AddScreen> {
                     onPressed: () async {
                       if (_addRecipeFormKey.currentState!.validate()) {
                         _addRecipeFormKey.currentState!.save();
-                        print(
-                            '$title, $cookingTime, $numberOfPortions, $category, $description');
-                        print('${proteins}, $fats, $carbohydrates, $calories');
-                        print(_structureBloc.state.listOfIngredients);
-                        print(_recipeStepsBloc.state.listOfSteps);
-                        print(_imageBoxBloc.state.imageFile?.path);
                         database.insertRecipe(RecipeCompanion(
                           title: drift.Value(title),
                           cookingTime: drift.Value(cookingTime),
@@ -193,9 +189,11 @@ class _AddScreenState extends State<AddScreen> {
                           carbohydrates: drift.Value(carbohydrates),
                           calories: drift.Value(calories),
                           recipeUrl: drift.Value(recipeUrl),
-                          listOfIngredients: drift.Value(_structureBloc.state.listOfIngredients[0].toJson().toString()),
-                          listOfSteps: drift.Value('List of Steps'),
-                          isFavourite: drift.Value(false),
+                          listOfSteps: drift.Value(
+                              jsonEncode(_recipeStepsBloc.state.listOfSteps)),
+                          listOfIngredients: drift.Value(jsonEncode(
+                              _structureBloc.state.listOfIngredients)),
+                          // isFavourite: drift.Value(false),
                         ));
                         final f = await database.allRecipes;
                         print(f);

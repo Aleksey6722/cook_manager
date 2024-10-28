@@ -9,20 +9,6 @@ part 'recipe.g.dart';
 
 @freezed
 class Recipe with _$Recipe {
-  // final int? id;
-  // final String title;
-  // final String cookingTime;
-  // final int numberOfPortions;
-  // final Category category;
-  // final String? description;
-  // final String? proteins;
-  // final String? fats;
-  // final String? carbohydrates;
-  // final String? calories;
-  // final String? recipeUrl;
-  // final List<Ingredient?> listOfIngredients;
-  // final List<RecipeStep?> listOfSteps;
-  // final bool isFavourite;
 
   const factory Recipe({
     int? id,

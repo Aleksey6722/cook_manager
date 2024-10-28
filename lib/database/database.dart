@@ -17,6 +17,8 @@ class Recipe extends Table {
 
   TextColumn get description => text().nullable()();
 
+  TextColumn get imageUrl => text().nullable()();
+
   TextColumn get proteins => text().nullable()();
 
   TextColumn get fats => text().nullable()();
@@ -31,7 +33,7 @@ class Recipe extends Table {
 
   TextColumn get listOfSteps => text()();
 
-  BoolColumn get isFavourite => boolean()();
+  BoolColumn get isFavourite => boolean().withDefault(const Constant(false))();
 }
 
 class Category extends Table {
@@ -51,7 +53,7 @@ class CookManagerDatabase extends _$CookManagerDatabase {
   int get schemaVersion => 1;
 
   static QueryExecutor _openConnection() {
-    return driftDatabase(name: 'database');
+    return driftDatabase(name: 'database_v2');
   }
 
   Future<void> insertAllCategories() async {

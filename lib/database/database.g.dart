@@ -265,6 +265,12 @@ class $RecipeTable extends Recipe with TableInfo<$RecipeTable, RecipeData> {
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
       'description', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _imageUrlMeta =
+      const VerificationMeta('imageUrl');
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+      'image_url', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _proteinsMeta =
       const VerificationMeta('proteins');
   @override
@@ -312,9 +318,10 @@ class $RecipeTable extends Recipe with TableInfo<$RecipeTable, RecipeData> {
   late final GeneratedColumn<bool> isFavourite = GeneratedColumn<bool>(
       'is_favourite', aliasedName, false,
       type: DriftSqlType.bool,
-      requiredDuringInsert: true,
+      requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_favourite" IN (0, 1))'));
+          'CHECK ("is_favourite" IN (0, 1))'),
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -323,6 +330,7 @@ class $RecipeTable extends Recipe with TableInfo<$RecipeTable, RecipeData> {
         numberOfPortions,
         category,
         description,
+        imageUrl,
         proteins,
         fats,
         carbohydrates,
@@ -377,6 +385,10 @@ class $RecipeTable extends Recipe with TableInfo<$RecipeTable, RecipeData> {
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
     }
+    if (data.containsKey('image_url')) {
+      context.handle(_imageUrlMeta,
+          imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta));
+    }
     if (data.containsKey('proteins')) {
       context.handle(_proteinsMeta,
           proteins.isAcceptableOrUnknown(data['proteins']!, _proteinsMeta));
@@ -420,8 +432,6 @@ class $RecipeTable extends Recipe with TableInfo<$RecipeTable, RecipeData> {
           _isFavouriteMeta,
           isFavourite.isAcceptableOrUnknown(
               data['is_favourite']!, _isFavouriteMeta));
-    } else if (isInserting) {
-      context.missing(_isFavouriteMeta);
     }
     return context;
   }
@@ -444,6 +454,8 @@ class $RecipeTable extends Recipe with TableInfo<$RecipeTable, RecipeData> {
           .read(DriftSqlType.int, data['${effectivePrefix}category']),
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      imageUrl: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image_url']),
       proteins: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}proteins']),
       fats: attachedDatabase.typeMapping
@@ -476,6 +488,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
   final String numberOfPortions;
   final int? category;
   final String? description;
+  final String? imageUrl;
   final String? proteins;
   final String? fats;
   final String? carbohydrates;
@@ -491,6 +504,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
       required this.numberOfPortions,
       this.category,
       this.description,
+      this.imageUrl,
       this.proteins,
       this.fats,
       this.carbohydrates,
@@ -511,6 +525,9 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
     }
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || imageUrl != null) {
+      map['image_url'] = Variable<String>(imageUrl);
     }
     if (!nullToAbsent || proteins != null) {
       map['proteins'] = Variable<String>(proteins);
@@ -545,6 +562,9 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
       description: description == null && nullToAbsent
           ? const Value.absent()
           : Value(description),
+      imageUrl: imageUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageUrl),
       proteins: proteins == null && nullToAbsent
           ? const Value.absent()
           : Value(proteins),
@@ -574,6 +594,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
       numberOfPortions: serializer.fromJson<String>(json['numberOfPortions']),
       category: serializer.fromJson<int?>(json['category']),
       description: serializer.fromJson<String?>(json['description']),
+      imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       proteins: serializer.fromJson<String?>(json['proteins']),
       fats: serializer.fromJson<String?>(json['fats']),
       carbohydrates: serializer.fromJson<String?>(json['carbohydrates']),
@@ -594,6 +615,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
       'numberOfPortions': serializer.toJson<String>(numberOfPortions),
       'category': serializer.toJson<int?>(category),
       'description': serializer.toJson<String?>(description),
+      'imageUrl': serializer.toJson<String?>(imageUrl),
       'proteins': serializer.toJson<String?>(proteins),
       'fats': serializer.toJson<String?>(fats),
       'carbohydrates': serializer.toJson<String?>(carbohydrates),
@@ -612,6 +634,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
           String? numberOfPortions,
           Value<int?> category = const Value.absent(),
           Value<String?> description = const Value.absent(),
+          Value<String?> imageUrl = const Value.absent(),
           Value<String?> proteins = const Value.absent(),
           Value<String?> fats = const Value.absent(),
           Value<String?> carbohydrates = const Value.absent(),
@@ -627,6 +650,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
         numberOfPortions: numberOfPortions ?? this.numberOfPortions,
         category: category.present ? category.value : this.category,
         description: description.present ? description.value : this.description,
+        imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
         proteins: proteins.present ? proteins.value : this.proteins,
         fats: fats.present ? fats.value : this.fats,
         carbohydrates:
@@ -649,6 +673,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
       category: data.category.present ? data.category.value : this.category,
       description:
           data.description.present ? data.description.value : this.description,
+      imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
       proteins: data.proteins.present ? data.proteins.value : this.proteins,
       fats: data.fats.present ? data.fats.value : this.fats,
       carbohydrates: data.carbohydrates.present
@@ -675,6 +700,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
           ..write('numberOfPortions: $numberOfPortions, ')
           ..write('category: $category, ')
           ..write('description: $description, ')
+          ..write('imageUrl: $imageUrl, ')
           ..write('proteins: $proteins, ')
           ..write('fats: $fats, ')
           ..write('carbohydrates: $carbohydrates, ')
@@ -695,6 +721,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
       numberOfPortions,
       category,
       description,
+      imageUrl,
       proteins,
       fats,
       carbohydrates,
@@ -713,6 +740,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
           other.numberOfPortions == this.numberOfPortions &&
           other.category == this.category &&
           other.description == this.description &&
+          other.imageUrl == this.imageUrl &&
           other.proteins == this.proteins &&
           other.fats == this.fats &&
           other.carbohydrates == this.carbohydrates &&
@@ -730,6 +758,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
   final Value<String> numberOfPortions;
   final Value<int?> category;
   final Value<String?> description;
+  final Value<String?> imageUrl;
   final Value<String?> proteins;
   final Value<String?> fats;
   final Value<String?> carbohydrates;
@@ -745,6 +774,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
     this.numberOfPortions = const Value.absent(),
     this.category = const Value.absent(),
     this.description = const Value.absent(),
+    this.imageUrl = const Value.absent(),
     this.proteins = const Value.absent(),
     this.fats = const Value.absent(),
     this.carbohydrates = const Value.absent(),
@@ -761,6 +791,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
     required String numberOfPortions,
     this.category = const Value.absent(),
     this.description = const Value.absent(),
+    this.imageUrl = const Value.absent(),
     this.proteins = const Value.absent(),
     this.fats = const Value.absent(),
     this.carbohydrates = const Value.absent(),
@@ -768,13 +799,12 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
     this.recipeUrl = const Value.absent(),
     required String listOfIngredients,
     required String listOfSteps,
-    required bool isFavourite,
+    this.isFavourite = const Value.absent(),
   })  : title = Value(title),
         cookingTime = Value(cookingTime),
         numberOfPortions = Value(numberOfPortions),
         listOfIngredients = Value(listOfIngredients),
-        listOfSteps = Value(listOfSteps),
-        isFavourite = Value(isFavourite);
+        listOfSteps = Value(listOfSteps);
   static Insertable<RecipeData> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -782,6 +812,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
     Expression<String>? numberOfPortions,
     Expression<int>? category,
     Expression<String>? description,
+    Expression<String>? imageUrl,
     Expression<String>? proteins,
     Expression<String>? fats,
     Expression<String>? carbohydrates,
@@ -798,6 +829,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
       if (numberOfPortions != null) 'number_of_portions': numberOfPortions,
       if (category != null) 'category': category,
       if (description != null) 'description': description,
+      if (imageUrl != null) 'image_url': imageUrl,
       if (proteins != null) 'proteins': proteins,
       if (fats != null) 'fats': fats,
       if (carbohydrates != null) 'carbohydrates': carbohydrates,
@@ -816,6 +848,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
       Value<String>? numberOfPortions,
       Value<int?>? category,
       Value<String?>? description,
+      Value<String?>? imageUrl,
       Value<String?>? proteins,
       Value<String?>? fats,
       Value<String?>? carbohydrates,
@@ -831,6 +864,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
       numberOfPortions: numberOfPortions ?? this.numberOfPortions,
       category: category ?? this.category,
       description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
       proteins: proteins ?? this.proteins,
       fats: fats ?? this.fats,
       carbohydrates: carbohydrates ?? this.carbohydrates,
@@ -862,6 +896,9 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
+    }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
     }
     if (proteins.present) {
       map['proteins'] = Variable<String>(proteins.value);
@@ -899,6 +936,7 @@ class RecipeCompanion extends UpdateCompanion<RecipeData> {
           ..write('numberOfPortions: $numberOfPortions, ')
           ..write('category: $category, ')
           ..write('description: $description, ')
+          ..write('imageUrl: $imageUrl, ')
           ..write('proteins: $proteins, ')
           ..write('fats: $fats, ')
           ..write('carbohydrates: $carbohydrates, ')
@@ -1143,6 +1181,7 @@ typedef $$RecipeTableCreateCompanionBuilder = RecipeCompanion Function({
   required String numberOfPortions,
   Value<int?> category,
   Value<String?> description,
+  Value<String?> imageUrl,
   Value<String?> proteins,
   Value<String?> fats,
   Value<String?> carbohydrates,
@@ -1150,7 +1189,7 @@ typedef $$RecipeTableCreateCompanionBuilder = RecipeCompanion Function({
   Value<String?> recipeUrl,
   required String listOfIngredients,
   required String listOfSteps,
-  required bool isFavourite,
+  Value<bool> isFavourite,
 });
 typedef $$RecipeTableUpdateCompanionBuilder = RecipeCompanion Function({
   Value<int> id,
@@ -1159,6 +1198,7 @@ typedef $$RecipeTableUpdateCompanionBuilder = RecipeCompanion Function({
   Value<String> numberOfPortions,
   Value<int?> category,
   Value<String?> description,
+  Value<String?> imageUrl,
   Value<String?> proteins,
   Value<String?> fats,
   Value<String?> carbohydrates,
@@ -1211,6 +1251,9 @@ class $$RecipeTableFilterComposer
 
   ColumnFilters<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get imageUrl => $composableBuilder(
+      column: $table.imageUrl, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get proteins => $composableBuilder(
       column: $table.proteins, builder: (column) => ColumnFilters(column));
@@ -1283,6 +1326,9 @@ class $$RecipeTableOrderingComposer
   ColumnOrderings<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get imageUrl => $composableBuilder(
+      column: $table.imageUrl, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get proteins => $composableBuilder(
       column: $table.proteins, builder: (column) => ColumnOrderings(column));
 
@@ -1353,6 +1399,9 @@ class $$RecipeTableAnnotationComposer
 
   GeneratedColumn<String> get description => $composableBuilder(
       column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get imageUrl =>
+      $composableBuilder(column: $table.imageUrl, builder: (column) => column);
 
   GeneratedColumn<String> get proteins =>
       $composableBuilder(column: $table.proteins, builder: (column) => column);
@@ -1428,6 +1477,7 @@ class $$RecipeTableTableManager extends RootTableManager<
             Value<String> numberOfPortions = const Value.absent(),
             Value<int?> category = const Value.absent(),
             Value<String?> description = const Value.absent(),
+            Value<String?> imageUrl = const Value.absent(),
             Value<String?> proteins = const Value.absent(),
             Value<String?> fats = const Value.absent(),
             Value<String?> carbohydrates = const Value.absent(),
@@ -1444,6 +1494,7 @@ class $$RecipeTableTableManager extends RootTableManager<
             numberOfPortions: numberOfPortions,
             category: category,
             description: description,
+            imageUrl: imageUrl,
             proteins: proteins,
             fats: fats,
             carbohydrates: carbohydrates,
@@ -1460,6 +1511,7 @@ class $$RecipeTableTableManager extends RootTableManager<
             required String numberOfPortions,
             Value<int?> category = const Value.absent(),
             Value<String?> description = const Value.absent(),
+            Value<String?> imageUrl = const Value.absent(),
             Value<String?> proteins = const Value.absent(),
             Value<String?> fats = const Value.absent(),
             Value<String?> carbohydrates = const Value.absent(),
@@ -1467,7 +1519,7 @@ class $$RecipeTableTableManager extends RootTableManager<
             Value<String?> recipeUrl = const Value.absent(),
             required String listOfIngredients,
             required String listOfSteps,
-            required bool isFavourite,
+            Value<bool> isFavourite = const Value.absent(),
           }) =>
               RecipeCompanion.insert(
             id: id,
@@ -1476,6 +1528,7 @@ class $$RecipeTableTableManager extends RootTableManager<
             numberOfPortions: numberOfPortions,
             category: category,
             description: description,
+            imageUrl: imageUrl,
             proteins: proteins,
             fats: fats,
             carbohydrates: carbohydrates,
