@@ -21,7 +21,6 @@ class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
 
   void _mapSetStepValueEvent(SetStepValueEvent event, emmit) {
     RecipeStep step = event.currentList[event.index];
-    // step.setStepText = event.value;
     event.currentList.replaceRange(event.index, event.index+1, [step.copyWith(stepText: event.value)]);
     emmit(RecipeStepsCurrentState(listOfSteps: event.currentList));
   }

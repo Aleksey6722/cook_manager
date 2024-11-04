@@ -1,14 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cook_manager/database/database.dart';
+import 'package:cook_manager/database/database_service.dart';
 import 'package:cook_manager/features/add/add.dart';
 import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 
-import 'package:cook_manager/features/add/view/base_form_field.dart';
+// import 'package:cook_manager/features/add/view/base_form_field.dart';
 import 'package:cook_manager/features/add/view/image_box.dart';
-import 'package:cook_manager/features/add/view/structure_widget.dart';
-import 'package:drift/drift.dart' as drift;
+import 'package:cook_manager/models/list_of_ingredients.dart';
+// import 'package:cook_manager/features/add/view/structure_widget.dart';
+import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,7 +29,8 @@ class _AddScreenState extends State<AddScreen> {
   final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
-  final database = GetIt.instance<CookManagerDatabase>();
+
+  final DatabaseService db = DatabaseService.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -179,26 +181,19 @@ class _AddScreenState extends State<AddScreen> {
                         print(
                             '$title, $cookingTime, $numberOfPortions, $category, $description');
                         print('${proteins}, $fats, $carbohydrates, $calories');
-                        print(_structureBloc.state.listOfIngredients);
-                        print(_recipeStepsBloc.state.listOfSteps);
+                        print(_structureBloc.state.listOfIngredients.toJson());
+                        print(_recipeStepsBloc.state.listOfSteps.toJson());
                         print(_imageBoxBloc.state.imageFile?.path);
-                        database.insertRecipe(RecipeCompanion(
-                          title: drift.Value(title),
-                          cookingTime: drift.Value(cookingTime),
-                          numberOfPortions: drift.Value(numberOfPortions),
-                          category: drift.Value(1),
-                          description: drift.Value(description),
-                          proteins: drift.Value(proteins),
-                          fats: drift.Value(fats),
-                          carbohydrates: drift.Value(carbohydrates),
-                          calories: drift.Value(calories),
-                          recipeUrl: drift.Value(recipeUrl),
-                          listOfIngredients: drift.Value(_structureBloc.state.listOfIngredients[0].toJson().toString()),
-                          listOfSteps: drift.Value('List of Steps'),
-                          isFavourite: drift.Value(false),
-                        ));
-                        final f = await database.allRecipes;
-                        print(f);
+                        final recipe = Recipe(
+                            title: title,
+                            cookingTime: cookingTime,
+                            numberOfPortions: numberOfPortions,
+                            category: 1,
+                            listOfIngredients: ListOfIngredients(list: _structureBloc.state.listOfIngredients),
+                            listOfSteps: _recipeStepsBloc.state.listOfSteps);
+                        print(recipe.toJson());
+                        db.insertRecipe(recipe);
+                        db.showData();
                       }
                     },
                     child: Text('Добавить рецепт'),

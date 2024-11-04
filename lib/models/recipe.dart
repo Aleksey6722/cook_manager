@@ -1,45 +1,44 @@
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/ingredient.dart';
+import 'package:cook_manager/models/list_of_ingredients.dart';
 import 'package:cook_manager/models/recipe_step.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 part 'recipe.freezed.dart';
+
 part 'recipe.g.dart';
 
 @freezed
 class Recipe with _$Recipe {
-  // final int? id;
-  // final String title;
-  // final String cookingTime;
-  // final int numberOfPortions;
-  // final Category category;
-  // final String? description;
-  // final String? proteins;
-  // final String? fats;
-  // final String? carbohydrates;
-  // final String? calories;
-  // final String? recipeUrl;
-  // final List<Ingredient?> listOfIngredients;
-  // final List<RecipeStep?> listOfSteps;
-  // final bool isFavourite;
-
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Recipe({
     int? id,
     required String title,
     required String cookingTime,
     required String numberOfPortions,
-    required Category category,
+    required int category,
     String? description,
+    String? imageUrl,
     String? proteins,
     String? fats,
     String? carbohydrates,
     String? calories,
     String? recipeUrl,
-    required List<Ingredient?> listOfIngredients,
+    required ListOfIngredients listOfIngredients,
     required List<RecipeStep?> listOfSteps,
     @Default(false) bool isFavourite,
   }) = _Recipe;
 
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
+
+}
+
+extension ExtList on List {
+  List<dynamic> toJson() {
+    return this.map((element) {
+      return element.toJson();
+    }).toList();
+  }
 }

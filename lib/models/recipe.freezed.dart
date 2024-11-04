@@ -24,14 +24,15 @@ mixin _$Recipe {
   String get title => throw _privateConstructorUsedError;
   String get cookingTime => throw _privateConstructorUsedError;
   String get numberOfPortions => throw _privateConstructorUsedError;
-  Category get category => throw _privateConstructorUsedError;
+  int get category => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   String? get proteins => throw _privateConstructorUsedError;
   String? get fats => throw _privateConstructorUsedError;
   String? get carbohydrates => throw _privateConstructorUsedError;
   String? get calories => throw _privateConstructorUsedError;
   String? get recipeUrl => throw _privateConstructorUsedError;
-  List<Ingredient?> get listOfIngredients => throw _privateConstructorUsedError;
+  ListOfIngredients get listOfIngredients => throw _privateConstructorUsedError;
   List<RecipeStep?> get listOfSteps => throw _privateConstructorUsedError;
   bool get isFavourite => throw _privateConstructorUsedError;
 
@@ -54,18 +55,19 @@ abstract class $RecipeCopyWith<$Res> {
       String title,
       String cookingTime,
       String numberOfPortions,
-      Category category,
+      int category,
       String? description,
+      String? imageUrl,
       String? proteins,
       String? fats,
       String? carbohydrates,
       String? calories,
       String? recipeUrl,
-      List<Ingredient?> listOfIngredients,
+      ListOfIngredients listOfIngredients,
       List<RecipeStep?> listOfSteps,
       bool isFavourite});
 
-  $CategoryCopyWith<$Res> get category;
+  $ListOfIngredientsCopyWith<$Res> get listOfIngredients;
 }
 
 /// @nodoc
@@ -89,6 +91,7 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
     Object? numberOfPortions = null,
     Object? category = null,
     Object? description = freezed,
+    Object? imageUrl = freezed,
     Object? proteins = freezed,
     Object? fats = freezed,
     Object? carbohydrates = freezed,
@@ -118,10 +121,14 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as Category,
+              as int,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       proteins: freezed == proteins
           ? _value.proteins
@@ -146,7 +153,7 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
       listOfIngredients: null == listOfIngredients
           ? _value.listOfIngredients
           : listOfIngredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient?>,
+              as ListOfIngredients,
       listOfSteps: null == listOfSteps
           ? _value.listOfSteps
           : listOfSteps // ignore: cast_nullable_to_non_nullable
@@ -162,9 +169,9 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $CategoryCopyWith<$Res> get category {
-    return $CategoryCopyWith<$Res>(_value.category, (value) {
-      return _then(_value.copyWith(category: value) as $Val);
+  $ListOfIngredientsCopyWith<$Res> get listOfIngredients {
+    return $ListOfIngredientsCopyWith<$Res>(_value.listOfIngredients, (value) {
+      return _then(_value.copyWith(listOfIngredients: value) as $Val);
     });
   }
 }
@@ -181,19 +188,20 @@ abstract class _$$RecipeImplCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       String title,
       String cookingTime,
       String numberOfPortions,
-      Category category,
+      int category,
       String? description,
+      String? imageUrl,
       String? proteins,
       String? fats,
       String? carbohydrates,
       String? calories,
       String? recipeUrl,
-      List<Ingredient?> listOfIngredients,
+      ListOfIngredients listOfIngredients,
       List<RecipeStep?> listOfSteps,
       bool isFavourite});
 
   @override
-  $CategoryCopyWith<$Res> get category;
+  $ListOfIngredientsCopyWith<$Res> get listOfIngredients;
 }
 
 /// @nodoc
@@ -215,6 +223,7 @@ class __$$RecipeImplCopyWithImpl<$Res>
     Object? numberOfPortions = null,
     Object? category = null,
     Object? description = freezed,
+    Object? imageUrl = freezed,
     Object? proteins = freezed,
     Object? fats = freezed,
     Object? carbohydrates = freezed,
@@ -244,10 +253,14 @@ class __$$RecipeImplCopyWithImpl<$Res>
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as Category,
+              as int,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       proteins: freezed == proteins
           ? _value.proteins
@@ -270,9 +283,9 @@ class __$$RecipeImplCopyWithImpl<$Res>
           : recipeUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       listOfIngredients: null == listOfIngredients
-          ? _value._listOfIngredients
+          ? _value.listOfIngredients
           : listOfIngredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient?>,
+              as ListOfIngredients,
       listOfSteps: null == listOfSteps
           ? _value._listOfSteps
           : listOfSteps // ignore: cast_nullable_to_non_nullable
@@ -286,7 +299,8 @@ class __$$RecipeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$RecipeImpl implements _Recipe {
   const _$RecipeImpl(
       {this.id,
@@ -295,16 +309,16 @@ class _$RecipeImpl implements _Recipe {
       required this.numberOfPortions,
       required this.category,
       this.description,
+      this.imageUrl,
       this.proteins,
       this.fats,
       this.carbohydrates,
       this.calories,
       this.recipeUrl,
-      required final List<Ingredient?> listOfIngredients,
+      required this.listOfIngredients,
       required final List<RecipeStep?> listOfSteps,
       this.isFavourite = false})
-      : _listOfIngredients = listOfIngredients,
-        _listOfSteps = listOfSteps;
+      : _listOfSteps = listOfSteps;
 
   factory _$RecipeImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecipeImplFromJson(json);
@@ -318,9 +332,11 @@ class _$RecipeImpl implements _Recipe {
   @override
   final String numberOfPortions;
   @override
-  final Category category;
+  final int category;
   @override
   final String? description;
+  @override
+  final String? imageUrl;
   @override
   final String? proteins;
   @override
@@ -331,15 +347,8 @@ class _$RecipeImpl implements _Recipe {
   final String? calories;
   @override
   final String? recipeUrl;
-  final List<Ingredient?> _listOfIngredients;
   @override
-  List<Ingredient?> get listOfIngredients {
-    if (_listOfIngredients is EqualUnmodifiableListView)
-      return _listOfIngredients;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_listOfIngredients);
-  }
-
+  final ListOfIngredients listOfIngredients;
   final List<RecipeStep?> _listOfSteps;
   @override
   List<RecipeStep?> get listOfSteps {
@@ -354,7 +363,7 @@ class _$RecipeImpl implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, title: $title, cookingTime: $cookingTime, numberOfPortions: $numberOfPortions, category: $category, description: $description, proteins: $proteins, fats: $fats, carbohydrates: $carbohydrates, calories: $calories, recipeUrl: $recipeUrl, listOfIngredients: $listOfIngredients, listOfSteps: $listOfSteps, isFavourite: $isFavourite)';
+    return 'Recipe(id: $id, title: $title, cookingTime: $cookingTime, numberOfPortions: $numberOfPortions, category: $category, description: $description, imageUrl: $imageUrl, proteins: $proteins, fats: $fats, carbohydrates: $carbohydrates, calories: $calories, recipeUrl: $recipeUrl, listOfIngredients: $listOfIngredients, listOfSteps: $listOfSteps, isFavourite: $isFavourite)';
   }
 
   @override
@@ -372,6 +381,8 @@ class _$RecipeImpl implements _Recipe {
                 other.category == category) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.proteins, proteins) ||
                 other.proteins == proteins) &&
             (identical(other.fats, fats) || other.fats == fats) &&
@@ -381,8 +392,8 @@ class _$RecipeImpl implements _Recipe {
                 other.calories == calories) &&
             (identical(other.recipeUrl, recipeUrl) ||
                 other.recipeUrl == recipeUrl) &&
-            const DeepCollectionEquality()
-                .equals(other._listOfIngredients, _listOfIngredients) &&
+            (identical(other.listOfIngredients, listOfIngredients) ||
+                other.listOfIngredients == listOfIngredients) &&
             const DeepCollectionEquality()
                 .equals(other._listOfSteps, _listOfSteps) &&
             (identical(other.isFavourite, isFavourite) ||
@@ -399,12 +410,13 @@ class _$RecipeImpl implements _Recipe {
       numberOfPortions,
       category,
       description,
+      imageUrl,
       proteins,
       fats,
       carbohydrates,
       calories,
       recipeUrl,
-      const DeepCollectionEquality().hash(_listOfIngredients),
+      listOfIngredients,
       const DeepCollectionEquality().hash(_listOfSteps),
       isFavourite);
 
@@ -430,14 +442,15 @@ abstract class _Recipe implements Recipe {
       required final String title,
       required final String cookingTime,
       required final String numberOfPortions,
-      required final Category category,
+      required final int category,
       final String? description,
+      final String? imageUrl,
       final String? proteins,
       final String? fats,
       final String? carbohydrates,
       final String? calories,
       final String? recipeUrl,
-      required final List<Ingredient?> listOfIngredients,
+      required final ListOfIngredients listOfIngredients,
       required final List<RecipeStep?> listOfSteps,
       final bool isFavourite}) = _$RecipeImpl;
 
@@ -452,9 +465,11 @@ abstract class _Recipe implements Recipe {
   @override
   String get numberOfPortions;
   @override
-  Category get category;
+  int get category;
   @override
   String? get description;
+  @override
+  String? get imageUrl;
   @override
   String? get proteins;
   @override
@@ -466,7 +481,7 @@ abstract class _Recipe implements Recipe {
   @override
   String? get recipeUrl;
   @override
-  List<Ingredient?> get listOfIngredients;
+  ListOfIngredients get listOfIngredients;
   @override
   List<RecipeStep?> get listOfSteps;
   @override

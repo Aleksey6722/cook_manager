@@ -5,9 +5,6 @@ part 'ingredient.g.dart';
 
 @freezed
 class Ingredient with _$Ingredient {
-  // final String? name;
-  // final String? value;
-
   const factory Ingredient({
     String? name,
     String? value,

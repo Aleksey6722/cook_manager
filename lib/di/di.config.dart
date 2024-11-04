@@ -11,7 +11,6 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../database/database.dart' as _i660;
 import '../features/add/bloc/image_box_bloc/image_box_bloc.dart' as _i1038;
 import '../features/add/bloc/nutrition_label_bloc/nutrition_label_bloc.dart'
     as _i622;
@@ -30,7 +29,6 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.singleton<_i660.CookManagerDatabase>(() => _i660.CookManagerDatabase());
     gh.singleton<_i1038.ImageBoxBloc>(() => _i1038.ImageBoxBloc());
     gh.singleton<_i622.NutritionLabelBloc>(() => _i622.NutritionLabelBloc());
     gh.singleton<_i941.RecipeStepsBloc>(() => _i941.RecipeStepsBloc());
