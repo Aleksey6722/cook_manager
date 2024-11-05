@@ -32,7 +32,7 @@ mixin _$Recipe {
   String? get carbohydrates => throw _privateConstructorUsedError;
   String? get calories => throw _privateConstructorUsedError;
   String? get recipeUrl => throw _privateConstructorUsedError;
-  ListOfIngredients get listOfIngredients => throw _privateConstructorUsedError;
+  List<Ingredient?> get listOfIngredients => throw _privateConstructorUsedError;
   List<RecipeStep?> get listOfSteps => throw _privateConstructorUsedError;
   bool get isFavourite => throw _privateConstructorUsedError;
 
@@ -63,11 +63,9 @@ abstract class $RecipeCopyWith<$Res> {
       String? carbohydrates,
       String? calories,
       String? recipeUrl,
-      ListOfIngredients listOfIngredients,
+      List<Ingredient?> listOfIngredients,
       List<RecipeStep?> listOfSteps,
       bool isFavourite});
-
-  $ListOfIngredientsCopyWith<$Res> get listOfIngredients;
 }
 
 /// @nodoc
@@ -153,7 +151,7 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
       listOfIngredients: null == listOfIngredients
           ? _value.listOfIngredients
           : listOfIngredients // ignore: cast_nullable_to_non_nullable
-              as ListOfIngredients,
+              as List<Ingredient?>,
       listOfSteps: null == listOfSteps
           ? _value.listOfSteps
           : listOfSteps // ignore: cast_nullable_to_non_nullable
@@ -163,16 +161,6 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
           : isFavourite // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
-  }
-
-  /// Create a copy of Recipe
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ListOfIngredientsCopyWith<$Res> get listOfIngredients {
-    return $ListOfIngredientsCopyWith<$Res>(_value.listOfIngredients, (value) {
-      return _then(_value.copyWith(listOfIngredients: value) as $Val);
-    });
   }
 }
 
@@ -196,12 +184,9 @@ abstract class _$$RecipeImplCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       String? carbohydrates,
       String? calories,
       String? recipeUrl,
-      ListOfIngredients listOfIngredients,
+      List<Ingredient?> listOfIngredients,
       List<RecipeStep?> listOfSteps,
       bool isFavourite});
-
-  @override
-  $ListOfIngredientsCopyWith<$Res> get listOfIngredients;
 }
 
 /// @nodoc
@@ -283,9 +268,9 @@ class __$$RecipeImplCopyWithImpl<$Res>
           : recipeUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       listOfIngredients: null == listOfIngredients
-          ? _value.listOfIngredients
+          ? _value._listOfIngredients
           : listOfIngredients // ignore: cast_nullable_to_non_nullable
-              as ListOfIngredients,
+              as List<Ingredient?>,
       listOfSteps: null == listOfSteps
           ? _value._listOfSteps
           : listOfSteps // ignore: cast_nullable_to_non_nullable
@@ -300,7 +285,7 @@ class __$$RecipeImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class _$RecipeImpl implements _Recipe {
   const _$RecipeImpl(
       {this.id,
@@ -315,10 +300,11 @@ class _$RecipeImpl implements _Recipe {
       this.carbohydrates,
       this.calories,
       this.recipeUrl,
-      required this.listOfIngredients,
+      required final List<Ingredient?> listOfIngredients,
       required final List<RecipeStep?> listOfSteps,
       this.isFavourite = false})
-      : _listOfSteps = listOfSteps;
+      : _listOfIngredients = listOfIngredients,
+        _listOfSteps = listOfSteps;
 
   factory _$RecipeImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecipeImplFromJson(json);
@@ -347,8 +333,15 @@ class _$RecipeImpl implements _Recipe {
   final String? calories;
   @override
   final String? recipeUrl;
+  final List<Ingredient?> _listOfIngredients;
   @override
-  final ListOfIngredients listOfIngredients;
+  List<Ingredient?> get listOfIngredients {
+    if (_listOfIngredients is EqualUnmodifiableListView)
+      return _listOfIngredients;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listOfIngredients);
+  }
+
   final List<RecipeStep?> _listOfSteps;
   @override
   List<RecipeStep?> get listOfSteps {
@@ -392,8 +385,8 @@ class _$RecipeImpl implements _Recipe {
                 other.calories == calories) &&
             (identical(other.recipeUrl, recipeUrl) ||
                 other.recipeUrl == recipeUrl) &&
-            (identical(other.listOfIngredients, listOfIngredients) ||
-                other.listOfIngredients == listOfIngredients) &&
+            const DeepCollectionEquality()
+                .equals(other._listOfIngredients, _listOfIngredients) &&
             const DeepCollectionEquality()
                 .equals(other._listOfSteps, _listOfSteps) &&
             (identical(other.isFavourite, isFavourite) ||
@@ -416,7 +409,7 @@ class _$RecipeImpl implements _Recipe {
       carbohydrates,
       calories,
       recipeUrl,
-      listOfIngredients,
+      const DeepCollectionEquality().hash(_listOfIngredients),
       const DeepCollectionEquality().hash(_listOfSteps),
       isFavourite);
 
@@ -450,7 +443,7 @@ abstract class _Recipe implements Recipe {
       final String? carbohydrates,
       final String? calories,
       final String? recipeUrl,
-      required final ListOfIngredients listOfIngredients,
+      required final List<Ingredient?> listOfIngredients,
       required final List<RecipeStep?> listOfSteps,
       final bool isFavourite}) = _$RecipeImpl;
 
@@ -481,7 +474,7 @@ abstract class _Recipe implements Recipe {
   @override
   String? get recipeUrl;
   @override
-  ListOfIngredients get listOfIngredients;
+  List<Ingredient?> get listOfIngredients;
   @override
   List<RecipeStep?> get listOfSteps;
   @override

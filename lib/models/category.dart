@@ -5,6 +5,7 @@ part 'category.g.dart';
 
 @freezed
 class Category with _$Category {
+  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory Category({
     required String imageUrl,
     required String name,

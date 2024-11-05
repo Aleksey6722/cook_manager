@@ -19,8 +19,10 @@ _$RecipeImpl _$$RecipeImplFromJson(Map<String, dynamic> json) => _$RecipeImpl(
       carbohydrates: json['carbohydrates'] as String?,
       calories: json['calories'] as String?,
       recipeUrl: json['recipe_url'] as String?,
-      listOfIngredients: ListOfIngredients.fromJson(
-          json['list_of_ingredients'] as Map<String, dynamic>),
+      listOfIngredients: (json['list_of_ingredients'] as List<dynamic>)
+          .map((e) =>
+              e == null ? null : Ingredient.fromJson(e as Map<String, dynamic>))
+          .toList(),
       listOfSteps: (json['list_of_steps'] as List<dynamic>)
           .map((e) =>
               e == null ? null : RecipeStep.fromJson(e as Map<String, dynamic>))
@@ -42,7 +44,8 @@ Map<String, dynamic> _$$RecipeImplToJson(_$RecipeImpl instance) =>
       'carbohydrates': instance.carbohydrates,
       'calories': instance.calories,
       'recipe_url': instance.recipeUrl,
-      'list_of_ingredients': instance.listOfIngredients,
-      'list_of_steps': instance.listOfSteps,
+      'list_of_ingredients':
+          instance.listOfIngredients.map((e) => e?.toJson()).toList(),
+      'list_of_steps': instance.listOfSteps.map((e) => e?.toJson()).toList(),
       'is_favourite': instance.isFavourite,
     };

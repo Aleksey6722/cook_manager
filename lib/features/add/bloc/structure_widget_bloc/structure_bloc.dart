@@ -1,5 +1,4 @@
 import 'package:cook_manager/models/ingredient.dart';
-import 'package:cook_manager/models/list_of_ingredients.dart';
 import 'package:cook_manager/utils/ingredient_field_type_enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -9,9 +9,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   runApp(const CookManager());
-  // final DatabaseService db = DatabaseService.instance;
-  // // db.deleteDB();
-  // db.showData();
+  final DatabaseService db = DatabaseService.instance;
+  // db.deleteDB();
+  db.showData();
 }
 
 class CookManager extends StatefulWidget {

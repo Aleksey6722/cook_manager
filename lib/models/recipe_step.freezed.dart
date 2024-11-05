@@ -103,7 +103,8 @@ class __$$RecipeStepImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class _$RecipeStepImpl implements _RecipeStep {
   const _$RecipeStepImpl({this.stepText});
 

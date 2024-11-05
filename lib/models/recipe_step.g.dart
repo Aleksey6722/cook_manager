@@ -8,10 +8,10 @@ part of 'recipe_step.dart';
 
 _$RecipeStepImpl _$$RecipeStepImplFromJson(Map<String, dynamic> json) =>
     _$RecipeStepImpl(
-      stepText: json['stepText'] as String?,
+      stepText: json['step_text'] as String?,
     );
 
 Map<String, dynamic> _$$RecipeStepImplToJson(_$RecipeStepImpl instance) =>
     <String, dynamic>{
-      'stepText': instance.stepText,
+      'step_text': instance.stepText,
     };

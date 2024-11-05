@@ -113,7 +113,8 @@ class __$$CategoryImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class _$CategoryImpl implements _Category {
   const _$CategoryImpl({required this.imageUrl, required this.name});
 

@@ -103,12 +103,30 @@ class DatabaseService {
 
   Future<int> insertRecipe(Recipe recipe) async {
     final db = await database;
-    return db.insert(_recipeTableName, recipe.toJson());
+    return db.rawInsert(
+        '''INSERT INTO $_recipeTableName($_recipeTitleColumnName, $_recipeCookingTimeColumnName, $_recipeNumberOfPortionsColumnName, $_recipeCategoryIdColumnName, $_recipeDescriptionColumnName, $_recipeImageUrlColumnName, $_recipeProteinsColumnName, $_recipeFatsColumnName, $_recipeCarbohydratesColumnName, $_recipeCaloriesColumnName, $_recipeRecipeUrlColumnName, $_recipeIngredientsColumnName, $_recipeStepsColumnName, $_recipeIsFavouriteColumnName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        [
+          recipe.title,
+          recipe.cookingTime,
+          recipe.numberOfPortions,
+          recipe.category,
+          recipe.description,
+          recipe.imageUrl,
+          recipe.proteins,
+          recipe.fats,
+          recipe.carbohydrates,
+          recipe.calories,
+          recipe.recipeUrl,
+          recipe.toJson()['list_of_ingredients'].toString(),
+          recipe.toJson()['list_of_steps'].toString(),
+          recipe.isFavourite,
+        ]);
   }
 
   Future<List<Map<String, Object?>>> getRecipe(int id) async {
     final db = await database;
-    final raw = await db.query(_recipeTableName, where: 'id = ?', whereArgs: [id]);
+    final raw =
+        await db.query(_recipeTableName, where: 'id = ?', whereArgs: [id]);
     return raw;
   }
 }

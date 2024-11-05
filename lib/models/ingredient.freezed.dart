@@ -114,7 +114,8 @@ class __$$IngredientImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class _$IngredientImpl implements _Ingredient {
   const _$IngredientImpl({this.name, this.value});
 

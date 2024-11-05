@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/database/database_service.dart';
 import 'package:cook_manager/features/add/add.dart';
@@ -7,7 +9,8 @@ import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_b
 
 // import 'package:cook_manager/features/add/view/base_form_field.dart';
 import 'package:cook_manager/features/add/view/image_box.dart';
-import 'package:cook_manager/models/list_of_ingredients.dart';
+
+
 // import 'package:cook_manager/features/add/view/structure_widget.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
@@ -181,19 +184,23 @@ class _AddScreenState extends State<AddScreen> {
                         print(
                             '$title, $cookingTime, $numberOfPortions, $category, $description');
                         print('${proteins}, $fats, $carbohydrates, $calories');
-                        print(_structureBloc.state.listOfIngredients.toJson());
-                        print(_recipeStepsBloc.state.listOfSteps.toJson());
+                        print(_structureBloc.state.listOfIngredients);
+                        print(_recipeStepsBloc.state.listOfSteps);
                         print(_imageBoxBloc.state.imageFile?.path);
                         final recipe = Recipe(
-                            title: title,
-                            cookingTime: cookingTime,
-                            numberOfPortions: numberOfPortions,
-                            category: 1,
-                            listOfIngredients: ListOfIngredients(list: _structureBloc.state.listOfIngredients),
-                            listOfSteps: _recipeStepsBloc.state.listOfSteps);
-                        print(recipe.toJson());
-                        db.insertRecipe(recipe);
-                        db.showData();
+                          title: title,
+                          cookingTime: cookingTime,
+                          numberOfPortions: numberOfPortions,
+                          category: 1,
+                          listOfIngredients:
+                              _structureBloc.state.listOfIngredients,
+                          listOfSteps: _recipeStepsBloc.state.listOfSteps,
+                        );
+                        // db.insertRecipe(recipe);
+                        final result = await db.getRecipe(1);
+                        final js = jsonDecode(jsonEncode(result[0].toString()));
+                        final Recipe recipeFromDB = Recipe.fromJson(result[0]);
+                        print(recipeFromDB);
                       }
                     },
                     child: Text('Добавить рецепт'),
