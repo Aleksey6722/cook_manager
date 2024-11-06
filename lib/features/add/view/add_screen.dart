@@ -9,6 +9,7 @@ import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_b
 
 // import 'package:cook_manager/features/add/view/base_form_field.dart';
 import 'package:cook_manager/features/add/view/image_box.dart';
+import 'package:cook_manager/models/ingredient.dart';
 
 
 // import 'package:cook_manager/features/add/view/structure_widget.dart';
@@ -181,26 +182,33 @@ class _AddScreenState extends State<AddScreen> {
                     onPressed: () async {
                       if (_addRecipeFormKey.currentState!.validate()) {
                         _addRecipeFormKey.currentState!.save();
-                        print(
-                            '$title, $cookingTime, $numberOfPortions, $category, $description');
-                        print('${proteins}, $fats, $carbohydrates, $calories');
-                        print(_structureBloc.state.listOfIngredients);
-                        print(_recipeStepsBloc.state.listOfSteps);
-                        print(_imageBoxBloc.state.imageFile?.path);
-                        final recipe = Recipe(
-                          title: title,
-                          cookingTime: cookingTime,
-                          numberOfPortions: numberOfPortions,
-                          category: 1,
-                          listOfIngredients:
-                              _structureBloc.state.listOfIngredients,
-                          listOfSteps: _recipeStepsBloc.state.listOfSteps,
-                        );
-                        final id = await db.insertRecipe(recipe);
-                        final result = await db.getRecipe(id);
-                        final js = Recipe.fromJson(recipe.toJson());
-                        final list =  jsonDecode(jsonDecode(jsonEncode(result[0]['list_of_steps']))); // obtain List<Object>
-                        final Recipe recipeFromDB = Recipe.fromJson(result[0]);
+                        // print(
+                        //     '$title, $cookingTime, $numberOfPortions, $category, $description');
+                        // print('${proteins}, $fats, $carbohydrates, $calories');
+                        // print(_structureBloc.state.listOfIngredients);
+                        // print(_recipeStepsBloc.state.listOfSteps);
+                        // print(_imageBoxBloc.state.imageFile?.path);
+                        // final recipe = Recipe(
+                        //   title: title,
+                        //   cookingTime: cookingTime,
+                        //   numberOfPortions: numberOfPortions,
+                        //   category: 1,
+                        //   listOfIngredients:
+                        //       _structureBloc.state.listOfIngredients,
+                        //   listOfSteps: _recipeStepsBloc.state.listOfSteps,
+                        // );
+                        // final id = await db.insertRecipe(recipe);
+                        final result = await db.getRecipe(2);
+                        final json = jsonDecode(jsonEncode(result[0]));
+                        final listOfSteps =  jsonDecode(jsonDecode(jsonEncode(result[0]['list_of_steps'])));// obtain List<Object>
+                        final listOfIngredients =  jsonDecode(jsonDecode(jsonEncode(result[0]['list_of_ingredients'])));// obtain List<Object>
+                        json['list_of_steps'] = listOfSteps;
+                        json['list_of_ingredients'] = listOfIngredients;
+                        json['is_favourite'] = json['is_favourite'] == 1;
+                        final Recipe recipeFromDB = Recipe.fromJson(json);
+                        recipeFromDB.listOfIngredients.map((Ingredient? e) {
+                          print('THIS IS NAAMEE');
+                        });
                         print(recipeFromDB);
                       }
                     },
