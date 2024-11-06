@@ -11,7 +11,7 @@ void main() async {
   runApp(const CookManager());
   final DatabaseService db = DatabaseService.instance;
   // db.deleteDB();
-  db.showData();
+  // db.showData();
 }
 
 class CookManager extends StatefulWidget {

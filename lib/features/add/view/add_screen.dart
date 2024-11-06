@@ -196,9 +196,10 @@ class _AddScreenState extends State<AddScreen> {
                               _structureBloc.state.listOfIngredients,
                           listOfSteps: _recipeStepsBloc.state.listOfSteps,
                         );
-                        // db.insertRecipe(recipe);
-                        final result = await db.getRecipe(1);
-                        final js = jsonDecode(jsonEncode(result[0].toString()));
+                        final id = await db.insertRecipe(recipe);
+                        final result = await db.getRecipe(id);
+                        final js = Recipe.fromJson(recipe.toJson());
+                        final list =  jsonDecode(jsonDecode(jsonEncode(result[0]['list_of_steps']))); // obtain List<Object>
                         final Recipe recipeFromDB = Recipe.fromJson(result[0]);
                         print(recipeFromDB);
                       }

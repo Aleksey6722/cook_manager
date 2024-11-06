@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cook_manager/models/recipe.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -117,8 +119,8 @@ class DatabaseService {
           recipe.carbohydrates,
           recipe.calories,
           recipe.recipeUrl,
-          recipe.toJson()['list_of_ingredients'].toString(),
-          recipe.toJson()['list_of_steps'].toString(),
+          jsonEncode(recipe.toJson()['list_of_ingredients']),
+          jsonEncode(recipe.toJson()['list_of_steps']),
           recipe.isFavourite,
         ]);
   }
