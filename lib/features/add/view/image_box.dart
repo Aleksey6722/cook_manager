@@ -18,7 +18,6 @@ class ImageBox extends StatefulWidget {
 class _ImageBoxState extends State<ImageBox> {
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
 
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

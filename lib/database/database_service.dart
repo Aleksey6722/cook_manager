@@ -125,10 +125,17 @@ class DatabaseService {
         ]);
   }
 
-  Future<List<Map<String, Object?>>> getRecipe(int id) async {
+  Future<Recipe> getRecipe(int id) async {
     final db = await database;
     final raw =
         await db.query(_recipeTableName, where: 'id = ?', whereArgs: [id]);
-    return raw;
+    final json = jsonDecode(jsonEncode(raw[0]));
+    final listOfSteps =  jsonDecode(jsonDecode(jsonEncode(raw[0]['list_of_steps'])));// obtain List<Object>
+    final listOfIngredients =  jsonDecode(jsonDecode(jsonEncode(raw[0]['list_of_ingredients'])));// obtain List<Object>
+    json['list_of_steps'] = listOfSteps;
+    json['list_of_ingredients'] = listOfIngredients;
+    json['is_favourite'] = json['is_favourite'] == 1;
+    final Recipe recipeFromDB = Recipe.fromJson(json);
+    return recipeFromDB;
   }
 }
