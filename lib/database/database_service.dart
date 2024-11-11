@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -130,12 +131,24 @@ class DatabaseService {
     final raw =
         await db.query(_recipeTableName, where: 'id = ?', whereArgs: [id]);
     final json = jsonDecode(jsonEncode(raw[0]));
-    final listOfSteps =  jsonDecode(jsonDecode(jsonEncode(raw[0]['list_of_steps'])));// obtain List<Object>
-    final listOfIngredients =  jsonDecode(jsonDecode(jsonEncode(raw[0]['list_of_ingredients'])));// obtain List<Object>
+    final listOfSteps = jsonDecode(
+        jsonDecode(jsonEncode(raw[0]['list_of_steps']))); // obtain List<Object>
+    final listOfIngredients = jsonDecode(jsonDecode(
+        jsonEncode(raw[0]['list_of_ingredients']))); // obtain List<Object>
     json['list_of_steps'] = listOfSteps;
     json['list_of_ingredients'] = listOfIngredients;
     json['is_favourite'] = json['is_favourite'] == 1;
     final Recipe recipeFromDB = Recipe.fromJson(json);
     return recipeFromDB;
+  }
+
+  Future<List<Category>> getCategories() async {
+    final db = await database;
+    final result = await db.query(_categoryTableName);
+    final list = result.map((e) {
+      final cat = Category.fromJson(e);
+      return cat;
+    }).toList();
+    return list;
   }
 }
