@@ -50,7 +50,7 @@ class _AddScreenState extends State<AddScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 15),
-                      ImageBox(),
+                      const ImageBox(),
                       const SizedBox(height: 15),
                       BaseFormField(
                         labelText: 'Название',
@@ -141,7 +141,7 @@ class _AddScreenState extends State<AddScreen> {
                           ),
                         ],
                       ),
-                      StructureWidget(),
+                      const StructureWidget(),
                       const SizedBox(height: 10),
                       Row(
                         children: [

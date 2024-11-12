@@ -1,7 +1,9 @@
 import 'dart:math';
 
-import 'package:cook_manager/utils/categories.dart';
+import 'package:cook_manager/features/main/bloc/category_bloc.dart';
+import 'package:cook_manager/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class CategoryFormField extends StatefulWidget {
   const CategoryFormField({
@@ -22,10 +24,9 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   late Animation<double> _iconAnimation;
   final TextEditingController _categoryFieldController = TextEditingController();
 
-  final Categories categories = Categories();
+  final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
 
-
-  @override
+    @override
   void initState() {
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
@@ -54,6 +55,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final List<Category> categories = (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 12),
       decoration: BoxDecoration(
@@ -96,7 +98,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    String name = categories.items[index].name;
+                    String name = categories[index].name;
                     return GestureDetector(
                       onTap: () {
                         _categoryFieldController.text = name;
@@ -106,7 +108,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(),
-                  itemCount: categories.items.length,
+                  itemCount: categories.length,
                 ),
               ],
             ),

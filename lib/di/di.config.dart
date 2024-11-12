@@ -17,6 +17,7 @@ import '../features/add/bloc/nutrition_label_bloc/nutrition_label_bloc.dart'
 import '../features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart' as _i941;
 import '../features/add/bloc/structure_widget_bloc/structure_bloc.dart'
     as _i103;
+import '../features/main/bloc/category_bloc.dart' as _i61;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -33,6 +34,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i622.NutritionLabelBloc>(() => _i622.NutritionLabelBloc());
     gh.singleton<_i941.RecipeStepsBloc>(() => _i941.RecipeStepsBloc());
     gh.singleton<_i103.StructureBloc>(() => _i103.StructureBloc());
+    gh.singleton<_i61.CategoryBloc>(() => _i61.CategoryBloc());
     return this;
   }
 }
