@@ -11,12 +11,13 @@ part 'structure_state.dart';
 @singleton
 class StructureBloc extends Bloc<StructureEvent, StructureState> {
   StructureBloc()
-      : super(StructureCurrentState(listOfIngredients: [Ingredient()])) {
+      : super(StructureInitState()) {
     on<SetValueEvent>(_mapSetValueEventToState);
     on<MoveTileUpEvent>(_mapMoveTileUpEventToState);
     on<MoveTileDownEvent>(_mapMoveTileDownEventToState);
     on<AddTileEvent>(_mapAddTileEventToState);
     on<RemoveTileEvent>(_mapRemoveTileEventToState);
+    on<GetInitIngredients>(_mapInitIngredientsToState);
   }
 
   void _mapSetValueEventToState(SetValueEvent event, emmit) {
@@ -60,4 +61,9 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
     newList.removeAt(event.index);
     emmit(StructureCurrentState(listOfIngredients: newList));
   }
+
+  void _mapInitIngredientsToState(GetInitIngredients event, emmit) {
+    emmit(StructureInitState());
+  }
+
 }

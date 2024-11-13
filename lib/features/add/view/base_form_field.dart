@@ -33,10 +33,12 @@ class BaseFormField extends StatelessWidget {
     final theme = Theme.of(context);
     final currentTextColor = theme.colorScheme.onSurface;
     return Container(
-      padding: EdgeInsets.only(top: 10, bottom: underlined ? 8 : 0, left: 12, right: 12),
+      padding: EdgeInsets.only(
+          top: 10, bottom: underlined ? 8 : 0, left: 12, right: 12),
       decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(10)),
+        color: theme.colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -52,8 +54,8 @@ class BaseFormField extends StatelessWidget {
                 child: Text(labelText),
               ),
               hintText: hintText,
-              hintStyle: theme.textTheme.bodyMedium!.copyWith(
-                  color: currentTextColor.withOpacity(0.5)),
+              hintStyle: theme.textTheme.bodyMedium!
+                  .copyWith(color: currentTextColor.withOpacity(0.5)),
               border: underlined ? null : InputBorder.none,
               suffixIcon: withSufficsIcon
                   ? const Icon(Icons.keyboard_arrow_down_outlined, size: 30)

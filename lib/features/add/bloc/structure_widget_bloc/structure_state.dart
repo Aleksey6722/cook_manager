@@ -9,6 +9,10 @@ sealed class StructureState extends Equatable {
   List<Object?> get props => [listOfIngredients];
 }
 
+class StructureInitState extends StructureState {
+  @override
+  final List<Ingredient> listOfIngredients = [const Ingredient()];
+}
 
 class StructureCurrentState extends StructureState {
   StructureCurrentState({required this.listOfIngredients}); // Геттер попадает сразу в конструктор?  ?

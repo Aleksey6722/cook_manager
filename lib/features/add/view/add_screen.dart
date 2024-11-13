@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/database/database_service.dart';
 import 'package:cook_manager/features/add/add.dart';
+import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 
@@ -25,6 +26,19 @@ class _AddScreenState extends State<AddScreen> {
 
   final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
+  final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
+
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController cookingTimeController = TextEditingController();
+  final TextEditingController numOfPortionsController =
+      TextEditingController(text: '4');
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController proteinsController = TextEditingController();
+  final TextEditingController fatsController = TextEditingController();
+  final TextEditingController carbohydratesController = TextEditingController();
+  final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController linkController = TextEditingController();
 
   final DatabaseService db = DatabaseService.instance;
 
@@ -54,6 +68,7 @@ class _AddScreenState extends State<AddScreen> {
                       const SizedBox(height: 15),
                       BaseFormField(
                         labelText: 'Название',
+                        controller: titleController,
                         underlined: true,
                         validator: (val) {
                           if (val!.isEmpty) {
@@ -68,6 +83,7 @@ class _AddScreenState extends State<AddScreen> {
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Время приготовления',
+                        controller: cookingTimeController,
                         hintText: 'Часов',
                         onlyNumber: true,
                         underlined: true,
@@ -84,7 +100,8 @@ class _AddScreenState extends State<AddScreen> {
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Количество порций',
-                        initialValue: '4',
+                        controller: numOfPortionsController,
+                        // initialValue: '4',
                         underlined: true,
                         validator: (val) {
                           if (val!.isEmpty) {
@@ -98,6 +115,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       const SizedBox(height: 10),
                       CategoryFormField(
+                        categoryController: categoryController,
                         validator: (val) {
                           if (val!.isEmpty) {
                             return 'Выберите категорию';
@@ -110,6 +128,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       const SizedBox(height: 10),
                       BaseFormField(
+                        controller: descriptionController,
                         labelText: 'Описание',
                         maxLines: 3,
                         onSaved: (val) {
@@ -118,6 +137,10 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       const SizedBox(height: 10),
                       NutritionalValueWidget(
+                        proteinsController: proteinsController,
+                        fatsController: fatsController,
+                        carbohydratesController: carbohydratesController,
+                        caloriesController: caloriesController,
                         onSavedFats: (val) => fats = val,
                         onSavedProteins: (val) => proteins = val,
                         onSavedCarbo: (val) => carbohydrates = val,
@@ -126,6 +149,7 @@ class _AddScreenState extends State<AddScreen> {
                       const SizedBox(height: 10),
                       BaseFormField(
                         labelText: 'Ссылка на источник',
+                        controller: linkController,
                         hintText: 'https://',
                         underlined: true,
                         onSaved: (val) {
@@ -184,7 +208,24 @@ class _AddScreenState extends State<AddScreen> {
                           listOfSteps: _recipeStepsBloc.state.listOfSteps,
                         );
                         final id = await db.insertRecipe(recipe);
-                        final recipeFromDB = await db.getRecipe(id);
+                        // final recipeFromDB = await db.getRecipe(id);
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shape: const RoundedRectangleBorder(),
+                              title: const Text('Рецепт сохранён'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      _clearForm();
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('ОК')),
+                              ],
+                            );
+                          },
+                        );
                       }
                     },
                     child: Text('Добавить рецепт'),
@@ -196,5 +237,22 @@ class _AddScreenState extends State<AddScreen> {
         ]),
       ),
     );
+  }
+
+  void _clearForm() {
+    _imageBoxBloc.add(RemovePicture());
+    titleController.clear();
+    cookingTimeController.clear();
+    numOfPortionsController.text = '4';
+    categoryController.clear();
+    descriptionController.clear();
+    linkController.clear();
+    proteinsController.clear();
+    fatsController.clear();
+    carbohydratesController.clear();
+    caloriesController.clear();
+    _recipeStepsBloc.add(GetInitSteps());
+    _structureBloc.add(GetInitIngredients());
+    // TODO: Fix fields error state, when fields clear
   }
 }

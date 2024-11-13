@@ -7,11 +7,12 @@ import 'package:get_it/get_it.dart';
 
 class CategoryFormField extends StatefulWidget {
   const CategoryFormField({
-    super.key, this.validator, this.onSaved,
+    super.key, this.validator, this.onSaved, required this.categoryController,
   });
 
   final String? Function(String?)? validator;
   final Function(String?)? onSaved;
+  final TextEditingController categoryController;
 
   @override
   State<CategoryFormField> createState() => _CategoryFormFieldState();
@@ -22,7 +23,6 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   late AnimationController _animationController;
   late Animation<double> _boxAnimation;
   late Animation<double> _iconAnimation;
-  final TextEditingController _categoryFieldController = TextEditingController();
 
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
 
@@ -66,7 +66,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
         children: [
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _categoryFieldController,
+            controller: widget.categoryController,
             onTap: _toggle,
             onSaved: widget.onSaved,
             readOnly: true,
@@ -101,7 +101,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                     String name = categories[index].name;
                     return GestureDetector(
                       onTap: () {
-                        _categoryFieldController.text = name;
+                        widget.categoryController.text = name;
                         _toggle();
                       },
                       child: Text(name),

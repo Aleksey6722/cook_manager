@@ -131,8 +131,6 @@ class _ImageBoxState extends State<ImageBox> {
 
     if (file == null) return;
 
-    // final bytes = await file.readAsBytes();
-
     _imageBoxBloc.add(SetPicture(imageFile: file));
   }
 
@@ -155,6 +153,7 @@ class _ImageBoxState extends State<ImageBox> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: const RoundedRectangleBorder(),
           title: const Text('Удаление фотографии'),
           content: const Text('Вы уверене что хотите удалить фотографию?'),
           actions: [

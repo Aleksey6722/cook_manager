@@ -48,3 +48,5 @@ class SetValueEvent extends StructureEvent {
     required this.fieldType,
   });
 }
+
+class GetInitIngredients extends StructureEvent {}

@@ -32,6 +32,8 @@ class MoveStepDownEvent extends RecipeStepsEvent {
   MoveStepDownEvent({required this.currentList, required this.index});
 }
 
+class GetInitSteps extends RecipeStepsEvent {}
+
 class SetStepValueEvent extends RecipeStepsEvent {
   final List<RecipeStep> currentList;
   final int index;

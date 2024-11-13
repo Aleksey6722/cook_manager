@@ -11,12 +11,13 @@ part 'recipe_steps_state.dart';
 @singleton
 class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
   RecipeStepsBloc()
-      : super(RecipeStepsCurrentState(listOfSteps: [RecipeStep()])) {
+      : super(RecipeStepsInitial()) {
     on<SetStepValueEvent>(_mapSetStepValueEvent);
     on<MoveStepUpEvent>(_mapMoveStepUpEventToState);
     on<MoveStepDownEvent>(_mapMoveStepDownEventToState);
     on<AddStepEvent>(_mapAddStepEventToState);
     on<RemoveStepEvent>(_mapRemoveStepEventToState);
+    on<GetInitSteps>(_mapInitStatetoState);
   }
 
   void _mapSetStepValueEvent(SetStepValueEvent event, emmit) {
@@ -51,5 +52,9 @@ class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
     final List<RecipeStep> newList = event.currentList.toList();
     newList.removeAt(event.index);
     emmit(RecipeStepsCurrentState(listOfSteps: newList));
+  }
+
+  void _mapInitStatetoState(GetInitSteps event, emmit) {
+    emmit(RecipeStepsInitial());
   }
 }

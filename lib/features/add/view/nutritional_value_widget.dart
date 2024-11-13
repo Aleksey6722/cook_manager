@@ -10,8 +10,16 @@ class NutritionalValueWidget extends StatefulWidget {
     required this.onSavedProteins,
     required this.onSavedCarbo,
     required this.onSavedCallories,
+    required this.proteinsController,
+    required this.fatsController,
+    required this.carbohydratesController,
+    required this.caloriesController,
   });
 
+  final TextEditingController proteinsController;
+  final TextEditingController fatsController;
+  final TextEditingController carbohydratesController;
+  final TextEditingController caloriesController;
   final void Function(String?)? onSavedFats;
   final void Function(String?)? onSavedProteins;
   final void Function(String?)? onSavedCarbo;
@@ -77,6 +85,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: widget.proteinsController,
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeProteins,
                         decoration: InputDecoration(
@@ -106,6 +115,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: widget.fatsController,
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeFats,
                         decoration: InputDecoration(
@@ -136,6 +146,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: widget.carbohydratesController,
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCarb,
                         decoration: InputDecoration(
@@ -166,6 +177,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: widget.caloriesController,
                         keyboardType: TextInputType.number,
                         focusNode: _focusNodeCallories,
                         decoration: InputDecoration(
