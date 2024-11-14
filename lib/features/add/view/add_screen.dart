@@ -11,6 +11,8 @@ import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../router/router.dart';
+
 @RoutePage()
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -209,23 +211,24 @@ class _AddScreenState extends State<AddScreen> {
                         );
                         final id = await db.insertRecipe(recipe);
                         // final recipeFromDB = await db.getRecipe(id);
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              shape: const RoundedRectangleBorder(),
-                              title: const Text('Рецепт сохранён'),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      _clearForm();
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('ОК')),
-                              ],
-                            );
-                          },
-                        );
+                        context.router.push(const RecipeRoute());
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return AlertDialog(
+                        //       shape: const RoundedRectangleBorder(),
+                        //       title: const Text('Рецепт сохранён'),
+                        //       actions: [
+                        //         TextButton(
+                        //             onPressed: () {
+                        //               _clearForm();
+                        //               Navigator.pop(context);
+                        //             },
+                        //             child: const Text('ОК')),
+                        //       ],
+                        //     );
+                        //   },
+                        // );
                       }
                     },
                     child: Text('Добавить рецепт'),

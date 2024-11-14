@@ -4,6 +4,7 @@ import '../features/add/view/add_screen.dart';
 import '../features/favourites/view/favourites_screen.dart';
 import '../features/home/view/home_screen.dart';
 import '../features/main/view/main_screen.dart';
+import '../features/recipe_screen/view/recipe_screen.dart';
 import '../features/search/view/search_screen.dart';
 import '../features/settings/view/settings_screen.dart';
 
@@ -39,5 +40,6 @@ class AppRouter extends RootStackRouter {
             ),
           ],
         ),
+        AutoRoute(page: RecipeRoute.page, path: '/recipe'),
       ];
 }
