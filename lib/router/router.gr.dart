@@ -86,6 +86,25 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [RecipeScreen]
+class RecipeRoute extends PageRouteInfo<void> {
+  const RecipeRoute({List<PageRouteInfo>? children})
+      : super(
+          RecipeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RecipeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RecipeScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [SearchScreen]
 class SearchRoute extends PageRouteInfo<void> {
   const SearchRoute({List<PageRouteInfo>? children})

@@ -22,13 +22,12 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           body: child,
           bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: theme.primaryColor,
-            unselectedItemColor: theme.hintColor.withOpacity(0.3),
+            selectedItemColor: theme.colorScheme.primary,
+            unselectedItemColor: theme.colorScheme.secondary.withOpacity(0.3),
             currentIndex: tabsRouter.activeIndex,
             onTap: (index) => _openPage(index, tabsRouter),
             items: [
               BottomNavigationBarItem(
-                backgroundColor: theme.shadowColor,
                 icon: Icon(Icons.home),
                 label: 'Главная',
               ),

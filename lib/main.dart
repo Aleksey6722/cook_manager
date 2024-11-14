@@ -2,8 +2,16 @@ import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
 
 
-void main() {
+import 'database/database_service.dart';
+import 'di/di.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   runApp(const CookManager());
+  final DatabaseService db = DatabaseService.instance;
+  // db.deleteDB();
+  // db.showData();
 }
 
 class CookManager extends StatefulWidget {
@@ -21,14 +29,27 @@ class _CookManagerState extends State<CookManager> {
     return MaterialApp.router(
       title: 'CookManager',
       theme: ThemeData(
-        primaryColor: Colors.black,
-        shadowColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.black, onPrimary: Colors.white),
+          seedColor: Colors.blue,
+          brightness: Brightness.light,
+        ),
         useMaterial3: true,
+        textTheme: TextTheme(
+          headlineSmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ), // AppBar title
+          bodyMedium: TextStyle(fontSize: 16),
+          bodyLarge: TextStyle(fontSize: 16),
+          labelLarge: TextStyle(fontSize: 20),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          floatingLabelStyle: TextStyle(fontSize: 21),
+          isDense: true,
+        ),//button text, form label text
       ),
-     routerConfig: _router.config(),
+      routerConfig: _router.config(),
     );
   }
 }
-

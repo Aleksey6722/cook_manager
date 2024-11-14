@@ -37,7 +37,7 @@ class MainMenuContainer extends StatelessWidget {
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
               ),
-              color: theme.hintColor,
+              color: theme.colorScheme.secondary.withOpacity(0.7),
             ),
             height: 35,
             child: Center(
