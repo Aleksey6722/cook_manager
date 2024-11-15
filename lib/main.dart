@@ -38,7 +38,11 @@ class _CookManagerState extends State<CookManager> {
           headlineSmall: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-          ), // AppBar title
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+          ),// AppBar title
           bodyMedium: TextStyle(fontSize: 16),
           bodyLarge: TextStyle(fontSize: 16),
           labelLarge: TextStyle(fontSize: 20),

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../features/add/view/add_screen.dart';
 import '../features/favourites/view/favourites_screen.dart';

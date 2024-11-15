@@ -6,3 +6,6 @@ export 'ingredient_tile.dart';
 export 'ingredients_buttons_bar.dart';
 export 'structure_widget.dart';
 export 'recipe_steps_widget.dart';
+export 'image_box.dart';
+export 'recipe_step_tile.dart';
+export 'recipe_steps_buttons_bar.dart';

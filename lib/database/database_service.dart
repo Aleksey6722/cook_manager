@@ -18,7 +18,7 @@ class DatabaseService {
   final String _recipeFatsColumnName = 'fats';
   final String _recipeCarbohydratesColumnName = 'carbohydrates';
   final String _recipeCaloriesColumnName = 'calories';
-  final String _recipeRecipeUrlColumnName = 'recipeUrl';
+  final String _recipeRecipeUrlColumnName = 'recipe_url';
   final String _recipeIngredientsColumnName = 'list_of_ingredients';
   final String _recipeStepsColumnName = 'list_of_steps';
   final String _recipeIsFavouriteColumnName = 'is_favourite';

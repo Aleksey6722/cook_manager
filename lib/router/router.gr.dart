@@ -87,10 +87,17 @@ class MainRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [RecipeScreen]
-class RecipeRoute extends PageRouteInfo<void> {
-  const RecipeRoute({List<PageRouteInfo>? children})
-      : super(
+class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
+  RecipeRoute({
+    Key? key,
+    required int recipeId,
+    List<PageRouteInfo>? children,
+  }) : super(
           RecipeRoute.name,
+          args: RecipeRouteArgs(
+            key: key,
+            recipeId: recipeId,
+          ),
           initialChildren: children,
         );
 
@@ -99,9 +106,29 @@ class RecipeRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const RecipeScreen();
+      final args = data.argsAs<RecipeRouteArgs>();
+      return RecipeScreen(
+        key: args.key,
+        recipeId: args.recipeId,
+      );
     },
   );
+}
+
+class RecipeRouteArgs {
+  const RecipeRouteArgs({
+    this.key,
+    required this.recipeId,
+  });
+
+  final Key? key;
+
+  final int recipeId;
+
+  @override
+  String toString() {
+    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId}';
+  }
 }
 
 /// generated route for

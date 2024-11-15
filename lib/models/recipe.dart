@@ -1,16 +1,12 @@
-import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/ingredient.dart';
 import 'package:cook_manager/models/recipe_step.dart';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 
 part 'recipe.freezed.dart';
 
 part 'recipe.g.dart';
 
 @freezed
-
 class Recipe with _$Recipe {
   @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory Recipe({
@@ -31,7 +27,6 @@ class Recipe with _$Recipe {
     @Default(false) bool isFavourite,
   }) = _Recipe;
 
-  @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
 
 }

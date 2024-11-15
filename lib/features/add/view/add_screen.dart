@@ -6,6 +6,8 @@ import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bl
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 
 import 'package:cook_manager/features/add/view/image_box.dart';
+import 'package:cook_manager/features/main/bloc/category_bloc.dart';
+import 'package:cook_manager/models/category.dart';
 
 import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +25,13 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final _addRecipeFormKey = GlobalKey<FormState>();
-  String title = '', cookingTime = '', numberOfPortions = '', category = '';
-  String? description, proteins, carbohydrates, calories, fats, recipeUrl;
+  String title = '', cookingTime = '', numberOfPortions = '', recipeUrl = '', category = '';
+  String? description, proteins, carbohydrates, calories, fats;
 
   final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
+  final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController cookingTimeController = TextEditingController();
@@ -155,7 +158,7 @@ class _AddScreenState extends State<AddScreen> {
                         hintText: 'https://',
                         underlined: true,
                         onSaved: (val) {
-                          recipeUrl = val;
+                          recipeUrl = val ?? '';
                         },
                       ),
                       const SizedBox(height: 10),
@@ -204,34 +207,23 @@ class _AddScreenState extends State<AddScreen> {
                           title: title,
                           cookingTime: cookingTime,
                           numberOfPortions: numberOfPortions,
-                          category: 1,
+                          description: description,
+                          imageUrl: _imageBoxBloc.state.imageFile?.path,
+                          category: _getCategoryId(category),
+                          proteins: proteins,
+                          fats: fats,
+                          carbohydrates: carbohydrates,
+                          calories: calories,
+                          recipeUrl: recipeUrl,
                           listOfIngredients:
                               _structureBloc.state.listOfIngredients,
                           listOfSteps: _recipeStepsBloc.state.listOfSteps,
                         );
                         final id = await db.insertRecipe(recipe);
-                        // final recipeFromDB = await db.getRecipe(id);
-                        context.router.push(const RecipeRoute());
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return AlertDialog(
-                        //       shape: const RoundedRectangleBorder(),
-                        //       title: const Text('Рецепт сохранён'),
-                        //       actions: [
-                        //         TextButton(
-                        //             onPressed: () {
-                        //               _clearForm();
-                        //               Navigator.pop(context);
-                        //             },
-                        //             child: const Text('ОК')),
-                        //       ],
-                        //     );
-                        //   },
-                        // );
+                        context.router.push(RecipeRoute(recipeId: 2));
                       }
                     },
-                    child: Text('Добавить рецепт'),
+                    child: const Text('Сохранить рецепт'),
                   ),
                 ),
               ],
@@ -240,6 +232,18 @@ class _AddScreenState extends State<AddScreen> {
         ]),
       ),
     );
+  }
+
+  int _getCategoryId(String name) {
+    final List<Category> categories =
+        (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
+    int id = 0;
+    categories.forEach((e) {
+      if(e.name == name) {
+        id = e.id ?? 0;
+      }
+    });
+    return id;
   }
 
   void _clearForm() {
