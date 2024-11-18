@@ -16,6 +16,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   void _mapRecipeEventToState(GetRecipeEvent event, emmit) async {
     final DatabaseService db = DatabaseService.instance;
     try {
+      emmit(RecipeStateLoading());
       final Recipe recipe = await db.getRecipe(event.id);
       emmit(RecipeStateLoaded(recipe));
     } catch(e) {

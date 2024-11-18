@@ -106,7 +106,7 @@ class _AddScreenState extends State<AddScreen> {
                       BaseFormField(
                         labelText: 'Количество порций',
                         controller: numOfPortionsController,
-                        // initialValue: '4',
+                        onlyNumber: true,
                         underlined: true,
                         validator: (val) {
                           if (val!.isEmpty) {
@@ -220,7 +220,7 @@ class _AddScreenState extends State<AddScreen> {
                           listOfSteps: _recipeStepsBloc.state.listOfSteps,
                         );
                         final id = await db.insertRecipe(recipe);
-                        context.router.push(RecipeRoute(recipeId: 2));
+                        context.router.push(RecipeRoute(recipeId: id)); //23
                       }
                     },
                     child: const Text('Сохранить рецепт'),
