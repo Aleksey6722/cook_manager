@@ -1,5 +1,4 @@
 import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
-import 'package:cook_manager/features/add/view/recipe_steps_buttons_bar.dart';
 import 'package:cook_manager/models/recipe_step.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';

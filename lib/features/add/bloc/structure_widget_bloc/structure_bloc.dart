@@ -52,7 +52,7 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
 
   void _mapAddTileEventToState(AddTileEvent event, emmit) {
     final List<Ingredient> newList = event.currentList.toList();
-    newList.add(Ingredient());
+    newList.add(const Ingredient());
     emmit(StructureCurrentState(listOfIngredients: newList));
   }
 

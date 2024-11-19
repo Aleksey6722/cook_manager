@@ -5,7 +5,6 @@ import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dar
 import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
 
-import 'package:cook_manager/features/add/view/image_box.dart';
 import 'package:cook_manager/features/main/bloc/category_bloc.dart';
 import 'package:cook_manager/models/category.dart';
 
@@ -25,7 +24,11 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final _addRecipeFormKey = GlobalKey<FormState>();
-  String title = '', cookingTime = '', numberOfPortions = '', recipeUrl = '', category = '';
+  String title = '',
+      cookingTime = '',
+      numberOfPortions = '',
+      recipeUrl = '',
+      category = '';
   String? description, proteins, carbohydrates, calories, fats;
 
   final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
@@ -200,29 +203,7 @@ class _AddScreenState extends State<AddScreen> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
-                    onPressed: () async {
-                      if (_addRecipeFormKey.currentState!.validate()) {
-                        _addRecipeFormKey.currentState!.save();
-                        final recipe = Recipe(
-                          title: title,
-                          cookingTime: cookingTime,
-                          numberOfPortions: numberOfPortions,
-                          description: description,
-                          imageUrl: _imageBoxBloc.state.imageFile?.path,
-                          category: _getCategoryId(category),
-                          proteins: proteins,
-                          fats: fats,
-                          carbohydrates: carbohydrates,
-                          calories: calories,
-                          recipeUrl: recipeUrl,
-                          listOfIngredients:
-                              _structureBloc.state.listOfIngredients,
-                          listOfSteps: _recipeStepsBloc.state.listOfSteps,
-                        );
-                        final id = await db.insertRecipe(recipe);
-                        context.router.push(RecipeRoute(recipeId: id)); //23
-                      }
-                    },
+                    onPressed: _createRecipe,
                     child: const Text('Сохранить рецепт'),
                   ),
                 ),
@@ -238,11 +219,11 @@ class _AddScreenState extends State<AddScreen> {
     final List<Category> categories =
         (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
     int id = 0;
-    categories.forEach((e) {
-      if(e.name == name) {
+    for (Category e in categories) {
+      if (e.name == name) {
         id = e.id ?? 0;
       }
-    });
+    }
     return id;
   }
 
@@ -261,5 +242,28 @@ class _AddScreenState extends State<AddScreen> {
     _recipeStepsBloc.add(GetInitSteps());
     _structureBloc.add(GetInitIngredients());
     // TODO: Fix fields error state, when fields clear
+  }
+
+  Future<void> _createRecipe() async {
+    if (_addRecipeFormKey.currentState!.validate()) {
+      _addRecipeFormKey.currentState!.save();
+      final Recipe recipe = Recipe(
+        title: title,
+        cookingTime: cookingTime,
+        numberOfPortions: numberOfPortions,
+        description: description,
+        imageUrl: _imageBoxBloc.state.imageFile?.path,
+        category: _getCategoryId(category),
+        proteins: proteins,
+        fats: fats,
+        carbohydrates: carbohydrates,
+        calories: calories,
+        recipeUrl: recipeUrl,
+        listOfIngredients: _structureBloc.state.listOfIngredients,
+        listOfSteps: _recipeStepsBloc.state.listOfSteps,
+      );
+      final int id = await db.insertRecipe(recipe);
+      context.router.push(RecipeRoute(recipeId: id)); //23
+    }
   }
 }

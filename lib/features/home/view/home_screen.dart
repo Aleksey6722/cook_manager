@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             unselectedItemColor: theme.colorScheme.secondary.withOpacity(0.3),
             currentIndex: tabsRouter.activeIndex,
             onTap: (index) => _openPage(index, tabsRouter),
-            items: [
+            items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Главная',

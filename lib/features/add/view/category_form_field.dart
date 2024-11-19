@@ -73,7 +73,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
             decoration: InputDecoration(
               label: Container(
                 transform: Matrix4.translationValues(0.0, -8.0, 0.0),
-                child: Text('Категория'),
+                child: const Text('Категория'),
               ),
               suffixIcon: AnimatedBuilder(
                 animation: _iconAnimation,

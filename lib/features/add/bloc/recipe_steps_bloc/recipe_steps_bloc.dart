@@ -44,7 +44,7 @@ class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
 
   void _mapAddStepEventToState(AddStepEvent event, emmit){
     final List<RecipeStep> newList = event.currentList.toList();
-    newList.add(RecipeStep());
+    newList.add(const RecipeStep());
     emmit(RecipeStepsCurrentState(listOfSteps: newList));
   }
 

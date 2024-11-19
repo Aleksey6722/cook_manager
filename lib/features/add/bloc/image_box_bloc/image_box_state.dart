@@ -8,6 +8,8 @@ sealed class ImageBoxState extends Equatable {
 }
 
 class CurrentImageBoxState extends ImageBoxState {
+
+  @override
   final CroppedFile? imageFile;
 
   CurrentImageBoxState({required this.imageFile});

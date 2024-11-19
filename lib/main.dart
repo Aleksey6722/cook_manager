@@ -34,7 +34,7 @@ class _CookManagerState extends State<CookManager> {
           brightness: Brightness.light,
         ),
         useMaterial3: true,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           headlineSmall: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
@@ -47,7 +47,7 @@ class _CookManagerState extends State<CookManager> {
           bodyLarge: TextStyle(fontSize: 16),
           labelLarge: TextStyle(fontSize: 20),
         ),
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           floatingLabelBehavior: FloatingLabelBehavior.always,
           floatingLabelStyle: TextStyle(fontSize: 21),
           isDense: true,
