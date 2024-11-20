@@ -29,6 +29,12 @@ class _CookManagerState extends State<CookManager> {
     return MaterialApp.router(
       title: 'CookManager',
       theme: ThemeData(
+        tabBarTheme: const TabBarTheme(
+          indicatorSize: TabBarIndicatorSize.tab,
+          dividerHeight: 0,
+          labelStyle: TextStyle(fontSize: 20,),
+          unselectedLabelStyle: TextStyle(fontSize: 20, ),
+        ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
           brightness: Brightness.light,

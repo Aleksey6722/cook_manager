@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/features/recipe_screen/bloc/recipe_bloc.dart';
-import 'package:cook_manager/features/recipe_screen/view/nutrition_banner.dart';
-import 'package:cook_manager/features/recipe_screen/view/subtitle.dart';
+import 'package:cook_manager/features/recipe_screen/view/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -62,85 +61,73 @@ class _RecipeScreenState extends State<RecipeScreen> {
   Widget _buildPage(RecipeStateLoaded state) {
     final theme = Theme.of(context);
     double screenWidth = MediaQuery.of(context).size.width;
-    return Stack(
-        children: [
-        Container(
-          height: 2 * screenWidth / 3,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: FileImage(
-                      File(state.recipe.imageUrl ?? 'url_to_placeholder')),
-                  fit: BoxFit.cover)),
-        ),
-        Column(
+    return SingleChildScrollView(
+      child: Stack(
           children: [
-            SizedBox(height: (2 * screenWidth / 3)-20,),
-            Container(
-              width: screenWidth,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+          Container(
+            height: 2 * screenWidth / 3,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: FileImage(
+                        File(state.recipe.imageUrl ?? 'url_to_placeholder')),
+                    fit: BoxFit.cover)),
+          ),
+          Column(
+            children: [
+              SizedBox(height: (2 * screenWidth / 3)-20,),
+              Container(
+                width: screenWidth,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        state.recipe.title,
-                        style: theme.textTheme.headlineMedium,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Subtitle(state: state),
-                    const SizedBox(height: 10),
-                    NutritionBanner(state: state),
-                    const SizedBox(height: 10),
-                    Text(state.recipe.description ?? ''),
-                    const SizedBox(height: 10),
-                    Row(children: [
-                      InkWell(
-                        onTap: () async {
-                          final url = state.recipe.recipeUrl ?? "";
-                          bool fl = await canLaunchUrl(Uri.parse(url));
-                          if (await canLaunchUrl(Uri.parse(url))) {
-                            await launchUrl(Uri.parse(url));
-                          }
-                        },
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
                         child: Text(
-                          state.recipe.recipeUrl ?? "",
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(color: theme.primaryColor),
+                          state.recipe.title,
+                          style: theme.textTheme.headlineMedium,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.clip,
                         ),
                       ),
-                      // RichText(
-                      //   text: TextSpan(
-                      //     text: state.recipe.recipeUrl,
-                      //     style: theme.textTheme.bodyMedium
-                      //         ?.copyWith(color: theme.primaryColor),
-                      //     recognizer: TapGestureRecognizer()
-                      //       ..onTap = () async {
-                      //         final url = state.recipe.recipeUrl ?? "";
-                      //         if (await canLaunchUrl(Uri.parse(url))) {
-                      //           await launchUrl(Uri.parse(url));
-                      //         }
-                      //       },
-                      //   ),
-                      // ),
-                    ])
-                  ],
+                      const SizedBox(height: 10),
+                      Subtitle(state: state),
+                      const SizedBox(height: 10),
+                      NutritionBanner(state: state),
+                      const SizedBox(height: 10),
+                      Text(state.recipe.description ?? ''),
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        InkWell(
+                          onTap: () async {
+                            final url = state.recipe.recipeUrl ?? "";
+                            if (await canLaunchUrl(Uri.parse(url))) {
+                              await launchUrl(Uri.parse(url));
+                            }
+                          },
+                          child: Text(
+                            state.recipe.recipeUrl ?? "",
+                            style: theme.textTheme.bodyMedium
+                                ?.copyWith(color: theme.primaryColor),
+                          ),
+                        ),
+                      ]),
+                      const TabWidget(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

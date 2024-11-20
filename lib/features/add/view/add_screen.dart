@@ -203,7 +203,10 @@ class _AddScreenState extends State<AddScreen> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
-                    onPressed: _createRecipe,
+                    onPressed: () async {
+                      await _createRecipe();
+                      // _clearForm();
+                    },
                     child: const Text('Сохранить рецепт'),
                   ),
                 ),
@@ -232,7 +235,7 @@ class _AddScreenState extends State<AddScreen> {
     titleController.clear();
     cookingTimeController.clear();
     numOfPortionsController.text = '4';
-    categoryController.clear();
+    categoryController.text = 'Салаты';
     descriptionController.clear();
     linkController.clear();
     proteinsController.clear();
@@ -263,7 +266,7 @@ class _AddScreenState extends State<AddScreen> {
         listOfSteps: _recipeStepsBloc.state.listOfSteps,
       );
       final int id = await db.insertRecipe(recipe);
-      context.router.push(RecipeRoute(recipeId: id)); //23
+      context.router.push(RecipeRoute(recipeId: 68)); //68
     }
   }
 }
