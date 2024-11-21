@@ -31,6 +31,13 @@ class _AddScreenState extends State<AddScreen> {
       category = '';
   String? description, proteins, carbohydrates, calories, fats;
 
+  List<String> errors = [];
+
+  String? titleErrorText,
+      cookingTimeErrorText,
+      portionsErrorText,
+      categoryErrorText;
+
   final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
@@ -49,6 +56,21 @@ class _AddScreenState extends State<AddScreen> {
   final TextEditingController linkController = TextEditingController();
 
   final DatabaseService db = DatabaseService.instance;
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    cookingTimeController.dispose();
+    numOfPortionsController.dispose();
+    categoryController.dispose();
+    descriptionController.dispose();
+    proteinsController.dispose();
+    fatsController.dispose();
+    carbohydratesController.dispose();
+    caloriesController.dispose();
+    linkController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +99,11 @@ class _AddScreenState extends State<AddScreen> {
                       BaseFormField(
                         labelText: 'Название',
                         controller: titleController,
-                        underlined: true,
+                        hintText: 'Рецепт малинового пирога',
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return 'Введите название';
+                            errors.add('название');
+                            return '';
                           }
                           return null;
                         },
@@ -94,10 +117,10 @@ class _AddScreenState extends State<AddScreen> {
                         controller: cookingTimeController,
                         hintText: 'Часов',
                         onlyNumber: true,
-                        underlined: true,
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return 'Введите время приготовления';
+                            errors.add('время приготовления');
+                            return '';
                           }
                           return null;
                         },
@@ -110,10 +133,10 @@ class _AddScreenState extends State<AddScreen> {
                         labelText: 'Количество порций',
                         controller: numOfPortionsController,
                         onlyNumber: true,
-                        underlined: true,
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return 'Укажите количество порций';
+                            errors.add('количество порций');
+                            return '';
                           }
                           return null;
                         },
@@ -126,7 +149,8 @@ class _AddScreenState extends State<AddScreen> {
                         categoryController: categoryController,
                         validator: (val) {
                           if (val!.isEmpty) {
-                            return 'Выберите категорию';
+                            errors.add('категорию');
+                            return '';
                           }
                           return null;
                         },
@@ -159,7 +183,6 @@ class _AddScreenState extends State<AddScreen> {
                         labelText: 'Ссылка на источник',
                         controller: linkController,
                         hintText: 'https://',
-                        underlined: true,
                         onSaved: (val) {
                           recipeUrl = val ?? '';
                         },
@@ -204,8 +227,13 @@ class _AddScreenState extends State<AddScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                     ),
                     onPressed: () async {
-                      await _createRecipe();
-                      // _clearForm();
+                      if (_addRecipeFormKey.currentState!.validate()) {
+                        _addRecipeFormKey.currentState!.save();
+                        await _createRecipe();
+                        Future.delayed(const Duration(seconds: 1), _clearForm);
+                      } else {
+                        _showSnackBar();
+                      }
                     },
                     child: const Text('Сохранить рецепт'),
                   ),
@@ -216,6 +244,24 @@ class _AddScreenState extends State<AddScreen> {
         ]),
       ),
     );
+  }
+
+  void _showSnackBar() {
+    String errorText = errors.join(', ');
+    final snackBar = SnackBar(
+      content: Text('Введите $errorText'),
+      backgroundColor: const Color(0xFFa83434),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(8),
+        topRight: Radius.circular(8),
+      )),
+      action: SnackBarAction(
+          label: 'OK',
+          onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar),
+    );
+    errors = [];
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   int _getCategoryId(String name) {
@@ -235,7 +281,7 @@ class _AddScreenState extends State<AddScreen> {
     titleController.clear();
     cookingTimeController.clear();
     numOfPortionsController.text = '4';
-    categoryController.text = 'Салаты';
+    categoryController.clear();
     descriptionController.clear();
     linkController.clear();
     proteinsController.clear();
@@ -244,29 +290,25 @@ class _AddScreenState extends State<AddScreen> {
     caloriesController.clear();
     _recipeStepsBloc.add(GetInitSteps());
     _structureBloc.add(GetInitIngredients());
-    // TODO: Fix fields error state, when fields clear
   }
 
   Future<void> _createRecipe() async {
-    if (_addRecipeFormKey.currentState!.validate()) {
-      _addRecipeFormKey.currentState!.save();
-      final Recipe recipe = Recipe(
-        title: title,
-        cookingTime: cookingTime,
-        numberOfPortions: numberOfPortions,
-        description: description,
-        imageUrl: _imageBoxBloc.state.imageFile?.path,
-        category: _getCategoryId(category),
-        proteins: proteins,
-        fats: fats,
-        carbohydrates: carbohydrates,
-        calories: calories,
-        recipeUrl: recipeUrl,
-        listOfIngredients: _structureBloc.state.listOfIngredients,
-        listOfSteps: _recipeStepsBloc.state.listOfSteps,
-      );
-      final int id = await db.insertRecipe(recipe);
-      context.router.push(RecipeRoute(recipeId: 68)); //68
-    }
+    final Recipe recipe = Recipe(
+      title: title,
+      cookingTime: cookingTime,
+      numberOfPortions: numberOfPortions,
+      description: description,
+      imageUrl: _imageBoxBloc.state.imageFile?.path,
+      category: _getCategoryId(category),
+      proteins: proteins,
+      fats: fats,
+      carbohydrates: carbohydrates,
+      calories: calories,
+      recipeUrl: recipeUrl,
+      listOfIngredients: _structureBloc.state.listOfIngredients,
+      listOfSteps: _recipeStepsBloc.state.listOfSteps,
+    );
+    final int id = await db.insertRecipe(recipe);
+    context.router.push(RecipeRoute(recipeId: 68)); //68
   }
 }

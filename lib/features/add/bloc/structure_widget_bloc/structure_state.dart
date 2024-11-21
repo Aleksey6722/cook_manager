@@ -15,7 +15,7 @@ class StructureInitState extends StructureState {
 }
 
 class StructureCurrentState extends StructureState {
-  StructureCurrentState({required this.listOfIngredients}); // Геттер попадает сразу в конструктор?  ?
+  StructureCurrentState({required this.listOfIngredients});
 
   @override
   final List<Ingredient> listOfIngredients;

@@ -17,26 +17,24 @@ class _StructureWidgetState extends State<StructureWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _structureBloc,
-      child: BlocBuilder<StructureBloc, StructureState>(
-        builder: (context, state) {
-          final ingredientList = state.listOfIngredients.asMap().entries;
-          final int totalAmount = ingredientList.length;
-          return Column(
-            children: [
-              ...ingredientList.map(
-                (entry) => IngredientTile(
-                  index: entry.key,
-                  ingredient: entry.value,
-                  totalAmount: totalAmount,
-                  currentIngredientsList: state.listOfIngredients,
-                ),
-              )
-            ],
-          );
-        },
-      ),
+    return BlocBuilder<StructureBloc, StructureState>(
+      bloc: _structureBloc,
+      builder: (context, state) {
+        final ingredientList = state.listOfIngredients.asMap().entries;
+        final int totalAmount = ingredientList.length;
+        return Column(
+          children: [
+            ...ingredientList.map(
+              (entry) => IngredientTile(
+                index: entry.key,
+                ingredient: entry.value,
+                totalAmount: totalAmount,
+                currentIngredientsList: state.listOfIngredients,
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

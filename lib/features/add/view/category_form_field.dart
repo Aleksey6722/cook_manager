@@ -65,7 +65,6 @@ class _CategoryFormFieldState extends State<CategoryFormField>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: widget.categoryController,
             onTap: _toggle,
             onSaved: widget.onSaved,
@@ -75,6 +74,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                 transform: Matrix4.translationValues(0.0, -8.0, 0.0),
                 child: const Text('Категория'),
               ),
+              suffixIconColor: theme.colorScheme.onSurface,
               suffixIcon: AnimatedBuilder(
                 animation: _iconAnimation,
                 child: const Icon(Icons.keyboard_arrow_down_outlined, size: 30),
@@ -85,6 +85,11 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                     ),
               ),
               suffixIconConstraints: const BoxConstraints(maxHeight: 30),
+              border: InputBorder.none,
+              errorStyle: TextStyle(
+                color: theme.colorScheme.onSurface,
+                fontSize: 0,
+              ),
               // border: InputBorder.none,
             ),
             validator: widget.validator,
