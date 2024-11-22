@@ -88,10 +88,10 @@ class DatabaseService {
     return database;
   }
 
-  void addRecipe(Recipe recipe) async {
-    final db = await database;
-    await db.insert(_recipeTableName, recipe.toJson());
-  }
+  // void addRecipe(Recipe recipe) async {
+  //   final db = await database;
+  //   await db.insert(_recipeTableName, recipe.toJson());
+  // }
 
   Future<void> deleteDB() async {
     final path = await getDatabasesPath();
@@ -124,6 +124,30 @@ class DatabaseService {
           jsonEncode(recipe.toJson()['list_of_steps']),
           recipe.isFavourite,
         ]);
+  }
+
+  Future<bool> updateRecipe(int id, Recipe recipe) async {
+    final db = await database;
+    int countOfChanges = await db.rawUpdate(
+          '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageUrlColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE id = ? ''',
+          [
+            recipe.title,
+            recipe.cookingTime,
+            recipe.numberOfPortions,
+            recipe.category,
+            recipe.description,
+            recipe.imageUrl,
+            recipe.proteins,
+            recipe.fats,
+            recipe.carbohydrates,
+            recipe.calories,
+            recipe.recipeUrl,
+            jsonEncode(recipe.toJson()['list_of_ingredients']),
+            jsonEncode(recipe.toJson()['list_of_steps']),
+            recipe.isFavourite,
+            id,
+          ]);
+      return Future.value(countOfChanges > 0);
   }
 
   Future<Recipe> getRecipe(int id) async {

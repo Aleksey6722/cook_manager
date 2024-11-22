@@ -6,7 +6,7 @@ sealed class RecipeStepsState extends Equatable {
   List<RecipeStep> get listOfSteps => _listOfSteps;
 
   @override
-  List<Object?> get props => [listOfSteps];
+  List<Object?> get props => [];
 }
 
 class RecipeStepsInitial extends RecipeStepsState {
@@ -19,5 +19,7 @@ class RecipeStepsCurrentState extends RecipeStepsState {
 
   @override
   final List<RecipeStep> listOfSteps;
+  @override
+    List<Object?> get props => [listOfSteps];
 
 }

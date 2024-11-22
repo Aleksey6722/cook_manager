@@ -1,10 +1,10 @@
-import 'package:cook_manager/features/add/bloc/structure_widget_bloc/structure_bloc.dart';
+import 'package:cook_manager/features/edit/bloc/structure_widget_bloc/structure_bloc.dart';
 import 'package:cook_manager/models/ingredient.dart';
 import 'package:cook_manager/utils/ingredient_field_type_enum.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cook_manager/features/add/add.dart';
+import 'package:cook_manager/features/edit/edit.dart';
 import 'package:get_it/get_it.dart';
 
 class IngredientTile extends StatefulWidget {

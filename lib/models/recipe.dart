@@ -22,8 +22,8 @@ class Recipe with _$Recipe {
     String? carbohydrates,
     String? calories,
     String? recipeUrl,
-    required List<Ingredient?> listOfIngredients,
-    required List<RecipeStep?> listOfSteps,
+    required List<Ingredient> listOfIngredients,
+    required List<RecipeStep> listOfSteps,
     @Default(false) bool isFavourite,
   }) = _Recipe;
 

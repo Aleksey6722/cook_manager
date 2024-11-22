@@ -18,6 +18,7 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
     on<AddTileEvent>(_mapAddTileEventToState);
     on<RemoveTileEvent>(_mapRemoveTileEventToState);
     on<GetInitIngredients>(_mapInitIngredientsToState);
+    on<EditIngredientsEvent>(_mapEditEventToState);
   }
 
   void _mapSetValueEventToState(SetValueEvent event, emmit) {
@@ -64,6 +65,10 @@ class StructureBloc extends Bloc<StructureEvent, StructureState> {
 
   void _mapInitIngredientsToState(GetInitIngredients event, emmit) {
     emmit(StructureInitState());
+  }
+
+  void _mapEditEventToState(EditIngredientsEvent event, emmit) {
+    emmit(StructureCurrentState(listOfIngredients: event.editingList));
   }
 
 }

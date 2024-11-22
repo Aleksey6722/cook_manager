@@ -49,4 +49,10 @@ class SetValueEvent extends StructureEvent {
   });
 }
 
+class EditIngredientsEvent extends StructureEvent {
+  final List<Ingredient> editingList;
+
+  EditIngredientsEvent({required this.editingList});
+}
+
 class GetInitIngredients extends StructureEvent {}

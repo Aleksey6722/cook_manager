@@ -1,29 +1,27 @@
-import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
-
+import 'package:cook_manager/features/edit/bloc/structure_widget_bloc/structure_bloc.dart';
+import 'package:cook_manager/models/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../models/recipe_step.dart';
-
-class RecipeStepsButtonsBar extends StatefulWidget {
-  const RecipeStepsButtonsBar({
+class IngredientsButtonsBar extends StatefulWidget {
+  const IngredientsButtonsBar({
     super.key,
     required this.index,
     required this.totalAmount,
-    required this.currentStepsList,
+    required this.currentIngredientsList,
   });
 
   final int index;
   final int totalAmount;
-  final List<RecipeStep> currentStepsList;
+  final List<Ingredient> currentIngredientsList;
 
   @override
-  State<RecipeStepsButtonsBar> createState() => _RecipeStepsButtonsBarState();
+  State<IngredientsButtonsBar> createState() => _IngredientsButtonsBarState();
 }
 
-class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
-  final RecipeStepsBloc _recipeStepsBloc = GetIt.instance<RecipeStepsBloc>();
+class _IngredientsButtonsBarState extends State<IngredientsButtonsBar> {
+  final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +90,8 @@ class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
                   width: 40,
                   child: IconButton(
                     padding: const EdgeInsets.all(5),
-                    onPressed: isLast || widget.totalAmount == 1
-                        ? null
-                        : _moveTileDown,
+                    onPressed:
+                        isLast || widget.totalAmount == 1 ? null : _moveTileDown,
                     icon: SvgPicture.asset(
                       'assets/icons/chevron-down-circle.svg',
                       height: 32,
@@ -159,34 +156,34 @@ class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
   }
 
   void _addTile() {
-    _recipeStepsBloc.add(
-      AddStepEvent(currentList: widget.currentStepsList),
+    _structureBloc.add(
+      AddTileEvent(currentList: widget.currentIngredientsList),
     );
   }
 
   void _moveTileUp() {
-    _recipeStepsBloc.add(
-      MoveStepUpEvent(
+    _structureBloc.add(
+      MoveTileUpEvent(
         index: widget.index,
-        currentList: widget.currentStepsList,
+        currentList: widget.currentIngredientsList,
       ),
     );
   }
 
   void _moveTileDown() {
-    _recipeStepsBloc.add(
-      MoveStepDownEvent(
+    _structureBloc.add(
+      MoveTileDownEvent(
         index: widget.index,
-        currentList: widget.currentStepsList,
+        currentList: widget.currentIngredientsList,
       ),
     );
   }
 
   void _removeTile() {
-    _recipeStepsBloc.add(
-      RemoveStepEvent(
+    _structureBloc.add(
+      RemoveTileEvent(
         index: widget.index,
-        currentList: widget.currentStepsList,
+        currentList: widget.currentIngredientsList,
       ),
     );
   }

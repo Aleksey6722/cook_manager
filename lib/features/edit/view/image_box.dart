@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cook_manager/features/add/bloc/image_box_bloc/image_box_bloc.dart';
+import 'package:cook_manager/features/edit/bloc/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/utils/image_helper.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -29,29 +29,27 @@ class _ImageBoxState extends State<ImageBox> {
       radius: const Radius.circular(10),
       color: theme.colorScheme.primary,
       strokeWidth: 1,
-      child: BlocProvider(
-        create: (context) => _imageBoxBloc,
-        child: BlocBuilder<ImageBoxBloc, ImageBoxState>(
-          builder: (context, state) {
-            return Stack(
-              children: [
-                Container(
-                  height: (MediaQuery.of(context).size.width - 40) / 1.5,
-                  width: MediaQuery.of(context).size.width - 40,
-                  decoration: state.imageFile != null
-                      ? BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
-                              image: FileImage(File(state.imageFile!.path))))
-                      : null,
-                  child: state.imageFile != null
-                      ? _buildDeleteIcon()
-                      : _buildButtonsColumn(),
-                ),
-              ],
-            );
-          },
-        ),
+      child: BlocBuilder<ImageBoxBloc, ImageBoxState>(
+        bloc: _imageBoxBloc,
+        builder: (context, state) {
+          return Stack(
+            children: [
+              Container(
+                height: (MediaQuery.of(context).size.width - 40) / 1.5,
+                width: MediaQuery.of(context).size.width - 40,
+                decoration: state.imageFile != null
+                    ? BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                            image: FileImage(File(state.imageFile!.path))))
+                    : null,
+                child: state.imageFile != null
+                    ? _buildDeleteIcon()
+                    : _buildButtonsColumn(),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -10,22 +10,50 @@
 part of 'router.dart';
 
 /// generated route for
-/// [AddScreen]
-class AddRoute extends PageRouteInfo<void> {
-  const AddRoute({List<PageRouteInfo>? children})
-      : super(
-          AddRoute.name,
+/// [EditScreen]
+class EditRoute extends PageRouteInfo<EditRouteArgs> {
+  EditRoute({
+    Key? key,
+    Recipe? recipe,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditRoute.name,
+          args: EditRouteArgs(
+            key: key,
+            recipe: recipe,
+          ),
           initialChildren: children,
         );
 
-  static const String name = 'AddRoute';
+  static const String name = 'EditRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AddScreen();
+      final args =
+          data.argsAs<EditRouteArgs>(orElse: () => const EditRouteArgs());
+      return EditScreen(
+        key: args.key,
+        recipe: args.recipe,
+      );
     },
   );
+}
+
+class EditRouteArgs {
+  const EditRouteArgs({
+    this.key,
+    this.recipe,
+  });
+
+  final Key? key;
+
+  final Recipe? recipe;
+
+  @override
+  String toString() {
+    return 'EditRouteArgs{key: $key, recipe: $recipe}';
+  }
 }
 
 /// generated route for

@@ -12,6 +12,7 @@ class ImageBoxBloc extends Bloc<ImageBoxEvent, ImageBoxState> {
   ImageBoxBloc() : super(CurrentImageBoxState(imageFile: null)) {
     on<SetPicture>(_mapSetPictureToState);
     on<RemovePicture>(_mapRemovePictureToState);
+    on<SetEditingPicture>(_mapEditPictureToState);
   }
 
   void _mapSetPictureToState(SetPicture event, emmit){
@@ -20,5 +21,10 @@ class ImageBoxBloc extends Bloc<ImageBoxEvent, ImageBoxState> {
 
   void _mapRemovePictureToState(RemovePicture event, emmit){
     emmit(CurrentImageBoxState(imageFile: null));
+  }
+  
+  void _mapEditPictureToState(SetEditingPicture event, emmit) {
+    final image = CroppedFile(event.path);
+    emmit(CurrentImageBoxState(imageFile: image));
   }
 }

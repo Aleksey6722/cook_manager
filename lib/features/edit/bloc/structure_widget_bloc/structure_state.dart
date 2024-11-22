@@ -6,7 +6,7 @@ sealed class StructureState extends Equatable {
   List<Ingredient> get listOfIngredients => _listOfIngredients;
 
   @override
-  List<Object?> get props => [listOfIngredients];
+  List<Object?> get props => [];
 }
 
 class StructureInitState extends StructureState {
@@ -19,5 +19,7 @@ class StructureCurrentState extends StructureState {
 
   @override
   final List<Ingredient> listOfIngredients;
+  @override
+  List<Object?> get props => [...listOfIngredients];
 
 }

@@ -17,7 +17,8 @@ class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
     on<MoveStepDownEvent>(_mapMoveStepDownEventToState);
     on<AddStepEvent>(_mapAddStepEventToState);
     on<RemoveStepEvent>(_mapRemoveStepEventToState);
-    on<GetInitSteps>(_mapInitStatetoState);
+    on<GetInitSteps>(_mapInitToState);
+    on<EditingStepsEvent>(_mapEditingEventToState);
   }
 
   void _mapSetStepValueEvent(SetStepValueEvent event, emmit) {
@@ -54,7 +55,11 @@ class RecipeStepsBloc extends Bloc<RecipeStepsEvent, RecipeStepsState> {
     emmit(RecipeStepsCurrentState(listOfSteps: newList));
   }
 
-  void _mapInitStatetoState(GetInitSteps event, emmit) {
+  void _mapInitToState(GetInitSteps event, emmit) {
     emmit(RecipeStepsInitial());
+  }
+
+  void _mapEditingEventToState(EditingStepsEvent event, emmit){
+    emmit(RecipeStepsCurrentState(listOfSteps: event.editingStepsList));
   }
 }

@@ -32,8 +32,8 @@ mixin _$Recipe {
   String? get carbohydrates => throw _privateConstructorUsedError;
   String? get calories => throw _privateConstructorUsedError;
   String? get recipeUrl => throw _privateConstructorUsedError;
-  List<Ingredient?> get listOfIngredients => throw _privateConstructorUsedError;
-  List<RecipeStep?> get listOfSteps => throw _privateConstructorUsedError;
+  List<Ingredient> get listOfIngredients => throw _privateConstructorUsedError;
+  List<RecipeStep> get listOfSteps => throw _privateConstructorUsedError;
   bool get isFavourite => throw _privateConstructorUsedError;
 
   /// Serializes this Recipe to a JSON map.
@@ -63,8 +63,8 @@ abstract class $RecipeCopyWith<$Res> {
       String? carbohydrates,
       String? calories,
       String? recipeUrl,
-      List<Ingredient?> listOfIngredients,
-      List<RecipeStep?> listOfSteps,
+      List<Ingredient> listOfIngredients,
+      List<RecipeStep> listOfSteps,
       bool isFavourite});
 }
 
@@ -151,11 +151,11 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
       listOfIngredients: null == listOfIngredients
           ? _value.listOfIngredients
           : listOfIngredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient?>,
+              as List<Ingredient>,
       listOfSteps: null == listOfSteps
           ? _value.listOfSteps
           : listOfSteps // ignore: cast_nullable_to_non_nullable
-              as List<RecipeStep?>,
+              as List<RecipeStep>,
       isFavourite: null == isFavourite
           ? _value.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ abstract class _$$RecipeImplCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       String? carbohydrates,
       String? calories,
       String? recipeUrl,
-      List<Ingredient?> listOfIngredients,
-      List<RecipeStep?> listOfSteps,
+      List<Ingredient> listOfIngredients,
+      List<RecipeStep> listOfSteps,
       bool isFavourite});
 }
 
@@ -270,11 +270,11 @@ class __$$RecipeImplCopyWithImpl<$Res>
       listOfIngredients: null == listOfIngredients
           ? _value._listOfIngredients
           : listOfIngredients // ignore: cast_nullable_to_non_nullable
-              as List<Ingredient?>,
+              as List<Ingredient>,
       listOfSteps: null == listOfSteps
           ? _value._listOfSteps
           : listOfSteps // ignore: cast_nullable_to_non_nullable
-              as List<RecipeStep?>,
+              as List<RecipeStep>,
       isFavourite: null == isFavourite
           ? _value.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
@@ -300,8 +300,8 @@ class _$RecipeImpl implements _Recipe {
       this.carbohydrates,
       this.calories,
       this.recipeUrl,
-      required final List<Ingredient?> listOfIngredients,
-      required final List<RecipeStep?> listOfSteps,
+      required final List<Ingredient> listOfIngredients,
+      required final List<RecipeStep> listOfSteps,
       this.isFavourite = false})
       : _listOfIngredients = listOfIngredients,
         _listOfSteps = listOfSteps;
@@ -333,18 +333,18 @@ class _$RecipeImpl implements _Recipe {
   final String? calories;
   @override
   final String? recipeUrl;
-  final List<Ingredient?> _listOfIngredients;
+  final List<Ingredient> _listOfIngredients;
   @override
-  List<Ingredient?> get listOfIngredients {
+  List<Ingredient> get listOfIngredients {
     if (_listOfIngredients is EqualUnmodifiableListView)
       return _listOfIngredients;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_listOfIngredients);
   }
 
-  final List<RecipeStep?> _listOfSteps;
+  final List<RecipeStep> _listOfSteps;
   @override
-  List<RecipeStep?> get listOfSteps {
+  List<RecipeStep> get listOfSteps {
     if (_listOfSteps is EqualUnmodifiableListView) return _listOfSteps;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_listOfSteps);
@@ -443,8 +443,8 @@ abstract class _Recipe implements Recipe {
       final String? carbohydrates,
       final String? calories,
       final String? recipeUrl,
-      required final List<Ingredient?> listOfIngredients,
-      required final List<RecipeStep?> listOfSteps,
+      required final List<Ingredient> listOfIngredients,
+      required final List<RecipeStep> listOfSteps,
       final bool isFavourite}) = _$RecipeImpl;
 
   factory _Recipe.fromJson(Map<String, dynamic> json) = _$RecipeImpl.fromJson;
@@ -474,9 +474,9 @@ abstract class _Recipe implements Recipe {
   @override
   String? get recipeUrl;
   @override
-  List<Ingredient?> get listOfIngredients;
+  List<Ingredient> get listOfIngredients;
   @override
-  List<RecipeStep?> get listOfSteps;
+  List<RecipeStep> get listOfSteps;
   @override
   bool get isFavourite;
 

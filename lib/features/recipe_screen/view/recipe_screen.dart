@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/features/recipe_screen/bloc/recipe_bloc.dart';
 import 'package:cook_manager/features/recipe_screen/view/view.dart';
+import 'package:cook_manager/models/recipe.dart';
+import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -20,6 +22,7 @@ class RecipeScreen extends StatefulWidget {
 
 class _RecipeScreenState extends State<RecipeScreen> {
   final RecipeBloc _recipeBloc = GetIt.instance<RecipeBloc>();
+  Recipe? recipe;
 
   @override
   void initState() {
@@ -38,8 +41,16 @@ class _RecipeScreenState extends State<RecipeScreen> {
         elevation: 2,
         leading: const BackButton(),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+          IconButton(
+              onPressed: () {
+                context.router.push(EditRoute(recipe: recipe));
+              },
+              icon: const Icon(Icons.edit)),
+          IconButton(
+              onPressed: () {
+                //TODO: add to favourite functionality
+              },
+              icon: const Icon(Icons.favorite_border)),
         ],
       ),
       body: BlocBuilder<RecipeBloc, RecipeState>(
@@ -49,6 +60,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
             case RecipeStateLoading():
               return const Center(child: CircularProgressIndicator());
             case RecipeStateLoaded():
+              recipe = state.recipe;
               return _buildPage(state);
             case RecipeStateError():
               return const Text('Something went wrong. Try later ...');
@@ -63,7 +75,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Stack(
-          children: [
+        children: [
           Container(
             height: 2 * screenWidth / 3,
             decoration: BoxDecoration(
@@ -74,7 +86,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
           ),
           Column(
             children: [
-              SizedBox(height: (2 * screenWidth / 3)-20,),
+              SizedBox(
+                height: (2 * screenWidth / 3) - 20,
+              ),
               Container(
                 width: screenWidth,
                 decoration: BoxDecoration(
@@ -91,7 +105,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                     children: [
                       Center(
                         child: Text(
-                          state.recipe.title,
+                          '${state.recipe.title}(${state.recipe.id})',
                           style: theme.textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
@@ -119,7 +133,10 @@ class _RecipeScreenState extends State<RecipeScreen> {
                           ),
                         ),
                       ]),
-                      const TabWidget(),
+                      TabWidget(
+                        steps: state.recipe.listOfSteps,
+                        ingredients: state.recipe.listOfIngredients,
+                      ),
                     ],
                   ),
                 ),

@@ -1,9 +1,9 @@
-import 'package:cook_manager/features/add/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
+import 'package:cook_manager/features/edit/bloc/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/models/recipe_step.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cook_manager/features/add/add.dart';
+import 'package:cook_manager/features/edit/edit.dart';
 import 'package:get_it/get_it.dart';
 
 class RecipeStepTile extends StatefulWidget {
