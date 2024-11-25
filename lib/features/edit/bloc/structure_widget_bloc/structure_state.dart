@@ -8,11 +8,12 @@ sealed class StructureState extends Equatable {
   @override
   List<Object?> get props => [];
 }
-
-class StructureInitState extends StructureState {
-  @override
-  final List<Ingredient> listOfIngredients = [const Ingredient()];
-}
+//
+// class StructureInitState extends StructureState {
+//   @override
+//   final List<Ingredient> listOfIngredients = [const Ingredient()];
+//   List<Object?> get props => [listOfIngredients];
+// }
 
 class StructureCurrentState extends StructureState {
   StructureCurrentState({required this.listOfIngredients});
@@ -20,6 +21,6 @@ class StructureCurrentState extends StructureState {
   @override
   final List<Ingredient> listOfIngredients;
   @override
-  List<Object?> get props => [...listOfIngredients];
+  List<Object?> get props => [listOfIngredients];
 
 }

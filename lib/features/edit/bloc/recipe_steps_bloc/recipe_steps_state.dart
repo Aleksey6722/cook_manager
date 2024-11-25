@@ -9,11 +9,6 @@ sealed class RecipeStepsState extends Equatable {
   List<Object?> get props => [];
 }
 
-class RecipeStepsInitial extends RecipeStepsState {
-  @override
-  final List<RecipeStep> listOfSteps = [const RecipeStep()];
-}
-
 class RecipeStepsCurrentState extends RecipeStepsState {
   RecipeStepsCurrentState({required this.listOfSteps});
 

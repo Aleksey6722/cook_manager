@@ -77,25 +77,12 @@ class _EditScreenState extends State<EditScreen> {
   @override
   void initState() {
     if (widget.recipe != null) {
-      if (widget.recipe!.imageUrl != null) {
-        _imageBoxBloc.add(SetEditingPicture(path: widget.recipe!.imageUrl!));
-      }
-      _structureBloc.add(EditIngredientsEvent(
-          editingList: widget.recipe!.listOfIngredients.toList()));
-      _recipeStepsBloc.add(EditingStepsEvent(
-          editingStepsList: widget.recipe!.listOfSteps.toList()));
-      titleController.text = widget.recipe!.title;
-      cookingTimeController.text = widget.recipe!.cookingTime;
-      numOfPortionsController.text = widget.recipe!.numberOfPortions;
-      categoryController.text = _getCategoryName(widget.recipe!.category);
-      descriptionController.text = widget.recipe!.description ?? '';
-      proteinsController.text = widget.recipe!.proteins ?? '';
-      fatsController.text = widget.recipe!.fats ?? '';
-      carbohydratesController.text = widget.recipe!.carbohydrates ?? '';
-      caloriesController.text = widget.recipe!.calories ?? '';
-      linkController.text = widget.recipe!.recipeUrl ?? '';
+      _fillFormForEditing();
+      super.initState();
+    } else {
+      _structureBloc.add(GetInitIngredients());
+      _recipeStepsBloc.add(GetInitSteps());
     }
-    super.initState();
   }
 
   @override
@@ -325,6 +312,26 @@ class _EditScreenState extends State<EditScreen> {
     return name;
   }
 
+  void _fillFormForEditing() {
+    if (widget.recipe!.imageUrl != null) {
+      _imageBoxBloc.add(SetEditingPicture(path: widget.recipe!.imageUrl!));
+    }
+    _structureBloc.add(EditIngredientsEvent(
+        editingList: widget.recipe!.listOfIngredients.toList()));
+    _recipeStepsBloc.add(EditingStepsEvent(
+        editingStepsList: widget.recipe!.listOfSteps.toList()));
+    titleController.text = widget.recipe!.title;
+    cookingTimeController.text = widget.recipe!.cookingTime;
+    numOfPortionsController.text = widget.recipe!.numberOfPortions;
+    categoryController.text = _getCategoryName(widget.recipe!.category);
+    descriptionController.text = widget.recipe!.description ?? '';
+    proteinsController.text = widget.recipe!.proteins ?? '';
+    fatsController.text = widget.recipe!.fats ?? '';
+    carbohydratesController.text = widget.recipe!.carbohydrates ?? '';
+    caloriesController.text = widget.recipe!.calories ?? '';
+    linkController.text = widget.recipe!.recipeUrl ?? '';
+  }
+
   void _clearForm() {
     _recipeStepsBloc.add(GetInitSteps());
     _structureBloc.add(GetInitIngredients());
@@ -344,7 +351,7 @@ class _EditScreenState extends State<EditScreen> {
   Future<void> _addRecipe() async {
     Recipe recipe = _createRecipe();
     final int id = await db.insertRecipe(recipe);
-    context.router.push(RecipeRoute(recipeId: id)); //68, 188
+    context.router.push(RecipeRoute(recipeId: 188)); //68, 188
     Future.delayed(const Duration(seconds: 1), _clearForm);
   }
 
