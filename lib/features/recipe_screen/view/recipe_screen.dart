@@ -71,6 +71,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   }
 
   Widget _buildPage(RecipeStateLoaded state) {
+    final String? imageUrl = state.recipe.imageUrl;
     final theme = Theme.of(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
@@ -80,8 +81,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
             height: 2 * screenWidth / 3,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: FileImage(
-                        File(state.recipe.imageUrl ?? 'url_to_placeholder')),
+                    image: imageUrl != null ? FileImage(
+                        File(state.recipe.imageUrl!)) : const AssetImage('assets/images/image_placeholder.jpg') ,
                     fit: BoxFit.cover)),
           ),
           Column(

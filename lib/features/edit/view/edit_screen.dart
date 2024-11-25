@@ -351,7 +351,7 @@ class _EditScreenState extends State<EditScreen> {
   Future<void> _addRecipe() async {
     Recipe recipe = _createRecipe();
     final int id = await db.insertRecipe(recipe);
-    context.router.push(RecipeRoute(recipeId: 188)); //68, 188
+    context.router.push(RecipeRoute(recipeId: 21)); //68, 188
     Future.delayed(const Duration(seconds: 1), _clearForm);
   }
 
