@@ -166,6 +166,25 @@ class DatabaseService {
     return recipeFromDB;
   }
 
+  Future<List<Recipe>> getRecipesByCategoryId(String categoryId) async {
+    final db = await database;
+    final raws = await db.query(_recipeTableName, where: 'category = ?', whereArgs: [categoryId]);
+    List<Recipe> result = [];
+    for(Object e in raws) {
+      final json = jsonDecode(jsonEncode(e));
+      final listOfSteps = jsonDecode(
+          jsonDecode(jsonEncode((e as Map<String, dynamic> )['list_of_steps']))); // obtain List<Object>
+      final listOfIngredients = jsonDecode(jsonDecode(
+          jsonEncode(e['list_of_ingredients'])));
+      json['list_of_steps'] = listOfSteps;
+      json['list_of_ingredients'] = listOfIngredients;
+      json['is_favourite'] = json['is_favourite'] == 1;// obtain List<Object>
+      result.add(Recipe.fromJson(json));
+      print(json);
+    }
+    return result;
+  }
+
   Future<List<Category>> getCategories() async {
     final db = await database;
     final result = await db.query(_categoryTableName);

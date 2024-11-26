@@ -10,6 +10,25 @@
 part of 'router.dart';
 
 /// generated route for
+/// [CategoryNavigationScreen]
+class CategoryNavigationRoute extends PageRouteInfo<void> {
+  const CategoryNavigationRoute({List<PageRouteInfo>? children})
+      : super(
+          CategoryNavigationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryNavigationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const CategoryNavigationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [EditScreen]
 class EditRoute extends PageRouteInfo<EditRouteArgs> {
   EditRoute({
@@ -156,6 +175,58 @@ class RecipeRouteArgs {
   @override
   String toString() {
     return 'RecipeRouteArgs{key: $key, recipeId: $recipeId}';
+  }
+}
+
+/// generated route for
+/// [RecipesListScreen]
+class RecipesListRoute extends PageRouteInfo<RecipesListRouteArgs> {
+  RecipesListRoute({
+    Key? key,
+    required int? categoryId,
+    required String categoryName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          RecipesListRoute.name,
+          args: RecipesListRouteArgs(
+            key: key,
+            categoryId: categoryId,
+            categoryName: categoryName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RecipesListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<RecipesListRouteArgs>();
+      return RecipesListScreen(
+        key: args.key,
+        categoryId: args.categoryId,
+        categoryName: args.categoryName,
+      );
+    },
+  );
+}
+
+class RecipesListRouteArgs {
+  const RecipesListRouteArgs({
+    this.key,
+    required this.categoryId,
+    required this.categoryName,
+  });
+
+  final Key? key;
+
+  final int? categoryId;
+
+  final String categoryName;
+
+  @override
+  String toString() {
+    return 'RecipesListRouteArgs{key: $key, categoryId: $categoryId, categoryName: $categoryName}';
   }
 }
 

@@ -19,6 +19,7 @@ import '../features/edit/bloc/recipe_steps_bloc/recipe_steps_bloc.dart'
 import '../features/edit/bloc/structure_widget_bloc/structure_bloc.dart'
     as _i565;
 import '../features/main/bloc/category_bloc.dart' as _i61;
+import '../features/main/bloc/recipes_list_cubit.dart' as _i218;
 import '../features/recipe_screen/bloc/recipe_bloc.dart' as _i834;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -38,6 +39,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i38.NutritionLabelBloc>(() => _i38.NutritionLabelBloc());
     gh.singleton<_i672.RecipeStepsBloc>(() => _i672.RecipeStepsBloc());
     gh.singleton<_i565.StructureBloc>(() => _i565.StructureBloc());
+    gh.singleton<_i218.RecipesListCubit>(() => _i218.RecipesListCubit());
     return this;
   }
 }

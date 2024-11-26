@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/features/main/bloc/category_bloc.dart';
+import 'package:cook_manager/models/category.dart';
+import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -34,32 +36,44 @@ class _MainScreenState extends State<MainScreen> {
         shadowColor: theme.colorScheme.surface,
         elevation: 2,
       ),
-      body: CustomScrollView(slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: BlocBuilder<CategoryBloc, CategoryState>(
-                bloc: _categoryBloc,
-                builder: (context, CategoryState state) {
-                  switch (state) {
-                    case CategoryStateLoading():
-                      return const SizedBox();
-                    case CategoryStateLoaded():
-                      return ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => MainMenuContainer(
-                            imageUrl: state.listOfCategories[index].imageUrl,
-                            label: state.listOfCategories[index].name),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 20),
-                        itemCount: state.listOfCategories.length,
-                      );
-                  }
-                }),
-          ),
-        )
-      ]),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+          child: BlocBuilder<CategoryBloc, CategoryState>(
+              bloc: _categoryBloc,
+              builder: (context, CategoryState state) {
+                switch (state) {
+                  case CategoryStateLoading():
+                    return const SizedBox();
+                  case CategoryStateLoaded():
+                    List<Category> list = state.listOfCategories.toList();
+                    list.insert(
+                        0,
+                        const Category(
+                            imageUrl: 'assets/images/all_categories.jpg',
+                            name: 'Все рецепты'));
+                    return ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          context.router.push(RecipesListRoute(
+                            categoryId: list[index].id,
+                            categoryName: list[index].name,
+                          ));
+                        },
+                        child: MainMenuContainer(
+                            imageUrl: list[index].imageUrl,
+                            label: list[index].name),
+                      ),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 20),
+                      itemCount: list.length,
+                    );
+                }
+              }),
+        ),
+      ),
     );
   }
 }
