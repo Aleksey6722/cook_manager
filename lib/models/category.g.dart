@@ -8,12 +8,14 @@ part of 'category.dart';
 
 _$CategoryImpl _$$CategoryImplFromJson(Map<String, dynamic> json) =>
     _$CategoryImpl(
+      id: (json['id'] as num?)?.toInt(),
       imageUrl: json['image_url'] as String,
       name: json['name'] as String,
     );
 
 Map<String, dynamic> _$$CategoryImplToJson(_$CategoryImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'image_url': instance.imageUrl,
       'name': instance.name,
     };

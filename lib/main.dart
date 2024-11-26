@@ -29,21 +29,31 @@ class _CookManagerState extends State<CookManager> {
     return MaterialApp.router(
       title: 'CookManager',
       theme: ThemeData(
+        tabBarTheme: const TabBarTheme(
+          indicatorSize: TabBarIndicatorSize.tab,
+          dividerHeight: 0,
+          labelStyle: TextStyle(fontSize: 20,),
+          unselectedLabelStyle: TextStyle(fontSize: 20, ),
+        ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
           brightness: Brightness.light,
         ),
         useMaterial3: true,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           headlineSmall: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-          ), // AppBar title
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+          ),// AppBar title
           bodyMedium: TextStyle(fontSize: 16),
           bodyLarge: TextStyle(fontSize: 16),
           labelLarge: TextStyle(fontSize: 20),
         ),
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           floatingLabelBehavior: FloatingLabelBehavior.always,
           floatingLabelStyle: TextStyle(fontSize: 21),
           isDense: true,

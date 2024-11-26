@@ -7,6 +7,7 @@ part 'category.g.dart';
 class Category with _$Category {
   @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory Category({
+    int? id,
     required String imageUrl,
     required String name,
   }) = _Category;

@@ -10,22 +10,50 @@
 part of 'router.dart';
 
 /// generated route for
-/// [AddScreen]
-class AddRoute extends PageRouteInfo<void> {
-  const AddRoute({List<PageRouteInfo>? children})
-      : super(
-          AddRoute.name,
+/// [EditScreen]
+class EditRoute extends PageRouteInfo<EditRouteArgs> {
+  EditRoute({
+    Key? key,
+    Recipe? recipe,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditRoute.name,
+          args: EditRouteArgs(
+            key: key,
+            recipe: recipe,
+          ),
           initialChildren: children,
         );
 
-  static const String name = 'AddRoute';
+  static const String name = 'EditRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AddScreen();
+      final args =
+          data.argsAs<EditRouteArgs>(orElse: () => const EditRouteArgs());
+      return EditScreen(
+        key: args.key,
+        recipe: args.recipe,
+      );
     },
   );
+}
+
+class EditRouteArgs {
+  const EditRouteArgs({
+    this.key,
+    this.recipe,
+  });
+
+  final Key? key;
+
+  final Recipe? recipe;
+
+  @override
+  String toString() {
+    return 'EditRouteArgs{key: $key, recipe: $recipe}';
+  }
 }
 
 /// generated route for
@@ -87,10 +115,17 @@ class MainRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [RecipeScreen]
-class RecipeRoute extends PageRouteInfo<void> {
-  const RecipeRoute({List<PageRouteInfo>? children})
-      : super(
+class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
+  RecipeRoute({
+    Key? key,
+    required int recipeId,
+    List<PageRouteInfo>? children,
+  }) : super(
           RecipeRoute.name,
+          args: RecipeRouteArgs(
+            key: key,
+            recipeId: recipeId,
+          ),
           initialChildren: children,
         );
 
@@ -99,9 +134,29 @@ class RecipeRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const RecipeScreen();
+      final args = data.argsAs<RecipeRouteArgs>();
+      return RecipeScreen(
+        key: args.key,
+        recipeId: args.recipeId,
+      );
     },
   );
+}
+
+class RecipeRouteArgs {
+  const RecipeRouteArgs({
+    this.key,
+    required this.recipeId,
+  });
+
+  final Key? key;
+
+  final int recipeId;
+
+  @override
+  String toString() {
+    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId}';
+  }
 }
 
 /// generated route for

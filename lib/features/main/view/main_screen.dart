@@ -15,7 +15,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
 
   @override
@@ -39,27 +38,25 @@ class _MainScreenState extends State<MainScreen> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-            child: BlocProvider(
-              create: (context) => _categoryBloc,
-              child: BlocBuilder<CategoryBloc, CategoryState>(
-                  builder: (context, CategoryState state) {
-                switch (state) {
-                  case CategoryStateLoading():
-                    return const SizedBox();
-                  case CategoryStateLoaded():
-                    return ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => MainMenuContainer(
-                          imageUrl: state.listOfCategories[index].imageUrl,
-                          label: state.listOfCategories[index].name),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 20),
-                      itemCount: state.listOfCategories.length,
-                    );
-                }
-              }),
-            ),
+            child: BlocBuilder<CategoryBloc, CategoryState>(
+                bloc: _categoryBloc,
+                builder: (context, CategoryState state) {
+                  switch (state) {
+                    case CategoryStateLoading():
+                      return const SizedBox();
+                    case CategoryStateLoaded():
+                      return ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => MainMenuContainer(
+                            imageUrl: state.listOfCategories[index].imageUrl,
+                            label: state.listOfCategories[index].name),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 20),
+                        itemCount: state.listOfCategories.length,
+                      );
+                  }
+                }),
           ),
         )
       ]),
