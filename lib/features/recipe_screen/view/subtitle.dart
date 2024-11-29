@@ -1,11 +1,11 @@
-import 'package:cook_manager/features/recipe_screen/bloc/recipe_bloc.dart';
 import 'package:flutter/material.dart';
 
 class Subtitle extends StatelessWidget {
-  const Subtitle({super.key, required this.state});
+  const Subtitle({super.key, required this.cookingTime, required this.numberOfPortions});
+  final String cookingTime;
+  final String numberOfPortions;
 
-  final RecipeStateLoaded state;
-  @override
+   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Row(
@@ -15,16 +15,16 @@ class Subtitle extends StatelessWidget {
           color: theme.colorScheme.primary,
           size: 20,
         ),
-        const SizedBox(width: 8),
-        _calculateTime(state.recipe.cookingTime),
+        const SizedBox(width: 5),
+        _calculateTime(cookingTime),
         const SizedBox(width: 20),
         Icon(
           Icons.restaurant,
           color: theme.colorScheme.primary,
           size: 20,
         ),
-        const SizedBox(width: 8),
-        _calculatePortions(state.recipe.numberOfPortions),
+        const SizedBox(width: 5),
+        _calculatePortions(numberOfPortions),
       ],
     );
   }

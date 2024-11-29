@@ -46,33 +46,34 @@ class _MainScreenState extends State<MainScreen> {
                   case CategoryStateLoading():
                     return const SizedBox();
                   case CategoryStateLoaded():
-                    List<Category> list = state.listOfCategories.toList();
-                    list.insert(
-                        0,
-                        const Category(
-                            imageUrl: 'assets/images/all_categories.jpg',
-                            name: 'Все рецепты'));
-                    return ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          context.router.push(RecipesListRoute(
-                            categoryId: list[index].id,
-                            categoryName: list[index].name,
-                          ));
-                        },
-                        child: MainMenuContainer(
-                            imageUrl: list[index].imageUrl,
-                            label: list[index].name),
-                      ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 20),
-                      itemCount: list.length,
-                    );
+                    return _buildPage(state);
                 }
               }),
         ),
+      ),
+    );
+  }
+
+  _buildPage(CategoryStateLoaded state) {
+    List<Category> list = state.listOfCategories.toList();
+    list.insert(
+        0,
+        const Category(
+            imageUrl: 'assets/images/all_categories.jpg', name: 'Все рецепты'));
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
+      itemCount: list.length,
+      itemBuilder: (context, index) => GestureDetector(
+        onTap: () {
+          context.router.push(RecipesListRoute(
+            categoryId: list[index].id,
+            categoryName: list[index].name,
+          ));
+        },
+        child: MainMenuContainer(
+            imageUrl: list[index].imageUrl, label: list[index].name),
       ),
     );
   }

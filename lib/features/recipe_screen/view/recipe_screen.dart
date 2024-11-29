@@ -80,10 +80,12 @@ class _RecipeScreenState extends State<RecipeScreen> {
           Container(
             height: 2 * screenWidth / 3,
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: imageUrl != null ? FileImage(
-                        File(state.recipe.imageUrl!)) : const AssetImage('assets/images/image_placeholder.jpg') ,
-                    fit: BoxFit.cover)),
+              image: DecorationImage(
+                  image: imageUrl != null
+                      ? FileImage(File(state.recipe.imageUrl!))
+                      : const AssetImage('assets/images/image_placeholder.jpg'),
+                  fit: BoxFit.cover),
+            ),
           ),
           Column(
             children: [
@@ -113,7 +115,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Subtitle(state: state),
+                      Subtitle(cookingTime: state.recipe.cookingTime, numberOfPortions: state.recipe.numberOfPortions),
                       const SizedBox(height: 10),
                       NutritionBanner(state: state),
                       const SizedBox(height: 10),
