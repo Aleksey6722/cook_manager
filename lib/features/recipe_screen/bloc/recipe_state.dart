@@ -1,4 +1,4 @@
-part of 'recipe_bloc.dart';
+part of 'recipe_cubit.dart';
 
 sealed class RecipeState extends Equatable {
   @override

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:cook_manager/features/main/bloc/category_bloc.dart';
-import 'package:cook_manager/features/main/bloc/recipes_list_cubit.dart';
+import 'package:cook_manager/features/recipe_screen/bloc/recipe_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/recipe_screen.dart';
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
@@ -11,20 +11,24 @@ class RecipeTile extends StatefulWidget {
   const RecipeTile({
     super.key,
     required this.recipe,
+    this.isFromAllCategoryList = false,
+    this.categoryIdFromListScreen,
   });
 
   final Recipe recipe;
+  final bool isFromAllCategoryList;
+  final int? categoryIdFromListScreen;
 
   @override
   State<RecipeTile> createState() => _RecipeTileState();
 }
 
 class _RecipeTileState extends State<RecipeTile> {
-  late bool _isFavourite = widget.recipe.isFavourite;
-  final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
+  final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
 
   @override
   Widget build(BuildContext context) {
+    bool isFavourite = widget.recipe.isFavourite;
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,8 +74,6 @@ class _RecipeTileState extends State<RecipeTile> {
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   color: theme.colorScheme.primary.withOpacity(0.6),
                 ),
-                // height: 20,
-                // width: 20,
                 child: Icon(
                   Icons.bookmark_border_outlined,
                   color: theme.colorScheme.onPrimary,
@@ -84,7 +86,7 @@ class _RecipeTileState extends State<RecipeTile> {
             top: 15.6,
             right: 16,
             child: Visibility(
-              visible: _isFavourite,
+              visible: isFavourite,
               child: GestureDetector(
                 onTap: () => _setFavourite(),
                 child: const Icon(
@@ -111,11 +113,10 @@ class _RecipeTileState extends State<RecipeTile> {
     );
   }
 
-  void _setFavourite() async {
-    _isFavourite = !_isFavourite;
-    _recipesListCubit.switchFavourite(widget.recipe);
-    _recipesListCubit.getRecipes(widget.recipe.category);
-    setState(() {});
+  void _setFavourite() {
+    _recipeCubit.switchFavourite(widget.recipe);
+    _recipeCubit.updateRecipeListPage(
+        widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
   }
 
   String _getCategoryName(int id) {

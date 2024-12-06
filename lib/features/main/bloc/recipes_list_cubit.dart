@@ -21,13 +21,4 @@ class RecipesListCubit extends Cubit<RecipesListState> {
       emit(RecipesListLoaded(listOfRecipes: result));
     }
   }
-
-  Future<void> switchFavourite(Recipe recipe) async {
-    final DatabaseService db = DatabaseService.instance;
-    bool isFavourite = !recipe.isFavourite;
-    var json = recipe.toJson();
-    json['is_favourite'] = isFavourite;
-    Recipe newRecipe = Recipe.fromJson(json);
-    await db.updateRecipe(recipe.id!, newRecipe);
-  }
 }

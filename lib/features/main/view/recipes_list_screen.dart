@@ -65,10 +65,15 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
         separatorBuilder: (context, index) => const SizedBox(height: 15),
         itemBuilder: (context, index) {
           return GestureDetector(
-              onTap: () => context.router
-                  .push(RecipeRoute(recipeId: state.listOfRecipes[index].id!)),
+              onTap: () => context.router.push(RecipeRoute(
+                    recipe: state.listOfRecipes[index],
+                    isFromAllCategoryList: widget.categoryId == null,
+                    categoryIdFromListScreen: widget.categoryId,
+                  )),
               child: RecipeTile(
                 recipe: state.listOfRecipes[index],
+                isFromAllCategoryList: widget.categoryId == null,
+                categoryIdFromListScreen: widget.categoryId,
               ));
         },
       ),
