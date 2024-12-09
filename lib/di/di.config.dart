@@ -33,11 +33,11 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.singleton<_i61.CategoryBloc>(() => _i61.CategoryBloc());
     gh.singleton<_i91.ImageBoxBloc>(() => _i91.ImageBoxBloc());
     gh.singleton<_i38.NutritionLabelBloc>(() => _i38.NutritionLabelBloc());
     gh.singleton<_i672.RecipeStepsBloc>(() => _i672.RecipeStepsBloc());
     gh.singleton<_i565.StructureBloc>(() => _i565.StructureBloc());
+    gh.singleton<_i61.CategoryBloc>(() => _i61.CategoryBloc());
     gh.singleton<_i218.RecipesListCubit>(() => _i218.RecipesListCubit());
     gh.singleton<_i924.RecipeCubit>(() => _i924.RecipeCubit());
     return this;

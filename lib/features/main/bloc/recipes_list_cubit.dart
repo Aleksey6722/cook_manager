@@ -21,4 +21,9 @@ class RecipesListCubit extends Cubit<RecipesListState> {
       emit(RecipesListLoaded(listOfRecipes: result));
     }
   }
+
+ void getInitial() {
+    emit(RecipesListInitial());
+  }
+
 }

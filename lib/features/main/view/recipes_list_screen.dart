@@ -21,10 +21,11 @@ class RecipesListScreen extends StatefulWidget {
 
 class _RecipesListScreenState extends State<RecipesListScreen> {
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
-  final listKey = GlobalKey<AnimatedListState>();
+  final listKey = UniqueKey();
 
   @override
   void initState() {
+    _recipesListCubit.getInitial();
     _recipesListCubit.getRecipes(widget.categoryId);
     super.initState();
   }
