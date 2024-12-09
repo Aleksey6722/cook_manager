@@ -38,4 +38,10 @@ class RecipeCubit extends Cubit<RecipeState> {
       _recipesListCubit.getRecipes(categoryId);
     }
   }
+
+  void deleteRecipe(int id) async {
+    final DatabaseService db = DatabaseService.instance;
+    await db.deleteRecipe(id);
+  }
+
 }

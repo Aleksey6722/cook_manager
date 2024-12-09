@@ -13,11 +13,15 @@ class RecipeTile extends StatefulWidget {
     required this.recipe,
     this.isFromAllCategoryList = false,
     this.categoryIdFromListScreen,
+    required this.onDelete,
+    // required this.animation,
   });
 
   final Recipe recipe;
   final bool isFromAllCategoryList;
   final int? categoryIdFromListScreen;
+  final VoidCallback? onDelete;
+  // final Animation<double> animation;
 
   @override
   State<RecipeTile> createState() => _RecipeTileState();
@@ -27,7 +31,9 @@ class _RecipeTileState extends State<RecipeTile> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => buildItem();
+
+  Widget buildItem() {
     bool isFavourite = widget.recipe.isFavourite;
     final theme = Theme.of(context);
     return Column(
@@ -65,7 +71,7 @@ class _RecipeTileState extends State<RecipeTile> {
           ),
           Positioned(
             top: 10,
-            right: 10,
+            right: 60,
             child: GestureDetector(
               onTap: () => _setFavourite(),
               child: Container(
@@ -83,16 +89,35 @@ class _RecipeTileState extends State<RecipeTile> {
             ),
           ),
           Positioned(
-            top: 15.6,
-            right: 16,
+            top: 17,
+            right: 67.5,
             child: Visibility(
               visible: isFavourite,
               child: GestureDetector(
                 onTap: () => _setFavourite(),
                 child: const Icon(
                   Icons.bookmark,
-                  color: Colors.red,
-                  size: 25,
+                  color: Color(0xFFd14141),
+                  size: 23,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () => _deleteRecipe(),
+              child: Container(
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  color: theme.colorScheme.primary.withOpacity(0.6),
+                ),
+                child: Icon(
+                  Icons.delete,
+                  color: theme.colorScheme.onPrimary,
+                  size: 31,
                 ),
               ),
             ),
@@ -117,6 +142,33 @@ class _RecipeTileState extends State<RecipeTile> {
     _recipeCubit.switchFavourite(widget.recipe);
     _recipeCubit.updateRecipeListPage(
         widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
+  }
+
+  _deleteRecipe() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(),
+          title: const Text('Удаление рецепта'),
+          content: const Text('Вы уверене что хотите удалить рецепт?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Отмена'),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _recipeCubit.deleteRecipe(widget.recipe.id!);
+                },
+                child: const Text('Удалить')),
+          ],
+        );
+      },
+    );
   }
 
   String _getCategoryName(int id) {

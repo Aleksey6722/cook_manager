@@ -154,6 +154,11 @@ class DatabaseService {
     return recipeFromDB;
   }
 
+  Future<void> deleteRecipe(int id) async {
+    final db = await database;
+    db.delete(_recipeTableName, where: 'id = ?', whereArgs: [id]);
+  }
+
   Future<List<Recipe>> getRecipesByCategoryId(String categoryId) async {
     final db = await database;
     final rows = await db.query(_recipeTableName,

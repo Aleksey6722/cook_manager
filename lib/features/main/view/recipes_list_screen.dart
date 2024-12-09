@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/features/main/bloc/recipes_list_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/view/recipe_tile.dart';
+import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class RecipesListScreen extends StatefulWidget {
 
 class _RecipesListScreenState extends State<RecipesListScreen> {
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
+  final listKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
@@ -59,11 +61,15 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
     return RefreshIndicator(
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
       onRefresh: () => _recipesListCubit.getRecipes(widget.categoryId),
-      child: ListView.separated(
+      child: AnimatedList.separated(
+        key: listKey,
         padding: const EdgeInsets.all(20),
-        itemCount: state.listOfRecipes.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 15),
-        itemBuilder: (context, index) {
+        initialItemCount: state.listOfRecipes.length,
+        separatorBuilder: (context, index, animation) =>
+            const SizedBox(height: 15),
+        removedSeparatorBuilder: (context, index, animation) =>
+            const SizedBox(height: 15),
+        itemBuilder: (context, index, animation) {
           return GestureDetector(
               onTap: () => context.router.push(RecipeRoute(
                     recipe: state.listOfRecipes[index],
@@ -71,14 +77,24 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
                     categoryIdFromListScreen: widget.categoryId,
                   )),
               child: RecipeTile(
+                // animation: animation,
                 recipe: state.listOfRecipes[index],
                 isFromAllCategoryList: widget.categoryId == null,
                 categoryIdFromListScreen: widget.categoryId,
+                // onDelete: () => removeItem(state.listOfRecipes[index], index),
+                onDelete: () => (){},
               ));
         },
       ),
     );
   }
+
+  // void removeItem(Recipe recipe, index) {
+  //   listKey.currentState!.removeItem(
+  //     index,
+  //       (context, animation) => RecipeTile(animation: animation, recipe: recipe, onDelete: (){})
+  //   );
+  // }
 
   Widget _buildEmptyPage(RecipesListLoaded state) {
     final theme = Theme.of(context);
