@@ -12,6 +12,7 @@ class RecipesListCubit extends Cubit<RecipesListState> {
 
   Future<void> getRecipes(int? categoryId) async {
     final DatabaseService db = DatabaseService.instance;
+    emit(RecipesListInitial());
     if (categoryId == null) {
       List<Recipe> result = await db.getAllRecipes();
       emit(RecipesListLoaded(listOfRecipes: result));
@@ -22,8 +23,15 @@ class RecipesListCubit extends Cubit<RecipesListState> {
     }
   }
 
- void getInitial() {
-    emit(RecipesListInitial());
-  }
+  // void getInitial() {
+  //   emit(RecipesListInitial());
+  // }
 
+  void updateRecipeListPage(int? categoryId, bool isFromAllCategoryList) async {
+    if (isFromAllCategoryList) {
+      await getRecipes(null);
+    } else if (categoryId != null) {
+      await getRecipes(categoryId);
+    }
+  }
 }

@@ -21,11 +21,10 @@ class RecipesListScreen extends StatefulWidget {
 
 class _RecipesListScreenState extends State<RecipesListScreen> {
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
-  final listKey = UniqueKey();
+  final listKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
-    _recipesListCubit.getInitial();
     _recipesListCubit.getRecipes(widget.categoryId);
     super.initState();
   }
@@ -61,7 +60,9 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
   Widget _buildPage(RecipesListLoaded state) {
     return RefreshIndicator(
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      onRefresh: () => _recipesListCubit.getRecipes(widget.categoryId),
+      onRefresh: () async {
+        await _recipesListCubit.getRecipes(widget.categoryId);
+      },
       child: AnimatedList.separated(
         key: listKey,
         padding: const EdgeInsets.all(20),
@@ -82,20 +83,25 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
                 recipe: state.listOfRecipes[index],
                 isFromAllCategoryList: widget.categoryId == null,
                 categoryIdFromListScreen: widget.categoryId,
-                // onDelete: () => removeItem(state.listOfRecipes[index], index),
-                onDelete: () => (){},
+                onDelete: () => removeItem(state.listOfRecipes[index], index),
               ));
         },
       ),
     );
   }
 
-  // void removeItem(Recipe recipe, index) {
-  //   listKey.currentState!.removeItem(
-  //     index,
-  //       (context, animation) => RecipeTile(animation: animation, recipe: recipe, onDelete: (){})
-  //   );
-  // }
+  void removeItem(Recipe recipe, index) {
+    listKey.currentState!.removeItem(
+        index,
+        (context, animation) => SizeTransition(
+          sizeFactor: animation,
+          child: RecipeTile(
+                // animation: animation,
+                recipe: recipe,
+                onDelete: () {},
+              ),
+        ));
+  }
 
   Widget _buildEmptyPage(RecipesListLoaded state) {
     final theme = Theme.of(context);

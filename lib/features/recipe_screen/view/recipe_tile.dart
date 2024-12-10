@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cook_manager/features/main/bloc/category_bloc.dart';
+import 'package:cook_manager/features/main/bloc/recipes_list_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/bloc/recipe_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/recipe_screen.dart';
 import 'package:cook_manager/models/category.dart';
@@ -7,34 +8,29 @@ import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class RecipeTile extends StatefulWidget {
-  const RecipeTile({
+class RecipeTile extends StatelessWidget {
+  RecipeTile({
     super.key,
     required this.recipe,
     this.isFromAllCategoryList = false,
     this.categoryIdFromListScreen,
     required this.onDelete,
-    // required this.animation,
   });
 
   final Recipe recipe;
   final bool isFromAllCategoryList;
   final int? categoryIdFromListScreen;
   final VoidCallback? onDelete;
-  // final Animation<double> animation;
 
-  @override
-  State<RecipeTile> createState() => _RecipeTileState();
-}
-
-class _RecipeTileState extends State<RecipeTile> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
+  final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
+  final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
 
   @override
-  Widget build(BuildContext context) => buildItem();
+  Widget build(BuildContext context) => buildItem(context);
 
-  Widget buildItem() {
-    bool isFavourite = widget.recipe.isFavourite;
+  Widget buildItem(BuildContext context) {
+    bool isFavourite = recipe.isFavourite;
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +42,9 @@ class _RecipeTileState extends State<RecipeTile> {
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: widget.recipe.imageUrl == null
+                  image: recipe.imageUrl == null
                       ? const AssetImage('assets/images/image_placeholder.jpg')
-                      : FileImage(File(widget.recipe.imageUrl!))),
+                      : FileImage(File(recipe.imageUrl!))),
             ),
           ),
           Positioned(
@@ -62,7 +58,7 @@ class _RecipeTileState extends State<RecipeTile> {
               ),
               child: Center(
                 child: Text(
-                  _getCategoryName(widget.recipe.category),
+                  _getCategoryName(recipe.category),
                   style: theme.textTheme.headlineSmall!
                       .copyWith(color: theme.colorScheme.onPrimary),
                 ),
@@ -107,7 +103,7 @@ class _RecipeTileState extends State<RecipeTile> {
             top: 10,
             right: 10,
             child: GestureDetector(
-              onTap: () => _deleteRecipe(),
+              onTap: () => _deleteRecipe(context),
               child: Container(
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
@@ -125,11 +121,11 @@ class _RecipeTileState extends State<RecipeTile> {
         ]),
         const SizedBox(height: 5),
         Subtitle(
-          cookingTime: widget.recipe.cookingTime,
-          numberOfPortions: widget.recipe.numberOfPortions,
+          cookingTime: recipe.cookingTime,
+          numberOfPortions: recipe.numberOfPortions,
         ),
         Text(
-          widget.recipe.title,
+          recipe.title,
           style: theme.textTheme.headlineSmall,
           textAlign: TextAlign.start,
           overflow: TextOverflow.clip,
@@ -139,12 +135,12 @@ class _RecipeTileState extends State<RecipeTile> {
   }
 
   void _setFavourite() {
-    _recipeCubit.switchFavourite(widget.recipe);
-    _recipeCubit.updateRecipeListPage(
-        widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
+    _recipeCubit.switchFavourite(recipe);
+    _recipesListCubit.updateRecipeListPage(
+        categoryIdFromListScreen, isFromAllCategoryList);
   }
 
-  _deleteRecipe() {
+  _deleteRecipe(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -162,7 +158,8 @@ class _RecipeTileState extends State<RecipeTile> {
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  _recipeCubit.deleteRecipe(widget.recipe.id!);
+                  onDelete!();
+                  _recipeCubit.deleteRecipe(recipe.id!);
                 },
                 child: const Text('Удалить')),
           ],
@@ -172,7 +169,6 @@ class _RecipeTileState extends State<RecipeTile> {
   }
 
   String _getCategoryName(int id) {
-    final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
     final List<Category> categories =
         (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
     String name = '';

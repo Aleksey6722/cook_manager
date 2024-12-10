@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/features/main/bloc/recipes_list_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/bloc/recipe_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/view/view.dart';
 import 'package:cook_manager/models/recipe.dart';
@@ -28,6 +29,7 @@ class RecipeScreen extends StatefulWidget {
 
 class _RecipeScreenState extends State<RecipeScreen> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
+  final RecipesListCubit _recipeListCubit = GetIt.instance<RecipesListCubit>();
   late bool _isFavourite = widget.recipe.isFavourite;
 
   @override
@@ -37,8 +39,12 @@ class _RecipeScreenState extends State<RecipeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-        _recipeCubit.updateRecipeListPage(
-            widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
+        _recipeListCubit.updateRecipeListPage(
+          widget.categoryIdFromListScreen,
+          widget.isFromAllCategoryList,
+          // 4,
+          // false,
+        );
       },
       child: Scaffold(
         appBar: AppBar(
@@ -52,7 +58,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  context.router.push(EditRoute(recipe: widget.recipe.copyWith(isFavourite: _isFavourite)));
+                  context.router.push(EditRoute(
+                      recipe:
+                          widget.recipe.copyWith(isFavourite: _isFavourite)));
                 },
                 icon: const Icon(
                   Icons.edit,
@@ -96,7 +104,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       image: imageUrl != null
                           ? FileImage(File(widget.recipe.imageUrl!))
                           : const AssetImage(
-                          'assets/images/image_placeholder.jpg'),
+                              'assets/images/image_placeholder.jpg'),
                       fit: BoxFit.cover),
                 ),
               ),

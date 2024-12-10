@@ -375,7 +375,6 @@ class _EditScreenState extends State<EditScreen> {
         ),
         predicate: (rout) => rout.isFirst,
       ); //68
-      // Future.delayed(const Duration(seconds: 1), _clearForm);
     }
   }
 
