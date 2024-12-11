@@ -21,7 +21,7 @@ class RecipesListScreen extends StatefulWidget {
 
 class _RecipesListScreenState extends State<RecipesListScreen> {
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
-  final listKey = GlobalKey<AnimatedListState>();
+  var listKey;
 
   @override
   void initState() {
@@ -58,6 +58,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
   }
 
   Widget _buildPage(RecipesListLoaded state) {
+    listKey = GlobalKey<AnimatedListState>();
     return RefreshIndicator(
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
       onRefresh: () async {

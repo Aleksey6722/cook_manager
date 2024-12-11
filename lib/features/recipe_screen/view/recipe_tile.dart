@@ -8,7 +8,7 @@ import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class RecipeTile extends StatelessWidget {
+class RecipeTile extends StatefulWidget {
   RecipeTile({
     super.key,
     required this.recipe,
@@ -22,15 +22,22 @@ class RecipeTile extends StatelessWidget {
   final int? categoryIdFromListScreen;
   final VoidCallback? onDelete;
 
+  @override
+  State<RecipeTile> createState() => _RecipeTileState();
+}
+
+class _RecipeTileState extends State<RecipeTile> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
+
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
+
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
 
   @override
   Widget build(BuildContext context) => buildItem(context);
 
   Widget buildItem(BuildContext context) {
-    bool isFavourite = recipe.isFavourite;
+    bool isFavourite = widget.recipe.isFavourite;
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,9 +49,9 @@ class RecipeTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: recipe.imageUrl == null
+                  image: widget.recipe.imageUrl == null
                       ? const AssetImage('assets/images/image_placeholder.jpg')
-                      : FileImage(File(recipe.imageUrl!))),
+                      : FileImage(File(widget.recipe.imageUrl!))),
             ),
           ),
           Positioned(
@@ -58,7 +65,7 @@ class RecipeTile extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  _getCategoryName(recipe.category),
+                  _getCategoryName(widget.recipe.category),
                   style: theme.textTheme.headlineSmall!
                       .copyWith(color: theme.colorScheme.onPrimary),
                 ),
@@ -121,11 +128,11 @@ class RecipeTile extends StatelessWidget {
         ]),
         const SizedBox(height: 5),
         Subtitle(
-          cookingTime: recipe.cookingTime,
-          numberOfPortions: recipe.numberOfPortions,
+          cookingTime: widget.recipe.cookingTime,
+          numberOfPortions: widget.recipe.numberOfPortions,
         ),
         Text(
-          recipe.title,
+          widget.recipe.title,
           style: theme.textTheme.headlineSmall,
           textAlign: TextAlign.start,
           overflow: TextOverflow.clip,
@@ -135,9 +142,10 @@ class RecipeTile extends StatelessWidget {
   }
 
   void _setFavourite() {
-    _recipeCubit.switchFavourite(recipe);
+    _recipeCubit.switchFavourite(widget.recipe);
+
     _recipesListCubit.updateRecipeListPage(
-        categoryIdFromListScreen, isFromAllCategoryList);
+        widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
   }
 
   _deleteRecipe(BuildContext context) {
@@ -158,8 +166,8 @@ class RecipeTile extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  onDelete!();
-                  _recipeCubit.deleteRecipe(recipe.id!);
+                  widget.onDelete!();
+                  _recipeCubit.deleteRecipe(widget.recipe.id!);
                 },
                 child: const Text('Удалить')),
           ],
