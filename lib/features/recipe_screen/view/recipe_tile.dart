@@ -145,6 +145,7 @@ class _RecipeTileState extends State<RecipeTile> {
     _recipeCubit.switchFavourite(widget.recipe);
 
     _recipesListCubit.updateRecipeListPage(
+      emitInitState: false,
         widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
   }
 

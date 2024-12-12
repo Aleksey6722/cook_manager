@@ -10,9 +10,11 @@ part 'recipes_list_state.dart';
 class RecipesListCubit extends Cubit<RecipesListState> {
   RecipesListCubit() : super(RecipesListInitial());
 
-  Future<void> getRecipes(int? categoryId) async {
+  Future<void> getRecipes(int? categoryId, {bool emitInitState = true}) async {
     final DatabaseService db = DatabaseService.instance;
-    emit(RecipesListInitial());
+    if (emitInitState) {
+      emit(RecipesListInitial());
+    }
     if (categoryId == null) {
       List<Recipe> result = await db.getAllRecipes();
       emit(RecipesListLoaded(listOfRecipes: result));
@@ -27,11 +29,12 @@ class RecipesListCubit extends Cubit<RecipesListState> {
   //   emit(RecipesListInitial());
   // }
 
-  void updateRecipeListPage(int? categoryId, bool isFromAllCategoryList) async {
+  void updateRecipeListPage(int? categoryId, bool isFromAllCategoryList,
+      {bool emitInitState = true}) async {
     if (isFromAllCategoryList) {
-      await getRecipes(null);
+      await getRecipes(null, emitInitState: emitInitState);
     } else if (categoryId != null) {
-      await getRecipes(categoryId);
+      await getRecipes(categoryId, emitInitState: emitInitState);
     }
   }
 }
