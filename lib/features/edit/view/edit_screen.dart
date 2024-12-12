@@ -16,9 +16,16 @@ import '../../../router/router.dart';
 
 @RoutePage()
 class EditScreen extends StatefulWidget {
-  const EditScreen({super.key, this.recipe});
+  const EditScreen({
+    super.key,
+    this.recipe,
+    this.listScreenCategoryId,
+    this.isFromAllCategoryList = false,
+  });
 
   final Recipe? recipe;
+  final int? listScreenCategoryId;
+  final bool isFromAllCategoryList;
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -351,7 +358,9 @@ class _EditScreenState extends State<EditScreen> {
   Future<void> _addRecipe() async {
     Recipe recipe = _createRecipe();
     final int id = await db.insertRecipe(recipe);
-    context.router.push(RecipeRoute(recipeId: 21)); //68, 188
+    context.router.push(RecipeRoute(
+      recipe: recipe.copyWith(id: id),
+    ));
     Future.delayed(const Duration(seconds: 1), _clearForm);
   }
 
@@ -360,15 +369,18 @@ class _EditScreenState extends State<EditScreen> {
     final bool didUpdate = await db.updateRecipe(widget.recipe!.id!, recipe);
     if (didUpdate) {
       context.router.pushAndPopUntil(
-        RecipeRoute(recipeId: widget.recipe!.id!),
+        RecipeRoute(
+          // recipeId: widget.recipe!.id!,
+          recipe: recipe,
+        ),
         predicate: (rout) => rout.isFirst,
       ); //68
-      // Future.delayed(const Duration(seconds: 1), _clearForm);
     }
   }
 
   Recipe _createRecipe() {
     final Recipe recipe = Recipe(
+      id: widget.recipe?.id,
       title: title,
       cookingTime: cookingTime,
       numberOfPortions: numberOfPortions,
@@ -382,6 +394,7 @@ class _EditScreenState extends State<EditScreen> {
       recipeUrl: recipeUrl,
       listOfIngredients: _structureBloc.state.listOfIngredients,
       listOfSteps: _recipeStepsBloc.state.listOfSteps,
+      isFavourite: widget.recipe?.isFavourite ?? false,
     );
     return recipe;
   }

@@ -51,7 +51,7 @@ class _CookManagerState extends State<CookManager> {
           ),// AppBar title
           bodyMedium: TextStyle(fontSize: 16),
           bodyLarge: TextStyle(fontSize: 16),
-          labelLarge: TextStyle(fontSize: 20),
+          labelLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
         ),
         inputDecorationTheme: const InputDecorationTheme(
           floatingLabelBehavior: FloatingLabelBehavior.always,

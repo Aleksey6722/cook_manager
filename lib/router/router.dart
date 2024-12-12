@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/features/main/view/category_navigation_screen.dart';
+import 'package:cook_manager/features/main/view/recipes_list_screen.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +23,11 @@ class AppRouter extends RootStackRouter {
           path: '/',
           children: [
             AutoRoute(
-              page: MainRoute.page,
-              path: 'main',
+              page: CategoryNavigationRoute.page,
+              children: [
+                AutoRoute(page: MainRoute.page, initial: true),
+                AutoRoute(page: RecipesListRoute.page, path: 'recipes'),
+              ],
             ),
             AutoRoute(
               page: SearchRoute.page,
@@ -44,5 +49,9 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(page: RecipeRoute.page, path: '/recipe'),
         AutoRoute(page: EditRoute.page, path: '/edit'),
+        // AutoRoute(
+        //   page: RecipesListRoute.page,
+        //   path: '/recipes',
+        // ),
       ];
 }

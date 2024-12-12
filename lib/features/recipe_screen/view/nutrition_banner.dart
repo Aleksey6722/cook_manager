@@ -1,10 +1,10 @@
-import 'package:cook_manager/features/recipe_screen/bloc/recipe_bloc.dart';
+import 'package:cook_manager/models/recipe.dart';
 import 'package:flutter/material.dart';
 
 class NutritionBanner extends StatelessWidget {
-  const NutritionBanner({super.key, required this.state});
+  const NutritionBanner({super.key, required this.recipe});
 
-  final RecipeStateLoaded state;
+  final Recipe recipe;
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +12,10 @@ class NutritionBanner extends StatelessWidget {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Белки: ${state.recipe.proteins}'),
-          Text('Жиры: ${state.recipe.fats}'),
-          Text('Углеводы: ${state.recipe.carbohydrates}'),
-          Text('Калории: ${state.recipe.calories}'),
+          Text('Белки: ${recipe.proteins}'),
+          Text('Жиры: ${recipe.fats}'),
+          Text('Углеводы: ${recipe.carbohydrates}'),
+          Text('Калории: ${recipe.calories}'),
         ],
       ),
     ]);

@@ -10,17 +10,40 @@
 part of 'router.dart';
 
 /// generated route for
+/// [CategoryNavigationScreen]
+class CategoryNavigationRoute extends PageRouteInfo<void> {
+  const CategoryNavigationRoute({List<PageRouteInfo>? children})
+      : super(
+          CategoryNavigationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryNavigationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const CategoryNavigationScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [EditScreen]
 class EditRoute extends PageRouteInfo<EditRouteArgs> {
   EditRoute({
     Key? key,
     Recipe? recipe,
+    int? listScreenCategoryId,
+    bool isFromAllCategoryList = false,
     List<PageRouteInfo>? children,
   }) : super(
           EditRoute.name,
           args: EditRouteArgs(
             key: key,
             recipe: recipe,
+            listScreenCategoryId: listScreenCategoryId,
+            isFromAllCategoryList: isFromAllCategoryList,
           ),
           initialChildren: children,
         );
@@ -35,6 +58,8 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
       return EditScreen(
         key: args.key,
         recipe: args.recipe,
+        listScreenCategoryId: args.listScreenCategoryId,
+        isFromAllCategoryList: args.isFromAllCategoryList,
       );
     },
   );
@@ -44,15 +69,21 @@ class EditRouteArgs {
   const EditRouteArgs({
     this.key,
     this.recipe,
+    this.listScreenCategoryId,
+    this.isFromAllCategoryList = false,
   });
 
   final Key? key;
 
   final Recipe? recipe;
 
+  final int? listScreenCategoryId;
+
+  final bool isFromAllCategoryList;
+
   @override
   String toString() {
-    return 'EditRouteArgs{key: $key, recipe: $recipe}';
+    return 'EditRouteArgs{key: $key, recipe: $recipe, listScreenCategoryId: $listScreenCategoryId, isFromAllCategoryList: $isFromAllCategoryList}';
   }
 }
 
@@ -118,13 +149,17 @@ class MainRoute extends PageRouteInfo<void> {
 class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute({
     Key? key,
-    required int recipeId,
+    required Recipe recipe,
+    bool isFromAllCategoryList = false,
+    int? categoryIdFromListScreen,
     List<PageRouteInfo>? children,
   }) : super(
           RecipeRoute.name,
           args: RecipeRouteArgs(
             key: key,
-            recipeId: recipeId,
+            recipe: recipe,
+            isFromAllCategoryList: isFromAllCategoryList,
+            categoryIdFromListScreen: categoryIdFromListScreen,
           ),
           initialChildren: children,
         );
@@ -137,7 +172,9 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
       final args = data.argsAs<RecipeRouteArgs>();
       return RecipeScreen(
         key: args.key,
-        recipeId: args.recipeId,
+        recipe: args.recipe,
+        isFromAllCategoryList: args.isFromAllCategoryList,
+        categoryIdFromListScreen: args.categoryIdFromListScreen,
       );
     },
   );
@@ -146,16 +183,74 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
 class RecipeRouteArgs {
   const RecipeRouteArgs({
     this.key,
-    required this.recipeId,
+    required this.recipe,
+    this.isFromAllCategoryList = false,
+    this.categoryIdFromListScreen,
   });
 
   final Key? key;
 
-  final int recipeId;
+  final Recipe recipe;
+
+  final bool isFromAllCategoryList;
+
+  final int? categoryIdFromListScreen;
 
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId}';
+    return 'RecipeRouteArgs{key: $key, recipe: $recipe, isFromAllCategoryList: $isFromAllCategoryList, categoryIdFromListScreen: $categoryIdFromListScreen}';
+  }
+}
+
+/// generated route for
+/// [RecipesListScreen]
+class RecipesListRoute extends PageRouteInfo<RecipesListRouteArgs> {
+  RecipesListRoute({
+    Key? key,
+    required int? categoryId,
+    required String categoryName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          RecipesListRoute.name,
+          args: RecipesListRouteArgs(
+            key: key,
+            categoryId: categoryId,
+            categoryName: categoryName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RecipesListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<RecipesListRouteArgs>();
+      return RecipesListScreen(
+        key: args.key,
+        categoryId: args.categoryId,
+        categoryName: args.categoryName,
+      );
+    },
+  );
+}
+
+class RecipesListRouteArgs {
+  const RecipesListRouteArgs({
+    this.key,
+    required this.categoryId,
+    required this.categoryName,
+  });
+
+  final Key? key;
+
+  final int? categoryId;
+
+  final String categoryName;
+
+  @override
+  String toString() {
+    return 'RecipesListRouteArgs{key: $key, categoryId: $categoryId, categoryName: $categoryName}';
   }
 }
 

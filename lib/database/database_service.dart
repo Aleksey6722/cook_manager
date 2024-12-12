@@ -88,11 +88,6 @@ class DatabaseService {
     return database;
   }
 
-  // void addRecipe(Recipe recipe) async {
-  //   final db = await database;
-  //   await db.insert(_recipeTableName, recipe.toJson());
-  // }
-
   Future<void> deleteDB() async {
     final path = await getDatabasesPath();
     await deleteDatabase(join(path, 'cook_database'));
@@ -122,48 +117,81 @@ class DatabaseService {
           recipe.recipeUrl,
           jsonEncode(recipe.toJson()['list_of_ingredients']),
           jsonEncode(recipe.toJson()['list_of_steps']),
-          recipe.isFavourite,
+          recipe.isFavourite ? 1 : 0,
         ]);
   }
 
   Future<bool> updateRecipe(int id, Recipe recipe) async {
     final db = await database;
     int countOfChanges = await db.rawUpdate(
-          '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageUrlColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE id = ? ''',
-          [
-            recipe.title,
-            recipe.cookingTime,
-            recipe.numberOfPortions,
-            recipe.category,
-            recipe.description,
-            recipe.imageUrl,
-            recipe.proteins,
-            recipe.fats,
-            recipe.carbohydrates,
-            recipe.calories,
-            recipe.recipeUrl,
-            jsonEncode(recipe.toJson()['list_of_ingredients']),
-            jsonEncode(recipe.toJson()['list_of_steps']),
-            recipe.isFavourite,
-            id,
-          ]);
-      return Future.value(countOfChanges > 0);
+        '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageUrlColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE id = ? ''',
+        [
+          recipe.title,
+          recipe.cookingTime,
+          recipe.numberOfPortions,
+          recipe.category,
+          recipe.description,
+          recipe.imageUrl,
+          recipe.proteins,
+          recipe.fats,
+          recipe.carbohydrates,
+          recipe.calories,
+          recipe.recipeUrl,
+          jsonEncode(recipe.toJson()['list_of_ingredients']),
+          jsonEncode(recipe.toJson()['list_of_steps']),
+          recipe.isFavourite ? 1 : 0,
+          id,
+        ]);
+    return Future.value(countOfChanges > 0);
   }
 
   Future<Recipe> getRecipe(int id) async {
     final db = await database;
-    final raw =
+    final row =
         await db.query(_recipeTableName, where: 'id = ?', whereArgs: [id]);
-    final json = jsonDecode(jsonEncode(raw[0]));
-    final listOfSteps = jsonDecode(
-        jsonDecode(jsonEncode(raw[0]['list_of_steps']))); // obtain List<Object>
-    final listOfIngredients = jsonDecode(jsonDecode(
-        jsonEncode(raw[0]['list_of_ingredients']))); // obtain List<Object>
+    final json = _decode(row[0]);
+    final Recipe recipeFromDB = Recipe.fromJson(json);
+    return recipeFromDB;
+  }
+
+  Future<void> deleteRecipe(int id) async {
+    final db = await database;
+    db.delete(_recipeTableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Recipe>> getRecipesByCategoryId(String categoryId) async {
+    final db = await database;
+    final rows = await db.query(_recipeTableName,
+        where: 'category = ?', whereArgs: [categoryId]);
+    List<Recipe> result = [];
+    for (Object recipe in rows) {
+      final json = _decode(recipe as Map<String, Object?>);
+      result.add(Recipe.fromJson(json));
+    }
+    return result;
+  }
+
+  Future<List<Recipe>> getAllRecipes() async {
+    final db = await database;
+    final rows = await db.query(_recipeTableName);
+    List<Recipe> result = [];
+    for (Object recipe in rows) {
+      final json = _decode(recipe as Map<String, Object?>);
+      result.add(Recipe.fromJson(json));
+    }
+    return result;
+  }
+
+  dynamic _decode(Map<String, Object?> recipeFromDB) {
+    final json = jsonDecode(jsonEncode(recipeFromDB));
+    final listOfSteps =
+        jsonDecode(jsonDecode(jsonEncode(recipeFromDB['list_of_steps'])));
+    final listOfIngredients =
+        jsonDecode(jsonDecode(jsonEncode(recipeFromDB['list_of_ingredients'])));
     json['list_of_steps'] = listOfSteps;
     json['list_of_ingredients'] = listOfIngredients;
     json['is_favourite'] = json['is_favourite'] == 1;
-    final Recipe recipeFromDB = Recipe.fromJson(json);
-    return recipeFromDB;
+    return json;
   }
 
   Future<List<Category>> getCategories() async {
