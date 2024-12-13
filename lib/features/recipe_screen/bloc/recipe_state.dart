@@ -11,6 +11,8 @@ class RecipeStateLoaded extends RecipeState {
   final Recipe recipe;
 
   RecipeStateLoaded(this.recipe);
+  @override
+  List<Object?> get props => super.props..add(recipe);
 }
 
 class RecipeStateError extends RecipeState {}

@@ -149,7 +149,7 @@ class MainRoute extends PageRouteInfo<void> {
 class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute({
     Key? key,
-    required Recipe recipe,
+    required int recipeId,
     bool isFromAllCategoryList = false,
     int? categoryIdFromListScreen,
     List<PageRouteInfo>? children,
@@ -157,7 +157,7 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
           RecipeRoute.name,
           args: RecipeRouteArgs(
             key: key,
-            recipe: recipe,
+            recipeId: recipeId,
             isFromAllCategoryList: isFromAllCategoryList,
             categoryIdFromListScreen: categoryIdFromListScreen,
           ),
@@ -172,7 +172,7 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
       final args = data.argsAs<RecipeRouteArgs>();
       return RecipeScreen(
         key: args.key,
-        recipe: args.recipe,
+        recipeId: args.recipeId,
         isFromAllCategoryList: args.isFromAllCategoryList,
         categoryIdFromListScreen: args.categoryIdFromListScreen,
       );
@@ -183,14 +183,14 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
 class RecipeRouteArgs {
   const RecipeRouteArgs({
     this.key,
-    required this.recipe,
+    required this.recipeId,
     this.isFromAllCategoryList = false,
     this.categoryIdFromListScreen,
   });
 
   final Key? key;
 
-  final Recipe recipe;
+  final int recipeId;
 
   final bool isFromAllCategoryList;
 
@@ -198,7 +198,7 @@ class RecipeRouteArgs {
 
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, recipe: $recipe, isFromAllCategoryList: $isFromAllCategoryList, categoryIdFromListScreen: $categoryIdFromListScreen}';
+    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId, isFromAllCategoryList: $isFromAllCategoryList, categoryIdFromListScreen: $categoryIdFromListScreen}';
   }
 }
 

@@ -17,15 +17,15 @@ class RecipeCubit extends Cubit<RecipeState> {
     await db.updateRecipe(recipe.id!, newRecipe);
   }
 
-  // Future<void> getRecipe(int id) async {
-  //   try {
-  //     emit(RecipeStateLoading());
-  //     final Recipe recipe = await db.getRecipe(id);
-  //     emit(RecipeStateLoaded(recipe));
-  //   } catch (e) {
-  //     emit(RecipeStateError());
-  //   }
-  // }
+  Future<void> getRecipe(int id) async {
+    try {
+      // emit(RecipeStateLoading());
+      final Recipe recipe = await db.getRecipe(id);
+      emit(RecipeStateLoaded(recipe));
+    } catch (e) {
+      emit(RecipeStateError());
+    }
+  }
 
     void deleteRecipe(int id) async {
     final DatabaseService db = DatabaseService.instance;

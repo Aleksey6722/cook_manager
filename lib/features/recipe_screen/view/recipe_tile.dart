@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:cook_manager/features/favourites/bloc/favourite_list_cubit.dart';
 import 'package:cook_manager/features/main/bloc/category_bloc.dart';
-import 'package:cook_manager/features/main/bloc/recipes_list_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/bloc/recipe_cubit.dart';
 import 'package:cook_manager/features/recipe_screen/recipe_screen.dart';
 import 'package:cook_manager/models/category.dart';
@@ -9,16 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class RecipeTile extends StatefulWidget {
-  RecipeTile({
+  const RecipeTile({
     super.key,
     required this.recipe,
     this.isFromAllCategoryList = false,
     this.categoryIdFromListScreen,
     required this.onDelete,
+    this.isFromFavouriteList = false,
   });
 
   final Recipe recipe;
   final bool isFromAllCategoryList;
+  final bool isFromFavouriteList;
   final int? categoryIdFromListScreen;
   final VoidCallback? onDelete;
 
@@ -28,16 +30,16 @@ class RecipeTile extends StatefulWidget {
 
 class _RecipeTileState extends State<RecipeTile> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
-
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
+  final FavouriteListCubit _favouriteListCubit =
+      GetIt.instance<FavouriteListCubit>();
 
-  final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
+  late bool _isFavourite = widget.recipe.isFavourite;
 
   @override
   Widget build(BuildContext context) => buildItem(context);
 
   Widget buildItem(BuildContext context) {
-    bool isFavourite = widget.recipe.isFavourite;
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +97,7 @@ class _RecipeTileState extends State<RecipeTile> {
             top: 17,
             right: 67.5,
             child: Visibility(
-              visible: isFavourite,
+              visible: _isFavourite,
               child: GestureDetector(
                 onTap: () => _setFavourite(),
                 child: const Icon(
@@ -143,10 +145,13 @@ class _RecipeTileState extends State<RecipeTile> {
 
   void _setFavourite() {
     _recipeCubit.switchFavourite(widget.recipe);
-
-    _recipesListCubit.updateRecipeListPage(
-      emitInitState: false,
-        widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
+    _isFavourite = !_isFavourite;
+    if(!widget.isFromFavouriteList) {
+      _favouriteListCubit.getRecipes();
+    }
+    setState(() {});
+    // _recipesListCubit.updateRecipeListPage(
+    //     widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
   }
 
   _deleteRecipe(BuildContext context) {
@@ -169,6 +174,7 @@ class _RecipeTileState extends State<RecipeTile> {
                   Navigator.pop(context);
                   widget.onDelete!();
                   _recipeCubit.deleteRecipe(widget.recipe.id!);
+                  _favouriteListCubit.getRecipes();
                 },
                 child: const Text('Удалить')),
           ],

@@ -55,6 +55,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _openPage(int index, TabsRouter tabsRouter) {
+    if(index == 0) {
+      tabsRouter.navigate(const MainRoute());
+    }
     tabsRouter.setActiveIndex(index);
+    print('______$index');
   }
 }

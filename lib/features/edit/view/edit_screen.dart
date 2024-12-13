@@ -359,7 +359,8 @@ class _EditScreenState extends State<EditScreen> {
     Recipe recipe = _createRecipe();
     final int id = await db.insertRecipe(recipe);
     context.router.push(RecipeRoute(
-      recipe: recipe.copyWith(id: id),
+      // recipe: recipe.copyWith(id: id),
+      recipeId: id,
     ));
     Future.delayed(const Duration(seconds: 1), _clearForm);
   }
@@ -370,11 +371,14 @@ class _EditScreenState extends State<EditScreen> {
     if (didUpdate) {
       context.router.pushAndPopUntil(
         RecipeRoute(
-          // recipeId: widget.recipe!.id!,
-          recipe: recipe,
+          recipeId: widget.recipe!.id!,
+          isFromAllCategoryList: widget.isFromAllCategoryList,
+          categoryIdFromListScreen: widget.listScreenCategoryId,
+          // recipe: recipe,
         ),
         predicate: (rout) => rout.isFirst,
-      ); //68
+      );
+      // context.router.push(RecipeRoute(recipeId: widget.recipe!.id!));
     }
   }
 

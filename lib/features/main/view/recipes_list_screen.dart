@@ -21,7 +21,8 @@ class RecipesListScreen extends StatefulWidget {
 
 class _RecipesListScreenState extends State<RecipesListScreen> {
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
-  var listKey;
+  late GlobalKey<AnimatedListState> listKey;
+
 
   @override
   void initState() {
@@ -41,53 +42,53 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
         elevation: 2,
         leading: const BackButton(),
       ),
-      body: BlocBuilder<RecipesListCubit, RecipesListState>(
-        bloc: _recipesListCubit,
-        builder: (BuildContext context, RecipesListState state) {
-          switch (state) {
-            case RecipesListInitial():
-              return const SizedBox();
-            case RecipesListLoaded():
-              return state.listOfRecipes.isEmpty
-                  ? _buildEmptyPage(state)
-                  : _buildPage(state);
-          }
+      body: RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: () async {
+          await _recipesListCubit.getRecipes(widget.categoryId);
         },
+        child: BlocBuilder<RecipesListCubit, RecipesListState>(
+          bloc: _recipesListCubit,
+          builder: (BuildContext context, RecipesListState state) {
+            switch (state) {
+              case RecipesListInitial():
+                return const Scaffold();
+              case RecipesListLoaded():
+                return state.listOfRecipes.isEmpty
+                    ? _buildEmptyPage()
+                    : _buildPage(state);
+            }
+          },
+        ),
       ),
     );
   }
 
   Widget _buildPage(RecipesListLoaded state) {
     listKey = GlobalKey<AnimatedListState>();
-    return RefreshIndicator(
-      triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      onRefresh: () async {
-        await _recipesListCubit.getRecipes(widget.categoryId);
+    return AnimatedList.separated(
+      key: listKey,
+      padding: const EdgeInsets.all(20),
+      initialItemCount: state.listOfRecipes.length,
+      separatorBuilder: (context, index, animation) =>
+          const SizedBox(height: 15),
+      removedSeparatorBuilder: (context, index, animation) =>
+          const SizedBox(height: 15),
+      itemBuilder: (context, index, animation) {
+        return GestureDetector(
+            onTap: () => context.router.push(RecipeRoute(
+                  recipeId: state.listOfRecipes[index].id!,
+                  // recipe: state.listOfRecipes[index],
+                  isFromAllCategoryList: widget.categoryId == null,
+                  categoryIdFromListScreen: widget.categoryId,
+                )),
+            child: RecipeTile(
+              recipe: state.listOfRecipes[index],
+              isFromAllCategoryList: widget.categoryId == null,
+              categoryIdFromListScreen: widget.categoryId,
+              onDelete: () => removeItem(state.listOfRecipes[index], index),
+            ));
       },
-      child: AnimatedList.separated(
-        key: listKey,
-        padding: const EdgeInsets.all(20),
-        initialItemCount: state.listOfRecipes.length,
-        separatorBuilder: (context, index, animation) =>
-            const SizedBox(height: 15),
-        removedSeparatorBuilder: (context, index, animation) =>
-            const SizedBox(height: 15),
-        itemBuilder: (context, index, animation) {
-          return GestureDetector(
-              onTap: () => context.router.push(RecipeRoute(
-                    recipe: state.listOfRecipes[index],
-                    isFromAllCategoryList: widget.categoryId == null,
-                    categoryIdFromListScreen: widget.categoryId,
-                  )),
-              child: RecipeTile(
-                // animation: animation,
-                recipe: state.listOfRecipes[index],
-                isFromAllCategoryList: widget.categoryId == null,
-                categoryIdFromListScreen: widget.categoryId,
-                onDelete: () => removeItem(state.listOfRecipes[index], index),
-              ));
-        },
-      ),
     );
   }
 
@@ -104,31 +105,34 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
         ));
   }
 
-  Widget _buildEmptyPage(RecipesListLoaded state) {
+  Widget _buildEmptyPage() {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Text(
-            'У Вас нет ни одного рецепта в этой категории',
-            style: theme.textTheme.labelLarge,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              context.router.navigate(EditRoute());
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+    return ListView.builder( // List builder is for RefreshIndicator
+      itemCount: 1,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text(
+              'У Вас нет ни одного рецепта в этой категории',
+              style: theme.textTheme.labelLarge,
+              textAlign: TextAlign.center,
             ),
-            child: const Text('Создать рецепт'),
-          )
-        ],
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: () {
+                context.router.navigate(EditRoute());
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+              ),
+              child: const Text('Создать рецепт'),
+            )
+          ],
+        ),
       ),
     );
   }

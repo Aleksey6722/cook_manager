@@ -171,6 +171,17 @@ class DatabaseService {
     return result;
   }
 
+  Future<List<Recipe>> getFavouriteRecipes() async {
+    final db = await database;
+    final rows = await db.query(_recipeTableName, where: 'is_favourite = 1');
+    List<Recipe> result = [];
+    for (Object recipe in rows) {
+      final json = _decode(recipe as Map<String, Object?>);
+      result.add(Recipe.fromJson(json));
+    }
+    return result;
+  }
+
   Future<List<Recipe>> getAllRecipes() async {
     final db = await database;
     final rows = await db.query(_recipeTableName);
