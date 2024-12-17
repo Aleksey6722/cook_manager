@@ -25,7 +25,6 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
   final RecipesListCubit _recipesListCubit = GetIt.instance<RecipesListCubit>();
   late GlobalKey<AnimatedListState> listKey;
 
-
   @override
   void initState() {
     _recipesListCubit.getRecipes(widget.categoryId);

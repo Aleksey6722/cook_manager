@@ -1,4 +1,4 @@
-import 'package:cook_manager/database/database_service.dart';
+import 'package:cook_manager/data/data_repository.dart';
 import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 
 import 'package:cook_manager/models/recipe.dart';
@@ -11,23 +11,26 @@ part 'recipes_list_state.dart';
 
 @singleton
 class RecipesListCubit extends Cubit<RecipesListState> {
-  RecipesListCubit() : super(RecipesListInitial());
-  
-  Future<void> getRecipes(int? categoryId,) async {
-    final DatabaseService db = DatabaseService.instance;
+  final DataRepository _dataRepository;
+
+  RecipesListCubit(DataRepository dataRepository)
+      : _dataRepository = dataRepository,
+        super(RecipesListInitial());
+
+  Future<void> getRecipes(int? categoryId) async {
     if (categoryId == null) {
-      List<Recipe> result = await db.getAllRecipes();
+      List<Recipe> result = await _dataRepository.getAllRecipes();
       emit(RecipesListLoaded(listOfRecipes: result));
     } else {
       List<Recipe> result =
-          await db.getRecipesByCategoryId(categoryId.toString());
+          await _dataRepository.getRecipesByCategoryId(categoryId.toString());
       emit(RecipesListLoaded(listOfRecipes: result));
     }
   }
 
-
   void updateRecipeListPage(int? categoryId, bool isFromAllCategoryList) async {
-    final FavouriteListCubit favouriteListCubit = GetIt.instance<FavouriteListCubit>();
+    final FavouriteListCubit favouriteListCubit =
+        GetIt.instance<FavouriteListCubit>();
     if (isFromAllCategoryList) {
       await getRecipes(null);
       favouriteListCubit.getRecipes();

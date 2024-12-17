@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:cook_manager/database/database_service.dart';
+import 'package:cook_manager/data/data_repository.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -9,14 +9,17 @@ part 'favourite_list_state.dart';
 
 @singleton
 class FavouriteListCubit extends Cubit<FavouriteListState> {
-  FavouriteListCubit() : super(FavouriteListInitial());
+  final DataRepository _dataRepository;
+
+  FavouriteListCubit(DataRepository dataRepository)
+      : _dataRepository = dataRepository,
+        super(FavouriteListInitial());
 
   Future<void> getRecipes({bool emitInitState = true}) async {
-    final DatabaseService db = DatabaseService.instance;
     if (emitInitState) {
       emit(FavouriteListInitial());
     }
-    List<Recipe> result = await db.getFavouriteRecipes();
+    List<Recipe> result = await _dataRepository.getFavouriteRecipes();
     emit(FavouriteListLoaded(listOfRecipes: result));
   }
 }

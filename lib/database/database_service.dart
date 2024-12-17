@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+@singleton
 class DatabaseService {
   final String _recipeTableName = 'recipe';
   final String _recipeIdColumnName = 'id';
@@ -30,9 +32,9 @@ class DatabaseService {
 
   static Database? _db;
 
-  static final DatabaseService instance = DatabaseService._constructor();
-
-  DatabaseService._constructor();
+  // static final DatabaseService instance = DatabaseService._constructor();
+  //
+  // DatabaseService._constructor();
 
   Future<Database> get database async {
     if (_db != null) return _db!;

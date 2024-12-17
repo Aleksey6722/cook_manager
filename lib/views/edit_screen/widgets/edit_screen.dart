@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cook_manager/database/database_service.dart';
+import 'package:cook_manager/data/data_repository.dart';
 import 'package:cook_manager/domain/edit_recipe/structure_widget_bloc/structure_bloc.dart';
 import 'package:cook_manager/domain/edit_recipe/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/domain/edit_recipe/recipe_steps_bloc/recipe_steps_bloc.dart';
@@ -61,7 +61,8 @@ class _EditScreenState extends State<EditScreen> {
   final TextEditingController caloriesController = TextEditingController();
   final TextEditingController linkController = TextEditingController();
 
-  final DatabaseService db = DatabaseService.instance;
+  // final DatabaseService db = DatabaseService.instance;
+  final DataRepository db = GetIt.instance<DataRepository>();
 
   @override
   void dispose() {

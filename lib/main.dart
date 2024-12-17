@@ -9,7 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   runApp(const CookManager());
-  final DatabaseService db = DatabaseService.instance;
+  // final DatabaseService db = DatabaseService.instance;
   // db.deleteDB();
   // db.showData();
 }

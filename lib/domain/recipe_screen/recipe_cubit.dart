@@ -1,4 +1,4 @@
-import 'package:cook_manager/database/database_service.dart';
+import 'package:cook_manager/data/data_repository.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,28 +8,27 @@ part 'recipe_state.dart';
 
 @singleton
 class RecipeCubit extends Cubit<RecipeState> {
-  RecipeCubit() : super(RecipeStateLoading());
+  final DataRepository _dataRepository;
 
-  final DatabaseService db = DatabaseService.instance;
+  RecipeCubit(DataRepository dataRepository)
+      : _dataRepository = dataRepository,
+        super(RecipeStateLoading());
 
-  Future<void> switchFavourite(Recipe recipe) async {
+   Future<void> switchFavourite(Recipe recipe) async {
     Recipe newRecipe = recipe.copyWith(isFavourite: !recipe.isFavourite);
-    await db.updateRecipe(recipe.id!, newRecipe);
+    await _dataRepository.updateRecipe(recipe.id!, newRecipe);
   }
 
   Future<void> getRecipe(int id) async {
     try {
-      // emit(RecipeStateLoading());
-      final Recipe recipe = await db.getRecipe(id);
+      final Recipe recipe = await _dataRepository.getRecipe(id);
       emit(RecipeStateLoaded(recipe));
     } catch (e) {
       emit(RecipeStateError());
     }
   }
 
-    void deleteRecipe(int id) async {
-    final DatabaseService db = DatabaseService.instance;
-    await db.deleteRecipe(id);
+  void deleteRecipe(int id) async {
+    await _dataRepository.deleteRecipe(id);
   }
-
 }
