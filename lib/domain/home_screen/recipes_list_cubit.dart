@@ -28,6 +28,10 @@ class RecipesListCubit extends Cubit<RecipesListState> {
     }
   }
 
+  void emitInitState() async {
+    emit(RecipesListInitial());
+  }
+
   void updateRecipeListPage(int? categoryId, bool isFromAllCategoryList) async {
     final FavouriteListCubit favouriteListCubit =
         GetIt.instance<FavouriteListCubit>();

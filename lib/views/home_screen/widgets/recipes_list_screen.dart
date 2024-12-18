@@ -46,7 +46,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
       body: RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         onRefresh: () async {
-          await _recipesListCubit.getRecipes(widget.categoryId);
+          _recipesListCubit.getRecipes(widget.categoryId);
         },
         child: BlocBuilder<RecipesListCubit, RecipesListState>(
           bloc: _recipesListCubit,

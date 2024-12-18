@@ -44,6 +44,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
+        _recipeListCubit.emitInitState();
         _recipeListCubit.updateRecipeListPage(
           widget.categoryIdFromListScreen,
           widget.isFromAllCategoryList,
@@ -87,7 +88,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   listScreenCategoryId: widget.categoryIdFromListScreen,
                   recipe:
                       state.recipe
-                          // .copyWith(isFavourite: _isFavourite ?? false),
                 ));
               },
               icon: const Icon(
@@ -107,7 +107,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
               top: 3.5,
               left: 3.5,
               child: Visibility(
-                // visible: _isFavourite!,
                 visible: state.recipe.isFavourite,
                 child: GestureDetector(
                   onTap: () => _setFavourite(state.recipe),
