@@ -85,6 +85,25 @@ class DatabaseService {
                ('assets/images/desert.jpg', 'Десерты и выпечка'),  
                ('assets/images/drinks.jpg', 'Напитки');
         ''');
+        await db.execute('''
+        CREATE VIRTUAL TABLE ${_recipeTableName}_virtual
+        USING fts4(
+        content="$_recipeTableName",
+         $_recipeTitleColumnName TEXT NOT NULL,
+         $_recipeCookingTimeColumnName TEXT NOT NULL,
+         $_recipeNumberOfPortionsColumnName TEXT NOT NULL,
+         $_recipeCategoryIdColumnName INTEGER,
+         $_recipeDescriptionColumnName TEXT,
+         $_recipeImageUrlColumnName TEXT,
+         $_recipeProteinsColumnName TEXT,
+         $_recipeFatsColumnName TEXT,
+         $_recipeCarbohydratesColumnName TEXT,
+         $_recipeCaloriesColumnName TEXT,
+         $_recipeRecipeUrlColumnName TEXT,
+         $_recipeIngredientsColumnName TEXT NOT NULL,
+         $_recipeStepsColumnName TEXT NOT NULL,
+        );
+        ''');
       },
     );
     return database;
@@ -145,6 +164,14 @@ class DatabaseService {
           id,
         ]);
     return Future.value(countOfChanges > 0);
+  }
+
+  Future<void> findText(String text) async {
+    final db = await database;
+    final row = await db.rawQuery(
+        '''SELECT * FROM ${_recipeTableName}_virtual WHERE ${_recipeTitleColumnName} MATCH 'Salad';'''
+    );
+    print(row);
   }
 
   Future<Recipe> getRecipe(int id) async {

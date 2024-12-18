@@ -41,4 +41,8 @@ class DataRepository {
     return _db.insertRecipe(recipe);
   }
 
+  Future<void> findText(String text) async {
+    _db.findText(text);
+  }
+
 }
