@@ -13,17 +13,19 @@ class RecipeTile extends StatefulWidget {
   const RecipeTile({
     super.key,
     required this.recipe,
-    this.isFromAllCategoryList = false,
+    this.isFromAllCategoryScreen = false,
     this.categoryIdFromListScreen,
     required this.onDelete,
-    this.isFromFavouriteList = false,
+    this.isFromFavouriteScreen = false,
+    this.refreshSearchScreen,
   });
 
   final Recipe recipe;
-  final bool isFromAllCategoryList;
-  final bool isFromFavouriteList;
+  final bool isFromAllCategoryScreen;
+  final bool isFromFavouriteScreen;
   final int? categoryIdFromListScreen;
   final VoidCallback? onDelete;
+  final VoidCallback? refreshSearchScreen;
 
   @override
   State<RecipeTile> createState() => _RecipeTileState();
@@ -38,9 +40,7 @@ class _RecipeTileState extends State<RecipeTile> {
   late bool _isFavourite = widget.recipe.isFavourite;
 
   @override
-  Widget build(BuildContext context) => buildItem(context);
-
-  Widget buildItem(BuildContext context) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,15 +144,18 @@ class _RecipeTileState extends State<RecipeTile> {
     );
   }
 
-  void _setFavourite() {
-    _recipeCubit.switchFavourite(widget.recipe);
+
+
+  void _setFavourite() async {
+    await _recipeCubit.switchFavourite(widget.recipe.rowid!);
     _isFavourite = !_isFavourite;
-    if(!widget.isFromFavouriteList) {
+    if(!widget.isFromFavouriteScreen) {
       _favouriteListCubit.getRecipes();
     }
+    if(widget.refreshSearchScreen != null) {
+      widget.refreshSearchScreen!();
+    }
     setState(() {});
-    // _recipesListCubit.updateRecipeListPage(
-    //     widget.categoryIdFromListScreen, widget.isFromAllCategoryList);
   }
 
   _deleteRecipe(BuildContext context) {
@@ -174,7 +177,7 @@ class _RecipeTileState extends State<RecipeTile> {
                 onPressed: () {
                   Navigator.pop(context);
                   widget.onDelete!();
-                  _recipeCubit.deleteRecipe(widget.recipe.id!);
+                  _recipeCubit.deleteRecipe(widget.recipe.rowid!);
                   _favouriteListCubit.getRecipes();
                 },
                 child: const Text('Удалить')),

@@ -10,7 +10,6 @@ void main() async {
   configureDependencies();
   runApp(const CookManager());
   final DatabaseService db = GetIt.instance<DatabaseService>();
-  // final DatabaseService db = DatabaseService.instance;
   // db.deleteDB();
   // db.showData();
 }

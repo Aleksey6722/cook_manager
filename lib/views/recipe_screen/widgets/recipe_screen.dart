@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 import 'package:cook_manager/domain/home_screen/recipes_list_cubit.dart';
 import 'package:cook_manager/domain/recipe_screen/recipe_cubit.dart';
 import 'package:cook_manager/views/recipe_screen/widgets/widgets.dart';
@@ -15,16 +16,21 @@ import 'package:url_launcher/url_launcher.dart';
 class RecipeScreen extends StatefulWidget {
   const RecipeScreen({
     super.key,
-    // required this.recipe,
     required this.recipeId,
-    this.isFromAllCategoryList = false,
     this.categoryIdFromListScreen,
+    this.isFromAllCategoryScreen = false,
+    // this.isFromFavouriteScreen = false,
+    this.isFromSearchScreen = false,
+    this.refreshSearchScreen,
   });
 
-  // final Recipe recipe;
   final int recipeId;
-  final bool isFromAllCategoryList;
   final int? categoryIdFromListScreen;
+  final bool isFromAllCategoryScreen;
+
+  // final bool isFromFavouriteScreen;
+  final bool isFromSearchScreen;
+  final VoidCallback? refreshSearchScreen;
 
   @override
   State<RecipeScreen> createState() => _RecipeScreenState();
@@ -33,6 +39,8 @@ class RecipeScreen extends StatefulWidget {
 class _RecipeScreenState extends State<RecipeScreen> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
   final RecipesListCubit _recipeListCubit = GetIt.instance<RecipesListCubit>();
+  final FavouriteListCubit _favouriteListCubit =
+      GetIt.instance<FavouriteListCubit>();
 
   @override
   void initState() {
@@ -44,10 +52,14 @@ class _RecipeScreenState extends State<RecipeScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
+        _favouriteListCubit.getRecipes();
+        if (widget.refreshSearchScreen != null) {
+          widget.refreshSearchScreen!();
+        }
         _recipeListCubit.emitInitState();
         _recipeListCubit.updateRecipeListPage(
           widget.categoryIdFromListScreen,
-          widget.isFromAllCategoryList,
+          widget.isFromAllCategoryScreen,
         );
       },
       child: BlocBuilder<RecipeCubit, RecipeState>(
@@ -60,7 +72,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
               return _buildPage(state);
             case RecipeStateError():
               return const SafeArea(
-                  child: Text('Ошибка чтения из базы данных'));
+                  child: Scaffold(body: Text('Ошибка чтения из базы данных')));
           }
         },
       ),
@@ -84,11 +96,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
           IconButton(
               onPressed: () {
                 context.router.push(EditRoute(
-                  isFromAllCategoryList:  widget.isFromAllCategoryList,
-                  listScreenCategoryId: widget.categoryIdFromListScreen,
-                  recipe:
-                      state.recipe
-                ));
+                    isFromAllCategoryList: widget.isFromAllCategoryScreen,
+                    listScreenCategoryId: widget.categoryIdFromListScreen,
+                    recipe: state.recipe));
               },
               icon: const Icon(
                 Icons.edit,
@@ -157,7 +167,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       children: [
                         Center(
                           child: Text(
-                            '${state.recipe.title}(${state.recipe.id})',
+                            '${state.recipe.title}(${state.recipe.rowid})',
                             style: theme.textTheme.headlineMedium,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.clip,
@@ -204,7 +214,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
   }
 
   void _setFavourite(Recipe recipe) async {
-    await _recipeCubit.switchFavourite(recipe);
-    _recipeCubit.getRecipe(recipe.id!);
+    await _recipeCubit.switchFavourite(recipe.rowid!);
+    _recipeCubit.getRecipe(recipe.rowid!);
+    _favouriteListCubit.getRecipes();
   }
 }

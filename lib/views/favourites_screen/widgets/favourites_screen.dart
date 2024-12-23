@@ -73,12 +73,13 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           const SizedBox(height: 15),
       itemBuilder: (context, index, animation) {
         return GestureDetector(
-          onTap: () => context.router.push(RecipeRoute(
-            // recipe: state.listOfRecipes[index],
-            recipeId: state.listOfRecipes[index].id!,
-          )),
+          onTap: () => context.router.push(
+            RecipeRoute(
+              recipeId: state.listOfRecipes[index].rowid!,
+            ),
+          ),
           child: RecipeTile(
-            isFromFavouriteList: true,
+            isFromFavouriteScreen: true,
             recipe: state.listOfRecipes[index],
             onDelete: () => removeItem(state.listOfRecipes[index], index),
           ),
@@ -90,18 +91,19 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   void removeItem(Recipe recipe, index) {
     listKey.currentState!.removeItem(
         index,
-            (context, animation) => SizeTransition(
-          sizeFactor: animation,
-          child: RecipeTile(
-            recipe: recipe,
-            onDelete: () {},
-          ),
-        ));
+        (context, animation) => SizeTransition(
+              sizeFactor: animation,
+              child: RecipeTile(
+                recipe: recipe,
+                onDelete: () {},
+              ),
+            ));
   }
 
   Widget _buildEmptyPage() {
     final theme = Theme.of(context);
-    return ListView.builder( // List builder is for RefreshIndicator
+    return ListView.builder(
+      // List builder is for RefreshIndicator
       itemCount: 1,
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(20),

@@ -33,7 +33,7 @@ class DataRepository {
     return _db.getAllRecipes();
   }
 
-  Future<List<Recipe>> getRecipesByCategoryId(String categoryId) async {
+  Future<List<Recipe>> getRecipesByCategoryId(int categoryId) async {
     return _db.getRecipesByCategoryId(categoryId);
   }
 
@@ -41,8 +41,8 @@ class DataRepository {
     return _db.insertRecipe(recipe);
   }
 
-  Future<void> findText(String text) async {
-    _db.findText(text);
+  Future<List<Recipe>> findText(String text) async {
+    return _db.findText(text);
   }
 
 }

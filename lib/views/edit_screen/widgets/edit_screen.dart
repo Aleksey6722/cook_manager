@@ -18,11 +18,15 @@ class EditScreen extends StatefulWidget {
     this.recipe,
     this.listScreenCategoryId,
     this.isFromAllCategoryList = false,
+    // this.isFromFavouriteScreen = false,
+    this.isFromSearchScreen = false,
   });
 
   final Recipe? recipe;
   final int? listScreenCategoryId;
   final bool isFromAllCategoryList;
+  // final bool isFromFavouriteScreen;
+  final bool isFromSearchScreen;
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -61,7 +65,6 @@ class _EditScreenState extends State<EditScreen> {
   final TextEditingController caloriesController = TextEditingController();
   final TextEditingController linkController = TextEditingController();
 
-  // final DatabaseService db = DatabaseService.instance;
   final DataRepository db = GetIt.instance<DataRepository>();
 
   @override
@@ -365,24 +368,24 @@ class _EditScreenState extends State<EditScreen> {
 
   Future<void> _updateRecipe() async {
     Recipe recipe = _createRecipe();
-    final bool didUpdate = await db.updateRecipe(widget.recipe!.id!, recipe);
+    final bool didUpdate = await db.updateRecipe(widget.recipe!.rowid!, recipe);
     if (didUpdate) {
       context.router.pushAndPopUntil(
         RecipeRoute(
-          recipeId: widget.recipe!.id!,
-          isFromAllCategoryList: widget.isFromAllCategoryList,
+          recipeId: widget.recipe!.rowid!,
+          isFromAllCategoryScreen: widget.isFromAllCategoryList,
           categoryIdFromListScreen: widget.listScreenCategoryId,
-          // recipe: recipe,
+          // isFromFavouriteScreen : widget.isFromFavouriteScreen,
+          isFromSearchScreen : widget.isFromSearchScreen,
         ),
         predicate: (rout) => rout.isFirst,
       );
-      // context.router.push(RecipeRoute(recipeId: widget.recipe!.id!));
     }
   }
 
   Recipe _createRecipe() {
     final Recipe recipe = Recipe(
-      id: widget.recipe?.id,
+      rowid: widget.recipe?.rowid,
       title: title,
       cookingTime: cookingTime,
       numberOfPortions: numberOfPortions,

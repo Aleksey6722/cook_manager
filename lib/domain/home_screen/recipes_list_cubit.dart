@@ -1,10 +1,7 @@
 import 'package:cook_manager/data/data_repository.dart';
-import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
-
 import 'package:cook_manager/models/recipe.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 part 'recipes_list_state.dart';
@@ -23,7 +20,7 @@ class RecipesListCubit extends Cubit<RecipesListState> {
       emit(RecipesListLoaded(listOfRecipes: result));
     } else {
       List<Recipe> result =
-          await _dataRepository.getRecipesByCategoryId(categoryId.toString());
+          await _dataRepository.getRecipesByCategoryId(categoryId);
       emit(RecipesListLoaded(listOfRecipes: result));
     }
   }
@@ -33,14 +30,10 @@ class RecipesListCubit extends Cubit<RecipesListState> {
   }
 
   void updateRecipeListPage(int? categoryId, bool isFromAllCategoryList) async {
-    final FavouriteListCubit favouriteListCubit =
-        GetIt.instance<FavouriteListCubit>();
     if (isFromAllCategoryList) {
       await getRecipes(null);
-      favouriteListCubit.getRecipes();
     } else if (categoryId != null) {
       await getRecipes(categoryId);
-      favouriteListCubit.getRecipes();
     }
   }
 }

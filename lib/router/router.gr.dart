@@ -36,6 +36,7 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
     Recipe? recipe,
     int? listScreenCategoryId,
     bool isFromAllCategoryList = false,
+    bool isFromSearchScreen = false,
     List<PageRouteInfo>? children,
   }) : super(
           EditRoute.name,
@@ -44,6 +45,7 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
             recipe: recipe,
             listScreenCategoryId: listScreenCategoryId,
             isFromAllCategoryList: isFromAllCategoryList,
+            isFromSearchScreen: isFromSearchScreen,
           ),
           initialChildren: children,
         );
@@ -60,6 +62,7 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
         recipe: args.recipe,
         listScreenCategoryId: args.listScreenCategoryId,
         isFromAllCategoryList: args.isFromAllCategoryList,
+        isFromSearchScreen: args.isFromSearchScreen,
       );
     },
   );
@@ -71,6 +74,7 @@ class EditRouteArgs {
     this.recipe,
     this.listScreenCategoryId,
     this.isFromAllCategoryList = false,
+    this.isFromSearchScreen = false,
   });
 
   final Key? key;
@@ -81,9 +85,11 @@ class EditRouteArgs {
 
   final bool isFromAllCategoryList;
 
+  final bool isFromSearchScreen;
+
   @override
   String toString() {
-    return 'EditRouteArgs{key: $key, recipe: $recipe, listScreenCategoryId: $listScreenCategoryId, isFromAllCategoryList: $isFromAllCategoryList}';
+    return 'EditRouteArgs{key: $key, recipe: $recipe, listScreenCategoryId: $listScreenCategoryId, isFromAllCategoryList: $isFromAllCategoryList, isFromSearchScreen: $isFromSearchScreen}';
   }
 }
 
@@ -150,16 +156,20 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute({
     Key? key,
     required int recipeId,
-    bool isFromAllCategoryList = false,
     int? categoryIdFromListScreen,
+    bool isFromAllCategoryScreen = false,
+    bool isFromSearchScreen = false,
+    VoidCallback? refreshSearchScreen,
     List<PageRouteInfo>? children,
   }) : super(
           RecipeRoute.name,
           args: RecipeRouteArgs(
             key: key,
             recipeId: recipeId,
-            isFromAllCategoryList: isFromAllCategoryList,
             categoryIdFromListScreen: categoryIdFromListScreen,
+            isFromAllCategoryScreen: isFromAllCategoryScreen,
+            isFromSearchScreen: isFromSearchScreen,
+            refreshSearchScreen: refreshSearchScreen,
           ),
           initialChildren: children,
         );
@@ -173,8 +183,10 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
       return RecipeScreen(
         key: args.key,
         recipeId: args.recipeId,
-        isFromAllCategoryList: args.isFromAllCategoryList,
         categoryIdFromListScreen: args.categoryIdFromListScreen,
+        isFromAllCategoryScreen: args.isFromAllCategoryScreen,
+        isFromSearchScreen: args.isFromSearchScreen,
+        refreshSearchScreen: args.refreshSearchScreen,
       );
     },
   );
@@ -184,21 +196,27 @@ class RecipeRouteArgs {
   const RecipeRouteArgs({
     this.key,
     required this.recipeId,
-    this.isFromAllCategoryList = false,
     this.categoryIdFromListScreen,
+    this.isFromAllCategoryScreen = false,
+    this.isFromSearchScreen = false,
+    this.refreshSearchScreen,
   });
 
   final Key? key;
 
   final int recipeId;
 
-  final bool isFromAllCategoryList;
-
   final int? categoryIdFromListScreen;
+
+  final bool isFromAllCategoryScreen;
+
+  final bool isFromSearchScreen;
+
+  final VoidCallback? refreshSearchScreen;
 
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId, isFromAllCategoryList: $isFromAllCategoryList, categoryIdFromListScreen: $categoryIdFromListScreen}';
+    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId, categoryIdFromListScreen: $categoryIdFromListScreen, isFromAllCategoryScreen: $isFromAllCategoryScreen, isFromSearchScreen: $isFromSearchScreen, refreshSearchScreen: $refreshSearchScreen}';
   }
 }
 
@@ -268,7 +286,7 @@ class SearchRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return SearchScreen();
+      return const SearchScreen();
     },
   );
 }

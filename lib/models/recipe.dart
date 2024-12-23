@@ -10,7 +10,7 @@ part 'recipe.g.dart';
 class Recipe with _$Recipe {
   @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory Recipe({
-    int? id,
+    int? rowid,
     required String title,
     required String cookingTime,
     required String numberOfPortions,

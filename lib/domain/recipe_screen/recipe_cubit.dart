@@ -14,9 +14,17 @@ class RecipeCubit extends Cubit<RecipeState> {
       : _dataRepository = dataRepository,
         super(RecipeStateLoading());
 
-   Future<void> switchFavourite(Recipe recipe) async {
-    Recipe newRecipe = recipe.copyWith(isFavourite: !recipe.isFavourite);
-    await _dataRepository.updateRecipe(recipe.id!, newRecipe);
+  //  Future<void> switchFavourite(Recipe recipe) async {
+  //   Recipe newRecipe = recipe.copyWith(isFavourite: !recipe.isFavourite);
+  //   await _dataRepository.updateRecipe(recipe.rowid!, newRecipe);
+  // }
+
+  Future<void> switchFavourite(int id) async {
+    Recipe recipe = await _dataRepository.getRecipe(id);
+    await _dataRepository.updateRecipe(
+      recipe.rowid!,
+      recipe.copyWith(isFavourite: !recipe.isFavourite),
+    );
   }
 
   Future<void> getRecipe(int id) async {

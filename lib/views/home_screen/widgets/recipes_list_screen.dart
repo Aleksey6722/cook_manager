@@ -78,14 +78,13 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
       itemBuilder: (context, index, animation) {
         return GestureDetector(
             onTap: () => context.router.push(RecipeRoute(
-                  recipeId: state.listOfRecipes[index].id!,
-                  // recipe: state.listOfRecipes[index],
-                  isFromAllCategoryList: widget.categoryId == null,
+                  recipeId: state.listOfRecipes[index].rowid!,
+                  isFromAllCategoryScreen: widget.categoryId == null,
                   categoryIdFromListScreen: widget.categoryId,
                 )),
             child: RecipeTile(
               recipe: state.listOfRecipes[index],
-              isFromAllCategoryList: widget.categoryId == null,
+              isFromAllCategoryScreen: widget.categoryId == null,
               categoryIdFromListScreen: widget.categoryId,
               onDelete: () => removeItem(state.listOfRecipes[index], index),
             ));
@@ -95,20 +94,21 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
 
   void removeItem(Recipe recipe, index) {
     listKey.currentState!.removeItem(
-        index,
-        (context, animation) => SizeTransition(
-          sizeFactor: animation,
-          child: RecipeTile(
-                // animation: animation,
-                recipe: recipe,
-                onDelete: () {},
-              ),
-        ));
+      index,
+      (context, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: RecipeTile(
+          recipe: recipe,
+          onDelete: () {},
+        ),
+      ),
+    );
   }
 
   Widget _buildEmptyPage() {
     final theme = Theme.of(context);
-    return ListView.builder( // List builder is for RefreshIndicator
+    return ListView.builder(
+      // List builder is for RefreshIndicator
       itemCount: 1,
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(20),
