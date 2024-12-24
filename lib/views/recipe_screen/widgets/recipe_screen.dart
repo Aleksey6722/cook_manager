@@ -53,7 +53,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvokedWithResult: (didPop, result) => _refreshPages,
+      onPopInvokedWithResult: (didPop, result) => _refreshPages(),
       child: BlocBuilder<RecipeCubit, RecipeState>(
         bloc: _recipeCubit,
         builder: (context, state) {
