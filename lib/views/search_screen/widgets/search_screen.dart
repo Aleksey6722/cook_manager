@@ -102,12 +102,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: GestureDetector(
                           onTap: () => context.router.push(
                             RecipeRoute(
-                                recipeId: state.listOfRecipes[index].rowid!,
-                                refreshSearchScreen: () {
-                                  _searchCubit.getEmptyState();
-                                  _searchCubit
-                                      .searchRecipes(_textController.text);
-                                }),
+                              recipeId: state.listOfRecipes[index].rowid!,
+                              // refreshSearchScreen: () {
+                              //   _searchCubit.getEmptyState();
+                              //   _searchCubit
+                              //       .searchRecipes(_textController.text);
+                              // },
+                            ),
                           ),
                           child: RecipeTile(
                             recipe: state.listOfRecipes[index],
