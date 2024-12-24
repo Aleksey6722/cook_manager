@@ -18,15 +18,15 @@ class RecipeTile extends StatefulWidget {
     this.categoryIdFromListScreen,
     required this.onDelete,
     this.isFromFavouriteScreen = false,
-    this.refreshSearchScreen,
+    this.isFromSearchScreen = false,
   });
 
   final Recipe recipe;
   final bool isFromAllCategoryScreen;
   final bool isFromFavouriteScreen;
+  final bool isFromSearchScreen;
   final int? categoryIdFromListScreen;
   final VoidCallback? onDelete;
-  final VoidCallback? refreshSearchScreen;
 
   @override
   State<RecipeTile> createState() => _RecipeTileState();
@@ -152,11 +152,11 @@ class _RecipeTileState extends State<RecipeTile> {
     await _recipeCubit.switchFavourite(widget.recipe.rowid!);
     _isFavourite = !_isFavourite;
     _searchCubit.refreshPage();
-    if(!widget.isFromFavouriteScreen) {
-      _favouriteListCubit.getRecipes();
+    if (!widget.isFromSearchScreen) {
+      _searchCubit.refreshPage();
     }
-    if(widget.refreshSearchScreen != null) {
-      widget.refreshSearchScreen!();
+    if (!widget.isFromFavouriteScreen) {
+      _favouriteListCubit.getRecipes();
     }
     setState(() {});
   }
@@ -179,9 +179,14 @@ class _RecipeTileState extends State<RecipeTile> {
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  widget.onDelete!();
                   _recipeCubit.deleteRecipe(widget.recipe.rowid!);
-                  _favouriteListCubit.getRecipes();
+                  if (!widget.isFromSearchScreen) {
+                    _searchCubit.refreshPage();
+                  }
+                  if (!widget.isFromFavouriteScreen) {
+                    _favouriteListCubit.getRecipes();
+                  }
+                  widget.onDelete!();
                 },
                 child: const Text('Удалить')),
           ],

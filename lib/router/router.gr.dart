@@ -159,7 +159,6 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
     int? categoryIdFromListScreen,
     bool isFromAllCategoryScreen = false,
     bool isFromSearchScreen = false,
-    VoidCallback? refreshSearchScreen,
     List<PageRouteInfo>? children,
   }) : super(
           RecipeRoute.name,
@@ -169,7 +168,6 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
             categoryIdFromListScreen: categoryIdFromListScreen,
             isFromAllCategoryScreen: isFromAllCategoryScreen,
             isFromSearchScreen: isFromSearchScreen,
-            refreshSearchScreen: refreshSearchScreen,
           ),
           initialChildren: children,
         );
@@ -186,7 +184,6 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
         categoryIdFromListScreen: args.categoryIdFromListScreen,
         isFromAllCategoryScreen: args.isFromAllCategoryScreen,
         isFromSearchScreen: args.isFromSearchScreen,
-        refreshSearchScreen: args.refreshSearchScreen,
       );
     },
   );
@@ -199,7 +196,6 @@ class RecipeRouteArgs {
     this.categoryIdFromListScreen,
     this.isFromAllCategoryScreen = false,
     this.isFromSearchScreen = false,
-    this.refreshSearchScreen,
   });
 
   final Key? key;
@@ -212,11 +208,9 @@ class RecipeRouteArgs {
 
   final bool isFromSearchScreen;
 
-  final VoidCallback? refreshSearchScreen;
-
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId, categoryIdFromListScreen: $categoryIdFromListScreen, isFromAllCategoryScreen: $isFromAllCategoryScreen, isFromSearchScreen: $isFromSearchScreen, refreshSearchScreen: $refreshSearchScreen}';
+    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId, categoryIdFromListScreen: $categoryIdFromListScreen, isFromAllCategoryScreen: $isFromAllCategoryScreen, isFromSearchScreen: $isFromSearchScreen}';
   }
 }
 
