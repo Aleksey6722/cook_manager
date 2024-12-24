@@ -1,17 +1,17 @@
 part of 'image_box_bloc.dart';
 
 sealed class ImageBoxState extends Equatable {
-  late final CroppedFile? imageFile;
+  late final Uint8List? imageBytes;
   @override
-  List<Object?> get props => [imageFile];
+  List<Object?> get props => [imageBytes];
 
 }
 
 class CurrentImageBoxState extends ImageBoxState {
 
   @override
-  final CroppedFile? imageFile;
+  final Uint8List? imageBytes;
 
-  CurrentImageBoxState({required this.imageFile});
+  CurrentImageBoxState({required this.imageBytes});
 
 }

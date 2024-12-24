@@ -13,7 +13,8 @@ _$RecipeImpl _$$RecipeImplFromJson(Map<String, dynamic> json) => _$RecipeImpl(
       numberOfPortions: json['number_of_portions'] as String,
       category: (json['category'] as num).toInt(),
       description: json['description'] as String?,
-      imageUrl: json['image_url'] as String?,
+      imageBytes:
+          const Uint8ListConverter().fromJson(json['image_bytes'] as List?),
       proteins: json['proteins'] as String?,
       fats: json['fats'] as String?,
       carbohydrates: json['carbohydrates'] as String?,
@@ -36,7 +37,7 @@ Map<String, dynamic> _$$RecipeImplToJson(_$RecipeImpl instance) =>
       'number_of_portions': instance.numberOfPortions,
       'category': instance.category,
       'description': instance.description,
-      'image_url': instance.imageUrl,
+      'image_bytes': const Uint8ListConverter().toJson(instance.imageBytes),
       'proteins': instance.proteins,
       'fats': instance.fats,
       'carbohydrates': instance.carbohydrates,

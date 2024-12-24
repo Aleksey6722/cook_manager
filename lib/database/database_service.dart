@@ -13,7 +13,7 @@ class DatabaseService {
   final String _recipeNumberOfPortionsColumnName = 'number_of_portions';
   final String _recipeCategoryIdColumnName = 'category';
   final String _recipeDescriptionColumnName = 'description';
-  final String _recipeImageUrlColumnName = 'image_url';
+  final String _recipeImageColumnName = 'image_bytes';
   final String _recipeProteinsColumnName = 'proteins';
   final String _recipeFatsColumnName = 'fats';
   final String _recipeCarbohydratesColumnName = 'carbohydrates';
@@ -54,7 +54,7 @@ class DatabaseService {
          $_recipeNumberOfPortionsColumnName TEXT NOT NULL,
          $_recipeCategoryIdColumnName INTEGER,
          $_recipeDescriptionColumnName TEXT,
-         $_recipeImageUrlColumnName TEXT,
+         $_recipeImageColumnName BLOB,
          $_recipeProteinsColumnName TEXT,
          $_recipeFatsColumnName TEXT,
          $_recipeCarbohydratesColumnName TEXT,
@@ -101,14 +101,14 @@ class DatabaseService {
   Future<int> insertRecipe(Recipe recipe) async {
     final db = await database;
     final result = await db.rawInsert(
-        '''INSERT INTO $_recipeTableName($_recipeTitleColumnName, $_recipeCookingTimeColumnName, $_recipeNumberOfPortionsColumnName, $_recipeCategoryIdColumnName, $_recipeDescriptionColumnName, $_recipeImageUrlColumnName, $_recipeProteinsColumnName, $_recipeFatsColumnName, $_recipeCarbohydratesColumnName, $_recipeCaloriesColumnName, $_recipeRecipeUrlColumnName, $_recipeIngredientsColumnName, $_recipeStepsColumnName, $_recipeIsFavouriteColumnName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        '''INSERT INTO $_recipeTableName($_recipeTitleColumnName, $_recipeCookingTimeColumnName, $_recipeNumberOfPortionsColumnName, $_recipeCategoryIdColumnName, $_recipeDescriptionColumnName, $_recipeImageColumnName, $_recipeProteinsColumnName, $_recipeFatsColumnName, $_recipeCarbohydratesColumnName, $_recipeCaloriesColumnName, $_recipeRecipeUrlColumnName, $_recipeIngredientsColumnName, $_recipeStepsColumnName, $_recipeIsFavouriteColumnName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
         [
           recipe.title,
           recipe.cookingTime,
           recipe.numberOfPortions,
           recipe.category,
           recipe.description,
-          recipe.imageUrl,
+          recipe.imageBytes,
           recipe.proteins,
           recipe.fats,
           recipe.carbohydrates,
@@ -124,14 +124,14 @@ class DatabaseService {
   Future<bool> updateRecipe(int id, Recipe recipe) async {
     final db = await database;
     int countOfChanges = await db.rawUpdate(
-        '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageUrlColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE rowid = ? ''',
+        '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE rowid = ? ''',
         [
           recipe.title,
           recipe.cookingTime,
           recipe.numberOfPortions,
           recipe.category,
           recipe.description,
-          recipe.imageUrl,
+          recipe.imageBytes,
           recipe.proteins,
           recipe.fats,
           recipe.carbohydrates,
@@ -155,7 +155,7 @@ class DatabaseService {
         $_recipeNumberOfPortionsColumnName,
         $_recipeCategoryIdColumnName,
         $_recipeDescriptionColumnName,
-        $_recipeImageUrlColumnName,
+        $_recipeImageColumnName,
         $_recipeProteinsColumnName,
         $_recipeFatsColumnName,
         $_recipeCarbohydratesColumnName,
@@ -184,7 +184,7 @@ class DatabaseService {
       _recipeNumberOfPortionsColumnName,
       _recipeCategoryIdColumnName,
       _recipeDescriptionColumnName,
-      _recipeImageUrlColumnName,
+      _recipeImageColumnName,
       _recipeProteinsColumnName,
       _recipeFatsColumnName,
       _recipeCarbohydratesColumnName,
@@ -214,7 +214,7 @@ class DatabaseService {
       _recipeNumberOfPortionsColumnName,
       _recipeCategoryIdColumnName,
       _recipeDescriptionColumnName,
-      _recipeImageUrlColumnName,
+      _recipeImageColumnName,
       _recipeProteinsColumnName,
       _recipeFatsColumnName,
       _recipeCarbohydratesColumnName,
@@ -245,7 +245,7 @@ class DatabaseService {
       _recipeNumberOfPortionsColumnName,
       _recipeCategoryIdColumnName,
       _recipeDescriptionColumnName,
-      _recipeImageUrlColumnName,
+      _recipeImageColumnName,
       _recipeProteinsColumnName,
       _recipeFatsColumnName,
       _recipeCarbohydratesColumnName,
@@ -272,7 +272,7 @@ class DatabaseService {
       _recipeNumberOfPortionsColumnName,
       _recipeCategoryIdColumnName,
       _recipeDescriptionColumnName,
-      _recipeImageUrlColumnName,
+      _recipeImageColumnName,
       _recipeProteinsColumnName,
       _recipeFatsColumnName,
       _recipeCarbohydratesColumnName,

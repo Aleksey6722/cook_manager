@@ -1,8 +1,10 @@
 import 'dart:io';
 
+
 import 'package:cook_manager/domain/edit_recipe/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/utils/image_helper.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -37,13 +39,14 @@ class _ImageBoxState extends State<ImageBox> {
               Container(
                 height: (MediaQuery.of(context).size.width - 40) / 1.5,
                 width: MediaQuery.of(context).size.width - 40,
-                decoration: state.imageFile != null
+                decoration: state.imageBytes != null
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
-                            image: FileImage(File(state.imageFile!.path))))
+                            // image: FileImage(File(state.imageBytes!.imageBytes))))
+                            image: MemoryImage(state.imageBytes!)))
                     : null,
-                child: state.imageFile != null
+                child: state.imageBytes != null
                     ? _buildDeleteIcon()
                     : _buildButtonsColumn(),
               ),
@@ -116,9 +119,9 @@ class _ImageBoxState extends State<ImageBox> {
 
     if (file == null) return;
 
-    // final bytes = await file.readAsBytes();
+    final Uint8List bytes = await file.readAsBytes();
 
-    _imageBoxBloc.add(SetPicture(imageFile: file));
+    _imageBoxBloc.add(SetPicture(imageBytes: bytes));
   }
 
   Future _pickImageFromCamera() async {
@@ -129,7 +132,9 @@ class _ImageBoxState extends State<ImageBox> {
 
     if (file == null) return;
 
-    _imageBoxBloc.add(SetPicture(imageFile: file));
+    final Uint8List bytes = await file.readAsBytes();
+
+    _imageBoxBloc.add(SetPicture(imageBytes: bytes ));
   }
 
   Widget _buildDeleteIcon() {

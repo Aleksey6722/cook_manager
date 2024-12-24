@@ -6,21 +6,21 @@ sealed class ImageBoxEvent extends Equatable {
 }
 
 class SetPicture extends ImageBoxEvent {
-  final  CroppedFile? imageFile;
+  final  Uint8List? imageBytes;
 
-  SetPicture({required this.imageFile});
+  SetPicture({required this.imageBytes});
 
   @override
-    List<Object?> get props => [imageFile];
+    List<Object?> get props => [imageBytes];
 }
 
 class RemovePicture extends ImageBoxEvent {}
 
 class SetEditingPicture extends ImageBoxEvent {
-  final String path;
+  final Uint8List imageBytes;
 
-  SetEditingPicture({required this.path});
+  SetEditingPicture({required this.imageBytes});
 
   @override
-  List<Object?> get props => [path];
+  List<Object?> get props => [imageBytes];
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 import 'package:cook_manager/domain/home_screen/recipes_list_cubit.dart';
@@ -8,6 +6,7 @@ import 'package:cook_manager/domain/search_screen/search_cubit.dart';
 import 'package:cook_manager/views/recipe_screen/widgets/widgets.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -68,7 +67,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   }
 
   Widget _buildPage(RecipeStateLoaded state) {
-    final String? imageUrl = state.recipe.imageUrl;
+    final Uint8List? imageBytes = state.recipe.imageBytes;
     final theme = Theme.of(context);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -127,8 +126,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
               height: 2 * screenWidth / 3,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: imageUrl != null
-                        ? FileImage(File(state.recipe.imageUrl!))
+                    image: imageBytes != null
+                        // ? FileImage(File(state.recipe.imageUrl!))
+                        ? MemoryImage(imageBytes)
                         : const AssetImage(
                             'assets/images/image_placeholder.jpg'),
                     fit: BoxFit.cover),

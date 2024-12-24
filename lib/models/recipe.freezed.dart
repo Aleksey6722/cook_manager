@@ -26,7 +26,8 @@ mixin _$Recipe {
   String get numberOfPortions => throw _privateConstructorUsedError;
   int get category => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  String? get imageUrl => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  Uint8List? get imageBytes => throw _privateConstructorUsedError;
   String? get proteins => throw _privateConstructorUsedError;
   String? get fats => throw _privateConstructorUsedError;
   String? get carbohydrates => throw _privateConstructorUsedError;
@@ -57,7 +58,7 @@ abstract class $RecipeCopyWith<$Res> {
       String numberOfPortions,
       int category,
       String? description,
-      String? imageUrl,
+      @Uint8ListConverter() Uint8List? imageBytes,
       String? proteins,
       String? fats,
       String? carbohydrates,
@@ -89,7 +90,7 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
     Object? numberOfPortions = null,
     Object? category = null,
     Object? description = freezed,
-    Object? imageUrl = freezed,
+    Object? imageBytes = freezed,
     Object? proteins = freezed,
     Object? fats = freezed,
     Object? carbohydrates = freezed,
@@ -124,10 +125,10 @@ class _$RecipeCopyWithImpl<$Res, $Val extends Recipe>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      imageBytes: freezed == imageBytes
+          ? _value.imageBytes
+          : imageBytes // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       proteins: freezed == proteins
           ? _value.proteins
           : proteins // ignore: cast_nullable_to_non_nullable
@@ -178,7 +179,7 @@ abstract class _$$RecipeImplCopyWith<$Res> implements $RecipeCopyWith<$Res> {
       String numberOfPortions,
       int category,
       String? description,
-      String? imageUrl,
+      @Uint8ListConverter() Uint8List? imageBytes,
       String? proteins,
       String? fats,
       String? carbohydrates,
@@ -208,7 +209,7 @@ class __$$RecipeImplCopyWithImpl<$Res>
     Object? numberOfPortions = null,
     Object? category = null,
     Object? description = freezed,
-    Object? imageUrl = freezed,
+    Object? imageBytes = freezed,
     Object? proteins = freezed,
     Object? fats = freezed,
     Object? carbohydrates = freezed,
@@ -243,10 +244,10 @@ class __$$RecipeImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+      imageBytes: freezed == imageBytes
+          ? _value.imageBytes
+          : imageBytes // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       proteins: freezed == proteins
           ? _value.proteins
           : proteins // ignore: cast_nullable_to_non_nullable
@@ -286,7 +287,7 @@ class __$$RecipeImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class _$RecipeImpl implements _Recipe {
+class _$RecipeImpl with DiagnosticableTreeMixin implements _Recipe {
   const _$RecipeImpl(
       {this.rowid,
       required this.title,
@@ -294,7 +295,7 @@ class _$RecipeImpl implements _Recipe {
       required this.numberOfPortions,
       required this.category,
       this.description,
-      this.imageUrl,
+      @Uint8ListConverter() this.imageBytes,
       this.proteins,
       this.fats,
       this.carbohydrates,
@@ -322,7 +323,8 @@ class _$RecipeImpl implements _Recipe {
   @override
   final String? description;
   @override
-  final String? imageUrl;
+  @Uint8ListConverter()
+  final Uint8List? imageBytes;
   @override
   final String? proteins;
   @override
@@ -355,8 +357,30 @@ class _$RecipeImpl implements _Recipe {
   final bool isFavourite;
 
   @override
-  String toString() {
-    return 'Recipe(rowid: $rowid, title: $title, cookingTime: $cookingTime, numberOfPortions: $numberOfPortions, category: $category, description: $description, imageUrl: $imageUrl, proteins: $proteins, fats: $fats, carbohydrates: $carbohydrates, calories: $calories, recipeUrl: $recipeUrl, listOfIngredients: $listOfIngredients, listOfSteps: $listOfSteps, isFavourite: $isFavourite)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Recipe(rowid: $rowid, title: $title, cookingTime: $cookingTime, numberOfPortions: $numberOfPortions, category: $category, description: $description, imageBytes: $imageBytes, proteins: $proteins, fats: $fats, carbohydrates: $carbohydrates, calories: $calories, recipeUrl: $recipeUrl, listOfIngredients: $listOfIngredients, listOfSteps: $listOfSteps, isFavourite: $isFavourite)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Recipe'))
+      ..add(DiagnosticsProperty('rowid', rowid))
+      ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('cookingTime', cookingTime))
+      ..add(DiagnosticsProperty('numberOfPortions', numberOfPortions))
+      ..add(DiagnosticsProperty('category', category))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('imageBytes', imageBytes))
+      ..add(DiagnosticsProperty('proteins', proteins))
+      ..add(DiagnosticsProperty('fats', fats))
+      ..add(DiagnosticsProperty('carbohydrates', carbohydrates))
+      ..add(DiagnosticsProperty('calories', calories))
+      ..add(DiagnosticsProperty('recipeUrl', recipeUrl))
+      ..add(DiagnosticsProperty('listOfIngredients', listOfIngredients))
+      ..add(DiagnosticsProperty('listOfSteps', listOfSteps))
+      ..add(DiagnosticsProperty('isFavourite', isFavourite));
   }
 
   @override
@@ -374,8 +398,8 @@ class _$RecipeImpl implements _Recipe {
                 other.category == category) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
+            const DeepCollectionEquality()
+                .equals(other.imageBytes, imageBytes) &&
             (identical(other.proteins, proteins) ||
                 other.proteins == proteins) &&
             (identical(other.fats, fats) || other.fats == fats) &&
@@ -403,7 +427,7 @@ class _$RecipeImpl implements _Recipe {
       numberOfPortions,
       category,
       description,
-      imageUrl,
+      const DeepCollectionEquality().hash(imageBytes),
       proteins,
       fats,
       carbohydrates,
@@ -437,7 +461,7 @@ abstract class _Recipe implements Recipe {
       required final String numberOfPortions,
       required final int category,
       final String? description,
-      final String? imageUrl,
+      @Uint8ListConverter() final Uint8List? imageBytes,
       final String? proteins,
       final String? fats,
       final String? carbohydrates,
@@ -462,7 +486,8 @@ abstract class _Recipe implements Recipe {
   @override
   String? get description;
   @override
-  String? get imageUrl;
+  @Uint8ListConverter()
+  Uint8List? get imageBytes;
   @override
   String? get proteins;
   @override

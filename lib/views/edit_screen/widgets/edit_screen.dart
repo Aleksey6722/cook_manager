@@ -18,14 +18,12 @@ class EditScreen extends StatefulWidget {
     this.recipe,
     this.listScreenCategoryId,
     this.isFromAllCategoryList = false,
-    // this.isFromFavouriteScreen = false,
     this.isFromSearchScreen = false,
   });
 
   final Recipe? recipe;
   final int? listScreenCategoryId;
   final bool isFromAllCategoryList;
-  // final bool isFromFavouriteScreen;
   final bool isFromSearchScreen;
 
   @override
@@ -321,8 +319,8 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   void _fillFormForEditing() {
-    if (widget.recipe!.imageUrl != null) {
-      _imageBoxBloc.add(SetEditingPicture(path: widget.recipe!.imageUrl!));
+    if (widget.recipe!.imageBytes != null) {
+      _imageBoxBloc.add(SetEditingPicture(imageBytes: widget.recipe!.imageBytes!));
     }
     _structureBloc.add(EditIngredientsEvent(
         editingList: widget.recipe!.listOfIngredients.toList()));
@@ -390,7 +388,7 @@ class _EditScreenState extends State<EditScreen> {
       cookingTime: cookingTime,
       numberOfPortions: numberOfPortions,
       description: description,
-      imageUrl: _imageBoxBloc.state.imageFile?.path,
+      imageBytes: _imageBoxBloc.state.imageBytes,
       category: _getCategoryId(category),
       proteins: proteins,
       fats: fats,
