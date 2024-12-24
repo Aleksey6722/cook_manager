@@ -20,18 +20,14 @@ class RecipeScreen extends StatefulWidget {
     required this.recipeId,
     this.categoryIdFromListScreen,
     this.isFromAllCategoryScreen = false,
-    // this.isFromFavouriteScreen = false,
     this.isFromSearchScreen = false,
-    // this.refreshSearchScreen,
   });
 
   final int recipeId;
   final int? categoryIdFromListScreen;
   final bool isFromAllCategoryScreen;
 
-  // final bool isFromFavouriteScreen;
   final bool isFromSearchScreen;
-  // final VoidCallback? refreshSearchScreen;
 
   @override
   State<RecipeScreen> createState() => _RecipeScreenState();
