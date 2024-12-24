@@ -1,13 +1,13 @@
 import 'dart:convert';
-
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+@singleton
 class DatabaseService {
   final String _recipeTableName = 'recipe';
-  final String _recipeIdColumnName = 'id';
   final String _recipeTitleColumnName = 'title';
   final String _recipeCookingTimeColumnName = 'cooking_time';
   final String _recipeNumberOfPortionsColumnName = 'number_of_portions';
@@ -30,9 +30,9 @@ class DatabaseService {
 
   static Database? _db;
 
-  static final DatabaseService instance = DatabaseService._constructor();
-
-  DatabaseService._constructor();
+  // static final DatabaseService instance = DatabaseService._constructor();
+  //
+  // DatabaseService._constructor();
 
   Future<Database> get database async {
     if (_db != null) return _db!;
@@ -48,8 +48,7 @@ class DatabaseService {
       databasePath,
       onCreate: (db, version) async {
         await db.execute('''
-        CREATE TABLE $_recipeTableName (
-         $_recipeIdColumnName INTEGER PRIMARY KEY AUTOINCREMENT,
+        CREATE VIRTUAL TABLE $_recipeTableName USING FTS4(
          $_recipeTitleColumnName TEXT NOT NULL,
          $_recipeCookingTimeColumnName TEXT NOT NULL,
          $_recipeNumberOfPortionsColumnName TEXT NOT NULL,
@@ -101,7 +100,7 @@ class DatabaseService {
 
   Future<int> insertRecipe(Recipe recipe) async {
     final db = await database;
-    return db.rawInsert(
+    final result = await db.rawInsert(
         '''INSERT INTO $_recipeTableName($_recipeTitleColumnName, $_recipeCookingTimeColumnName, $_recipeNumberOfPortionsColumnName, $_recipeCategoryIdColumnName, $_recipeDescriptionColumnName, $_recipeImageUrlColumnName, $_recipeProteinsColumnName, $_recipeFatsColumnName, $_recipeCarbohydratesColumnName, $_recipeCaloriesColumnName, $_recipeRecipeUrlColumnName, $_recipeIngredientsColumnName, $_recipeStepsColumnName, $_recipeIsFavouriteColumnName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
         [
           recipe.title,
@@ -119,12 +118,13 @@ class DatabaseService {
           jsonEncode(recipe.toJson()['list_of_steps']),
           recipe.isFavourite ? 1 : 0,
         ]);
+    return result;
   }
 
   Future<bool> updateRecipe(int id, Recipe recipe) async {
     final db = await database;
     int countOfChanges = await db.rawUpdate(
-        '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageUrlColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE id = ? ''',
+        '''UPDATE $_recipeTableName SET $_recipeTitleColumnName = ?, $_recipeCookingTimeColumnName = ?, $_recipeNumberOfPortionsColumnName = ?, $_recipeCategoryIdColumnName = ?, $_recipeDescriptionColumnName = ?, $_recipeImageUrlColumnName = ?, $_recipeProteinsColumnName = ?, $_recipeFatsColumnName = ?, $_recipeCarbohydratesColumnName = ?, $_recipeCaloriesColumnName = ?, $_recipeRecipeUrlColumnName = ?, $_recipeIngredientsColumnName = ?, $_recipeStepsColumnName = ?, $_recipeIsFavouriteColumnName = ? WHERE rowid = ? ''',
         [
           recipe.title,
           recipe.cookingTime,
@@ -145,10 +145,55 @@ class DatabaseService {
     return Future.value(countOfChanges > 0);
   }
 
+  Future<List<Recipe>> findText(String text) async {
+    final db = await database;
+    final rows = await db.rawQuery(
+        '''SELECT 
+        rowid, 
+        $_recipeTitleColumnName,
+        $_recipeCookingTimeColumnName,
+        $_recipeNumberOfPortionsColumnName,
+        $_recipeCategoryIdColumnName,
+        $_recipeDescriptionColumnName,
+        $_recipeImageUrlColumnName,
+        $_recipeProteinsColumnName,
+        $_recipeFatsColumnName,
+        $_recipeCarbohydratesColumnName,
+        $_recipeCaloriesColumnName,
+        $_recipeRecipeUrlColumnName,
+        $_recipeIngredientsColumnName,
+        $_recipeStepsColumnName,
+        $_recipeIsFavouriteColumnName
+        FROM ${_recipeTableName} 
+        WHERE ${_recipeTableName} MATCH ?;''', [text]);
+    List<Recipe> result = [];
+    for (Object recipe in rows) {
+      final json = _decode(recipe as Map<String, Object?>);
+      result.add(Recipe.fromJson(json));
+    }
+    return result;
+  }
+
   Future<Recipe> getRecipe(int id) async {
     final db = await database;
     final row =
-        await db.query(_recipeTableName, where: 'id = ?', whereArgs: [id]);
+    await db.query(_recipeTableName, where: 'rowid = ?', columns: [
+      'rowid',
+      _recipeTitleColumnName,
+      _recipeCookingTimeColumnName,
+      _recipeNumberOfPortionsColumnName,
+      _recipeCategoryIdColumnName,
+      _recipeDescriptionColumnName,
+      _recipeImageUrlColumnName,
+      _recipeProteinsColumnName,
+      _recipeFatsColumnName,
+      _recipeCarbohydratesColumnName,
+      _recipeCaloriesColumnName,
+      _recipeRecipeUrlColumnName,
+      _recipeIngredientsColumnName,
+      _recipeStepsColumnName,
+      _recipeIsFavouriteColumnName,
+    ], whereArgs: [id]);
     final json = _decode(row[0]);
     final Recipe recipeFromDB = Recipe.fromJson(json);
     return recipeFromDB;
@@ -156,13 +201,60 @@ class DatabaseService {
 
   Future<void> deleteRecipe(int id) async {
     final db = await database;
-    db.delete(_recipeTableName, where: 'id = ?', whereArgs: [id]);
+    db.delete(_recipeTableName, where: 'rowid = ?', whereArgs: [id]);
   }
 
-  Future<List<Recipe>> getRecipesByCategoryId(String categoryId) async {
+  Future<List<Recipe>> getRecipesByCategoryId(int categoryId) async {
     final db = await database;
-    final rows = await db.query(_recipeTableName,
-        where: 'category = ?', whereArgs: [categoryId]);
+    final rows =
+        await db.query(_recipeTableName, where: '$_recipeCategoryIdColumnName = ?', columns: [
+      'rowid',
+      _recipeTitleColumnName,
+      _recipeCookingTimeColumnName,
+      _recipeNumberOfPortionsColumnName,
+      _recipeCategoryIdColumnName,
+      _recipeDescriptionColumnName,
+      _recipeImageUrlColumnName,
+      _recipeProteinsColumnName,
+      _recipeFatsColumnName,
+      _recipeCarbohydratesColumnName,
+      _recipeCaloriesColumnName,
+      _recipeRecipeUrlColumnName,
+      _recipeIngredientsColumnName,
+      _recipeStepsColumnName,
+      _recipeIsFavouriteColumnName,
+    ], whereArgs: [categoryId]);
+    // final rows = await db.rawQuery('''
+    // SELECT * FROM $_recipeTableName WHERE category = ?
+    // ''', [categoryId]);
+    List<Recipe> result = [];
+    for (Object recipe in rows) {
+      final json = _decode(recipe as Map<String, Object?>);
+      result.add(Recipe.fromJson(json));
+    }
+    return result;
+  }
+
+  Future<List<Recipe>> getFavouriteRecipes() async {
+    final db = await database;
+    final rows =
+        await db.query(_recipeTableName, where: 'is_favourite = 1', columns: [
+      'rowid',
+      _recipeTitleColumnName,
+      _recipeCookingTimeColumnName,
+      _recipeNumberOfPortionsColumnName,
+      _recipeCategoryIdColumnName,
+      _recipeDescriptionColumnName,
+      _recipeImageUrlColumnName,
+      _recipeProteinsColumnName,
+      _recipeFatsColumnName,
+      _recipeCarbohydratesColumnName,
+      _recipeCaloriesColumnName,
+      _recipeRecipeUrlColumnName,
+      _recipeIngredientsColumnName,
+      _recipeStepsColumnName,
+      _recipeIsFavouriteColumnName,
+    ]);
     List<Recipe> result = [];
     for (Object recipe in rows) {
       final json = _decode(recipe as Map<String, Object?>);
@@ -173,7 +265,23 @@ class DatabaseService {
 
   Future<List<Recipe>> getAllRecipes() async {
     final db = await database;
-    final rows = await db.query(_recipeTableName);
+    final rows = await db.query(_recipeTableName, columns: [
+      'rowid',
+      _recipeTitleColumnName,
+      _recipeCookingTimeColumnName,
+      _recipeNumberOfPortionsColumnName,
+      _recipeCategoryIdColumnName,
+      _recipeDescriptionColumnName,
+      _recipeImageUrlColumnName,
+      _recipeProteinsColumnName,
+      _recipeFatsColumnName,
+      _recipeCarbohydratesColumnName,
+      _recipeCaloriesColumnName,
+      _recipeRecipeUrlColumnName,
+      _recipeIngredientsColumnName,
+      _recipeStepsColumnName,
+      _recipeIsFavouriteColumnName,
+    ]);
     List<Recipe> result = [];
     for (Object recipe in rows) {
       final json = _decode(recipe as Map<String, Object?>);

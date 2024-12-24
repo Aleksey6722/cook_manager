@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cook_manager/features/main/view/category_navigation_screen.dart';
-import 'package:cook_manager/features/main/view/recipes_list_screen.dart';
 import 'package:cook_manager/models/recipe.dart';
+import 'package:cook_manager/views/edit_screen/edit_screen.dart';
+import 'package:cook_manager/views/favourites_screen/widgets/favourites_screen.dart';
+
 import 'package:flutter/material.dart';
 
-import '../features/edit/view/edit_screen.dart';
-import '../features/favourites/view/favourites_screen.dart';
-import '../features/home/view/home_screen.dart';
-import '../features/main/view/main_screen.dart';
-import '../features/recipe_screen/view/recipe_screen.dart';
-import '../features/search/view/search_screen.dart';
-import '../features/settings/view/settings_screen.dart';
+import '../views/home_screen/widgets/widgets.dart';
+import '../views/recipe_screen/widgets/widgets.dart';
+import '../views/root_screen/widgets/widgets.dart';
+import '../views/search_screen/widgets/widgets.dart';
+import '../views/settings_screen/widgets/widgets.dart';
 
 part 'router.gr.dart';
 
@@ -49,9 +48,5 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(page: RecipeRoute.page, path: '/recipe'),
         AutoRoute(page: EditRoute.page, path: '/edit'),
-        // AutoRoute(
-        //   page: RecipesListRoute.page,
-        //   path: '/recipes',
-        // ),
       ];
 }

@@ -1,15 +1,15 @@
+import 'package:cook_manager/database/database_service.dart';
 import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-
-import 'database/database_service.dart';
 import 'di/di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   runApp(const CookManager());
-  final DatabaseService db = DatabaseService.instance;
+  final DatabaseService db = GetIt.instance<DatabaseService>();
   // db.deleteDB();
   // db.showData();
 }

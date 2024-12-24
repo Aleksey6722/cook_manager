@@ -36,6 +36,7 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
     Recipe? recipe,
     int? listScreenCategoryId,
     bool isFromAllCategoryList = false,
+    bool isFromSearchScreen = false,
     List<PageRouteInfo>? children,
   }) : super(
           EditRoute.name,
@@ -44,6 +45,7 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
             recipe: recipe,
             listScreenCategoryId: listScreenCategoryId,
             isFromAllCategoryList: isFromAllCategoryList,
+            isFromSearchScreen: isFromSearchScreen,
           ),
           initialChildren: children,
         );
@@ -60,6 +62,7 @@ class EditRoute extends PageRouteInfo<EditRouteArgs> {
         recipe: args.recipe,
         listScreenCategoryId: args.listScreenCategoryId,
         isFromAllCategoryList: args.isFromAllCategoryList,
+        isFromSearchScreen: args.isFromSearchScreen,
       );
     },
   );
@@ -71,6 +74,7 @@ class EditRouteArgs {
     this.recipe,
     this.listScreenCategoryId,
     this.isFromAllCategoryList = false,
+    this.isFromSearchScreen = false,
   });
 
   final Key? key;
@@ -81,9 +85,11 @@ class EditRouteArgs {
 
   final bool isFromAllCategoryList;
 
+  final bool isFromSearchScreen;
+
   @override
   String toString() {
-    return 'EditRouteArgs{key: $key, recipe: $recipe, listScreenCategoryId: $listScreenCategoryId, isFromAllCategoryList: $isFromAllCategoryList}';
+    return 'EditRouteArgs{key: $key, recipe: $recipe, listScreenCategoryId: $listScreenCategoryId, isFromAllCategoryList: $isFromAllCategoryList, isFromSearchScreen: $isFromSearchScreen}';
   }
 }
 
@@ -149,17 +155,21 @@ class MainRoute extends PageRouteInfo<void> {
 class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
   RecipeRoute({
     Key? key,
-    required Recipe recipe,
-    bool isFromAllCategoryList = false,
+    required int recipeId,
     int? categoryIdFromListScreen,
+    bool isFromAllCategoryScreen = false,
+    bool isFromSearchScreen = false,
+    VoidCallback? refreshSearchScreen,
     List<PageRouteInfo>? children,
   }) : super(
           RecipeRoute.name,
           args: RecipeRouteArgs(
             key: key,
-            recipe: recipe,
-            isFromAllCategoryList: isFromAllCategoryList,
+            recipeId: recipeId,
             categoryIdFromListScreen: categoryIdFromListScreen,
+            isFromAllCategoryScreen: isFromAllCategoryScreen,
+            isFromSearchScreen: isFromSearchScreen,
+            refreshSearchScreen: refreshSearchScreen,
           ),
           initialChildren: children,
         );
@@ -172,9 +182,11 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
       final args = data.argsAs<RecipeRouteArgs>();
       return RecipeScreen(
         key: args.key,
-        recipe: args.recipe,
-        isFromAllCategoryList: args.isFromAllCategoryList,
+        recipeId: args.recipeId,
         categoryIdFromListScreen: args.categoryIdFromListScreen,
+        isFromAllCategoryScreen: args.isFromAllCategoryScreen,
+        isFromSearchScreen: args.isFromSearchScreen,
+        refreshSearchScreen: args.refreshSearchScreen,
       );
     },
   );
@@ -183,22 +195,28 @@ class RecipeRoute extends PageRouteInfo<RecipeRouteArgs> {
 class RecipeRouteArgs {
   const RecipeRouteArgs({
     this.key,
-    required this.recipe,
-    this.isFromAllCategoryList = false,
+    required this.recipeId,
     this.categoryIdFromListScreen,
+    this.isFromAllCategoryScreen = false,
+    this.isFromSearchScreen = false,
+    this.refreshSearchScreen,
   });
 
   final Key? key;
 
-  final Recipe recipe;
-
-  final bool isFromAllCategoryList;
+  final int recipeId;
 
   final int? categoryIdFromListScreen;
 
+  final bool isFromAllCategoryScreen;
+
+  final bool isFromSearchScreen;
+
+  final VoidCallback? refreshSearchScreen;
+
   @override
   String toString() {
-    return 'RecipeRouteArgs{key: $key, recipe: $recipe, isFromAllCategoryList: $isFromAllCategoryList, categoryIdFromListScreen: $categoryIdFromListScreen}';
+    return 'RecipeRouteArgs{key: $key, recipeId: $recipeId, categoryIdFromListScreen: $categoryIdFromListScreen, isFromAllCategoryScreen: $isFromAllCategoryScreen, isFromSearchScreen: $isFromSearchScreen, refreshSearchScreen: $refreshSearchScreen}';
   }
 }
 
