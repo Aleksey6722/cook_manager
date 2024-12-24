@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 import 'package:cook_manager/domain/home_screen/category_bloc.dart';
 import 'package:cook_manager/domain/recipe_screen/recipe_cubit.dart';
+import 'package:cook_manager/domain/search_screen/search_cubit.dart';
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/views/recipe_screen/widgets/widgets.dart';
@@ -36,6 +37,7 @@ class _RecipeTileState extends State<RecipeTile> {
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
   final FavouriteListCubit _favouriteListCubit =
       GetIt.instance<FavouriteListCubit>();
+  final SearchCubit _searchCubit = GetIt.instance<SearchCubit>();
 
   late bool _isFavourite = widget.recipe.isFavourite;
 
@@ -149,6 +151,7 @@ class _RecipeTileState extends State<RecipeTile> {
   void _setFavourite() async {
     await _recipeCubit.switchFavourite(widget.recipe.rowid!);
     _isFavourite = !_isFavourite;
+    _searchCubit.refreshPage();
     if(!widget.isFromFavouriteScreen) {
       _favouriteListCubit.getRecipes();
     }

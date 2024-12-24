@@ -11,10 +11,26 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit(DataRepository dataRepository)
       : _dataRepository = dataRepository,
         super(SearchInitState());
+
   final DataRepository _dataRepository;
+  String _lastSearchText = '';
 
   Future<void> searchRecipes(String text) async {
+    _lastSearchText = text;
     List<Recipe> result = await _dataRepository.findText(text);
+    if(result.isEmpty) {
+      emit(SearchEmptyState());
+    } else {
+      emit(SearchLoadedState(listOfRecipes: result));
+    }
+  }
+
+  Future<void> refreshPage() async {
+    if(_lastSearchText.isEmpty){
+      emit(SearchInitState());
+      return;
+    }
+    List<Recipe> result = await _dataRepository.findText(_lastSearchText);
     if(result.isEmpty) {
       emit(SearchEmptyState());
     } else {

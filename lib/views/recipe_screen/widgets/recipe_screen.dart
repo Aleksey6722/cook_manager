@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 import 'package:cook_manager/domain/home_screen/recipes_list_cubit.dart';
 import 'package:cook_manager/domain/recipe_screen/recipe_cubit.dart';
+import 'package:cook_manager/domain/search_screen/search_cubit.dart';
 import 'package:cook_manager/views/recipe_screen/widgets/widgets.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
@@ -38,7 +39,8 @@ class RecipeScreen extends StatefulWidget {
 
 class _RecipeScreenState extends State<RecipeScreen> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
-  final RecipesListCubit _recipeListCubit = GetIt.instance<RecipesListCubit>();
+  final SearchCubit _searchCubit = GetIt.instance<SearchCubit>();
+    final RecipesListCubit _recipeListCubit = GetIt.instance<RecipesListCubit>();
   final FavouriteListCubit _favouriteListCubit =
       GetIt.instance<FavouriteListCubit>();
 
@@ -51,17 +53,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvokedWithResult: (didPop, result) {
-        _favouriteListCubit.getRecipes();
-        if (widget.refreshSearchScreen != null) {
-          widget.refreshSearchScreen!();
-        }
-        _recipeListCubit.emitInitState();
-        _recipeListCubit.updateRecipeListPage(
-          widget.categoryIdFromListScreen,
-          widget.isFromAllCategoryScreen,
-        );
-      },
+      onPopInvokedWithResult: (didPop, result) => _refreshPages,
       child: BlocBuilder<RecipeCubit, RecipeState>(
         bloc: _recipeCubit,
         builder: (context, state) {
@@ -217,5 +209,15 @@ class _RecipeScreenState extends State<RecipeScreen> {
     await _recipeCubit.switchFavourite(recipe.rowid!);
     _recipeCubit.getRecipe(recipe.rowid!);
     _favouriteListCubit.getRecipes();
+  }
+
+  void _refreshPages() {
+    _favouriteListCubit.getRecipes();
+    _searchCubit.refreshPage();
+    _recipeListCubit.emitInitState();
+    _recipeListCubit.updateRecipeListPage(
+      widget.categoryIdFromListScreen,
+      widget.isFromAllCategoryScreen,
+    );
   }
 }
