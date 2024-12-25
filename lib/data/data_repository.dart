@@ -41,6 +41,10 @@ class DataRepository {
     return _db.insertRecipe(recipe);
   }
 
+  Future<int> getAmountOfRecipes() async {
+    return (await _db.getAllRecipes()).length;
+  }
+
   Future<List<Recipe>> findText(String text) async {
     return _db.findText(text);
   }

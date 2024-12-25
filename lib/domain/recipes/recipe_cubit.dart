@@ -1,4 +1,5 @@
 import 'package:cook_manager/data/data_repository.dart';
+import 'package:cook_manager/domain/settings/amount_recipes_cubit.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,15 +10,12 @@ part 'recipe_state.dart';
 @singleton
 class RecipeCubit extends Cubit<RecipeState> {
   final DataRepository _dataRepository;
+  final AmountRecipesCubit _amountRecipesCubit;
 
-  RecipeCubit(DataRepository dataRepository)
+  RecipeCubit(DataRepository dataRepository, AmountRecipesCubit amountOfRecipes)
       : _dataRepository = dataRepository,
+        _amountRecipesCubit = amountOfRecipes,
         super(RecipeStateLoading());
-
-  //  Future<void> switchFavourite(Recipe recipe) async {
-  //   Recipe newRecipe = recipe.copyWith(isFavourite: !recipe.isFavourite);
-  //   await _dataRepository.updateRecipe(recipe.rowid!, newRecipe);
-  // }
 
   Future<void> switchFavourite(int id) async {
     Recipe recipe = await _dataRepository.getRecipe(id);
@@ -38,5 +36,6 @@ class RecipeCubit extends Cubit<RecipeState> {
 
   void deleteRecipe(int id) async {
     await _dataRepository.deleteRecipe(id);
+    _amountRecipesCubit.getAmountOfRecipes();
   }
 }

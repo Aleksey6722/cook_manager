@@ -4,6 +4,7 @@ import 'package:cook_manager/domain/edit_recipe/structure_widget_bloc/structure_
 import 'package:cook_manager/domain/edit_recipe/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/domain/edit_recipe/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/domain/home_screen/category_bloc.dart';
+import 'package:cook_manager/domain/settings/amount_recipes_cubit.dart';
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
@@ -52,6 +53,7 @@ class _EditScreenState extends State<EditScreen> {
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
+  final AmountRecipesCubit _amountRecipesCubit = GetIt.instance<AmountRecipesCubit>();
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController cookingTimeController = TextEditingController();
@@ -359,6 +361,7 @@ class _EditScreenState extends State<EditScreen> {
   Future<void> _addRecipe() async {
     Recipe recipe = _createRecipe();
     final int id = await db.insertRecipe(recipe);
+    _amountRecipesCubit.getAmountOfRecipes();
     context.router.push(RecipeRoute(
       // recipe: recipe.copyWith(id: id),
       recipeId: id,
@@ -375,7 +378,6 @@ class _EditScreenState extends State<EditScreen> {
           recipeId: widget.recipe!.rowid!,
           isFromAllCategoryScreen: widget.isFromAllCategoryList,
           categoryIdFromListScreen: widget.listScreenCategoryId,
-          // isFromFavouriteScreen : widget.isFromFavouriteScreen,
           isFromSearchScreen : widget.isFromSearchScreen,
         ),
         predicate: (rout) => rout.isFirst,
