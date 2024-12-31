@@ -3,10 +3,11 @@ import 'package:cook_manager/data/data_repository.dart';
 import 'package:cook_manager/domain/search/search_cubit.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
-import 'package:cook_manager/views/recipe_screen/recipe_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../home_screen/widgets/widgets.dart';
 
 @RoutePage()
 class SearchScreen extends StatefulWidget {

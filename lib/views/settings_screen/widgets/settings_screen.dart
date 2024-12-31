@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cook_manager/domain/settings/amount_recipes_cubit.dart';
-import 'package:cook_manager/domain/theme/theme_cubit.dart';
+import 'package:cook_manager/domain/settings/settings_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/views/settings_screen/widgets/settings_toggle_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +16,15 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final AmountRecipesCubit _amountRecipesCubit = GetIt.instance<AmountRecipesCubit>();
-  final ThemeCubit _themeCubit = GetIt.instance<ThemeCubit>();
+  // final AmountRecipesCubit _amountRecipesCubit = GetIt.instance<AmountRecipesCubit>();
+  final SettingsCubit _settingsCubit = GetIt.instance<SettingsCubit>();
+
+  // final ThemeCubit _themeCubit = GetIt.instance<ThemeCubit>();
 
 
   @override
   void initState() {
-    _amountRecipesCubit.getAmountOfRecipes();
+    _settingsCubit.changeAmountOfRecipes();
     super.initState();
   }
 
@@ -37,64 +39,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
         shadowColor: theme.colorScheme.surface,
         elevation: 2,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 12, left: 8, right: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
+      body: BlocBuilder<SettingsCubit, SettingsCurrentState>(
+        bloc: _settingsCubit,
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 12, left: 8, right: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BlocBuilder<ThemeCubit, ThemeState>(
-                  bloc: _themeCubit,
-                  builder: (context, state) {
-                    return SettingsToggleCard(
+                Column(
+                  children: [
+                    SettingsToggleCard(
                         title: 'Тёмная тема',
                         initValue: state.brightness == Brightness.dark,
                         onChanged: (bool val) {
-                          _themeCubit.setTheme(
+                          _settingsCubit.changeTheme(
                               val ? Brightness.dark : Brightness.light);
-                        });
-                  },
+                        }),
+                    const SizedBox(height: 12),
+                    SettingsToggleCard(
+                        title: S.of(context).english_language,
+                        initValue: state.locale == 'en',
+                        onChanged: (bool val) {
+                          _settingsCubit.changeLocale(val ? 'en' : 'ru');
+                        }),
+                  ],
                 ),
-                const SizedBox(height: 12),
-                SettingsToggleCard(
-                    title: "Английский язык",
-                    initValue: false,
-                    onChanged: (bool val) {}),
+                Column(
+                  children: [
+                    Divider(
+                      color: theme.colorScheme.onSurface.withOpacity(0.1),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Количество рецептов',
+                            style: theme.textTheme.bodyLarge),
+                        Text(state.amountOfRecipes.toString(),
+                            style: theme.textTheme.bodyLarge),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Версия приложения',
+                            style: theme.textTheme.bodyLarge),
+                        Text('1.0.0', style: theme.textTheme.bodyLarge),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                )
               ],
             ),
-            Column(
-              children: [
-                Divider(
-                  color: theme.colorScheme.onSurface.withOpacity(0.1),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Количество рецептов',
-                        style: theme.textTheme.bodyLarge),
-                    BlocBuilder<AmountRecipesCubit, AmountRecipesState>(
-                      bloc: _amountRecipesCubit,
-                      builder: (context, state) {
-                        return Text(state.amount.toString(),
-                            style: theme.textTheme.bodyLarge);
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Версия приложения', style: theme.textTheme.bodyLarge),
-                    Text('1.0.0', style: theme.textTheme.bodyLarge),
-                  ],
-                ),
-                const SizedBox(height: 8),
-              ],
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }

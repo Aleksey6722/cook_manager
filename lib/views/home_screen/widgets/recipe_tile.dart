@@ -4,10 +4,12 @@ import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 import 'package:cook_manager/domain/home_screen/category_bloc.dart';
 import 'package:cook_manager/domain/recipes/recipe_cubit.dart';
 import 'package:cook_manager/domain/search/search_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
 
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
-import 'package:cook_manager/views/recipe_screen/widgets/widgets.dart';
+import 'package:cook_manager/views/home_screen/widgets/widgets.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -168,14 +170,14 @@ class _RecipeTileState extends State<RecipeTile> {
       builder: (context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(),
-          title: const Text('Удаление рецепта'),
-          content: const Text('Вы уверене что хотите удалить рецепт?'),
+          title: Text(S.of(context).deleting_recipe),
+          content: Text(S.of(context).deleting_recipe_message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Отмена'),
+              child: Text(S.of(context).cansel),
             ),
             TextButton(
                 onPressed: () {
@@ -189,7 +191,7 @@ class _RecipeTileState extends State<RecipeTile> {
                   }
                   widget.onDelete!();
                 },
-                child: const Text('Удалить')),
+                child: Text(S.of(context).delete)),
           ],
         );
       },
@@ -199,6 +201,20 @@ class _RecipeTileState extends State<RecipeTile> {
   String _getCategoryName(int id) {
     final List<Category> categories =
         (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
+    final List<String> categorieNames = [
+      S.of(context).salads,
+      S.of(context).snacks,
+      S.of(context).soups,
+      S.of(context).main_course,
+      S.of(context).desserts,
+      S.of(context).drinks
+    ];
+
+    if(Localizations.localeOf(context).toString() == 'en') {
+      String name = categorieNames[id-1];
+      return name;
+    }
+
     String name = '';
     for (Category e in categories) {
       if (e.id == id) {

@@ -14,6 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../home_screen/widgets/widgets.dart';
+
 @RoutePage()
 class RecipeScreen extends StatefulWidget {
   const RecipeScreen({

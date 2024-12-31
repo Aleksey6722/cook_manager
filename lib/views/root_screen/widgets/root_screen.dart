@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_manager/router/router.dart';
 
@@ -26,10 +27,10 @@ class HomeScreen extends StatelessWidget {
             unselectedItemColor: theme.colorScheme.secondary.withOpacity(0.3),
             currentIndex: tabsRouter.activeIndex,
             onTap: (index) => _openPage(index, tabsRouter),
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Главная',
+                label: S.of(context).main,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.search_rounded),

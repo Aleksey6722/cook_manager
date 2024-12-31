@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cook_manager/domain/edit_recipe/image_box_bloc/image_box_bloc.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/utils/image_helper.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _ImageBoxState extends State<ImageBox> {
               ),
             ),
             onPressed: _pickImageFromCamera,
-            child: const Text('Загрузить фото с камеры'),
+            child: Text(S.of(context).photo_from_camera),
           ),
         ),
         const SizedBox(height: 10),
@@ -100,7 +101,7 @@ class _ImageBoxState extends State<ImageBox> {
                   borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
             onPressed: _pickImageFromGallery,
-            child: const Text('Загрузить фото с галереи'),
+            child: Text(S.of(context).photo_from_gallery),
           ),
         ),
         const SizedBox(height: 10),
@@ -152,21 +153,21 @@ class _ImageBoxState extends State<ImageBox> {
       builder: (context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(),
-          title: const Text('Удаление фотографии'),
-          content: const Text('Вы уверене что хотите удалить фотографию?'),
+          title: Text(S.of(context).deleting_photo),
+          content: Text(S.of(context).deleting_photo_message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Отмена'),
+              child: Text(S.of(context).cansel),
             ),
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                   _imageBoxBloc.add(RemovePicture());
                 },
-                child: const Text('Удалить')),
+                child: Text(S.of(context).delete)),
           ],
         );
       },

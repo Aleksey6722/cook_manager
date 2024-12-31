@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cook_manager/domain/home_screen/category_bloc.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -56,6 +57,14 @@ class _CategoryFormFieldState extends State<CategoryFormField>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final List<Category> categories = (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
+    final List<String> categoriesNames = [
+      S.of(context).salads,
+      S.of(context).snacks,
+      S.of(context).soups,
+      S.of(context).main_course,
+      S.of(context).desserts,
+      S.of(context).drinks
+    ];
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 12),
       decoration: BoxDecoration(
@@ -72,7 +81,7 @@ class _CategoryFormFieldState extends State<CategoryFormField>
             decoration: InputDecoration(
               label: Container(
                 transform: Matrix4.translationValues(0.0, -8.0, 0.0),
-                child: const Text('Категория'),
+                child: Text(S.of(context).category),
               ),
               suffixIconColor: theme.colorScheme.onSurface,
               suffixIcon: AnimatedBuilder(
@@ -103,7 +112,10 @@ class _CategoryFormFieldState extends State<CategoryFormField>
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    String name = categories[index].name;
+                    String name = Localizations.localeOf(context).toString() == 'ru'
+                        ? categories[index].name
+                        : categoriesNames[index];
+                    // String name = categories[index].name;
                     return GestureDetector(
                       onTap: () {
                         widget.categoryController.text = name;
