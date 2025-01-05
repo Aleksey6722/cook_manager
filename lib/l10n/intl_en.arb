@@ -42,5 +42,16 @@
   "drinks": "Drinks",
   "all_recipes": "All recipes",
   "deleting_recipe": "Deleting recipe",
-  "deleting_recipe_message": "Are you sure you want to delete this recipe?"
+  "deleting_recipe_message": "Are you sure you want to delete this recipe?",
+  "hoursCount": "{howMany, plural, one{1 hour} other{{howMany} hours}}",
+  "minutesCount": "{howMany, plural, one{1 minute} other{{howMany} minutes}}",
+  "portionsCount": "{howMany, plural, one{1 portion} other{{howMany} portions}}",
+  "search": "Search",
+  "search_no_result": "The search did not yield any results",
+  "add": "Add",
+  "settings": "Settings",
+  "dark_theme": "Dark theme",
+  "search_of_recipes": "Search of recipes...",
+  "amount_of_recipes": "Amount of recipes",
+  "app_version": "App version"
 }

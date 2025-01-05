@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     return AutoTabsRouter(
       routes: [
         const MainRoute(),
-        SearchRoute(),
+        const SearchRoute(),
         EditRoute(),
         const FavouritesRoute(),
         SettingsRoute()
@@ -29,24 +29,24 @@ class HomeScreen extends StatelessWidget {
             onTap: (index) => _openPage(index, tabsRouter),
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 label: S.of(context).main,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search_rounded),
-                label: 'Поиск',
+                icon: const Icon(Icons.search_rounded),
+                label: S.of(context).search,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle, size: 40),
-                label: 'Добавить',
+                icon: const Icon(Icons.add_circle, size: 40),
+                label: S.of(context).add,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark_border),
-                label: 'Избранное',
+                icon: const Icon(Icons.bookmark_border),
+                label: S.of(context).favourite,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Настройки',
+                icon: const Icon(Icons.settings),
+                label: S.of(context).settings,
               ),
             ],
           ),

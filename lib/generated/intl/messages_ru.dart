@@ -20,11 +20,25 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
+  static String m0(howMany) =>
+      "${Intl.plural(howMany, one: '1 час', few: '${howMany} часа', other: '${howMany} часов')}";
+
+  static String m1(howMany) =>
+      "${Intl.plural(howMany, one: '1 минута', few: '${howMany} минуты', other: '${howMany} минут')}";
+
+  static String m2(howMany) =>
+      "${Intl.plural(howMany, one: '1 порция', few: '${howMany} порции', other: '${howMany} порций')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "add": MessageLookupByLibrary.simpleMessage("Добавить"),
         "add_recipe": MessageLookupByLibrary.simpleMessage("Добавить рецепт"),
         "all_recipes": MessageLookupByLibrary.simpleMessage("Все рецепты"),
         "amount": MessageLookupByLibrary.simpleMessage("Количество"),
+        "amount_of_recipes":
+            MessageLookupByLibrary.simpleMessage("Количество рецептов"),
+        "app_version":
+            MessageLookupByLibrary.simpleMessage("Версия приложения"),
         "calories": MessageLookupByLibrary.simpleMessage("Калории"),
         "cansel": MessageLookupByLibrary.simpleMessage("Отмена"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("Углеводы"),
@@ -34,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cooking_time":
             MessageLookupByLibrary.simpleMessage("Время приготовления"),
         "create_recipe": MessageLookupByLibrary.simpleMessage("Создать рецепт"),
+        "dark_theme": MessageLookupByLibrary.simpleMessage("Тёмная тема"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
         "deleting_photo":
             MessageLookupByLibrary.simpleMessage("Удаление фотографии"),
@@ -56,11 +71,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "favourite_empty_message": MessageLookupByLibrary.simpleMessage(
             "У Вас нет ни одного рецепта в избранном"),
         "hours": MessageLookupByLibrary.simpleMessage("Часов"),
+        "hoursCount": m0,
         "ingredient": MessageLookupByLibrary.simpleMessage("Ингредиент"),
         "ingredients": MessageLookupByLibrary.simpleMessage("Состав"),
         "main": MessageLookupByLibrary.simpleMessage("Главная"),
         "main_course": MessageLookupByLibrary.simpleMessage("Вторые блюда"),
         "method": MessageLookupByLibrary.simpleMessage("Пошаговый рецепт"),
+        "minutesCount": m1,
         "number_of_servings":
             MessageLookupByLibrary.simpleMessage("Количество порций"),
         "nutrition_label":
@@ -69,12 +86,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Загрузить фото с камеры"),
         "photo_from_gallery":
             MessageLookupByLibrary.simpleMessage("Загрузить фото с галереи"),
+        "portionsCount": m2,
         "proteins": MessageLookupByLibrary.simpleMessage("Белки"),
         "recipe_name": MessageLookupByLibrary.simpleMessage("Название"),
         "recipe_name_placeholder":
             MessageLookupByLibrary.simpleMessage("Рецепт малинового пирога"),
         "salads": MessageLookupByLibrary.simpleMessage("Салаты"),
         "save_recipe": MessageLookupByLibrary.simpleMessage("Сохранить рецепт"),
+        "search": MessageLookupByLibrary.simpleMessage("Поиск"),
+        "search_no_result":
+            MessageLookupByLibrary.simpleMessage("Поиск не дал результатов"),
+        "search_of_recipes":
+            MessageLookupByLibrary.simpleMessage("Поиск рецептов..."),
+        "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "snacks": MessageLookupByLibrary.simpleMessage("Закуски"),
         "soups": MessageLookupByLibrary.simpleMessage("Первые блюда"),
         "source_link":

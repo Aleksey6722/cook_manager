@@ -16,11 +16,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // final AmountRecipesCubit _amountRecipesCubit = GetIt.instance<AmountRecipesCubit>();
   final SettingsCubit _settingsCubit = GetIt.instance<SettingsCubit>();
-
-  // final ThemeCubit _themeCubit = GetIt.instance<ThemeCubit>();
-
 
   @override
   void initState() {
@@ -33,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Настройки'),
+        title: Text(S.of(context).settings),
         surfaceTintColor: theme.colorScheme.surface,
         backgroundColor: theme.colorScheme.surface,
         shadowColor: theme.colorScheme.surface,
@@ -50,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Column(
                   children: [
                     SettingsToggleCard(
-                        title: 'Тёмная тема',
+                        title: S.of(context).dark_theme,
                         initValue: state.brightness == Brightness.dark,
                         onChanged: (bool val) {
                           _settingsCubit.changeTheme(
@@ -58,7 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }),
                     const SizedBox(height: 12),
                     SettingsToggleCard(
-                        title: S.of(context).english_language,
+                        title: 'English language',
                         initValue: state.locale == 'en',
                         onChanged: (bool val) {
                           _settingsCubit.changeLocale(val ? 'en' : 'ru');
@@ -73,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Количество рецептов',
+                        Text(S.of(context).amount_of_recipes,
                             style: theme.textTheme.bodyLarge),
                         Text(state.amountOfRecipes.toString(),
                             style: theme.textTheme.bodyLarge),
@@ -83,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Версия приложения',
+                        Text(S.of(context).app_version,
                             style: theme.textTheme.bodyLarge),
                         Text('1.0.0', style: theme.textTheme.bodyLarge),
                       ],

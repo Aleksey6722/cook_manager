@@ -86,17 +86,18 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   void initState() {
-    if (widget.recipe != null) {
-      _fillFormForEditing();
-      super.initState();
-    } else {
+    if (widget.recipe == null) {
       _structureBloc.add(GetInitIngredients());
       _recipeStepsBloc.add(GetInitSteps());
     }
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.recipe != null) {
+      _fillFormForEditing();
+    }
     final theme = Theme.of(context);
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
@@ -335,8 +336,8 @@ class _EditScreenState extends State<EditScreen> {
       S.of(context).drinks
     ];
 
-    if(Localizations.localeOf(context).toString() == 'en'){
-      return categoriesNames[id];
+    if(Localizations.localeOf(context).toString() == 'en') {
+      return categoriesNames[id-1];
     }
 
     String name = '';

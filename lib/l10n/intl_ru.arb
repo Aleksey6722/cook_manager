@@ -42,5 +42,16 @@
   "drinks": "Напитки",
   "all_recipes": "Все рецепты",
   "deleting_recipe": "Удаление рецепта",
-  "deleting_recipe_message": "Вы уверене что хотите удалить рецепт?"
+  "deleting_recipe_message": "Вы уверене что хотите удалить рецепт?",
+  "hoursCount": "{howMany, plural, one {1 час} few {{howMany} часа} other {{howMany} часов}}",
+  "minutesCount": "{howMany, plural, one {1 минута} few {{howMany} минуты} other {{howMany} минут}}",
+  "portionsCount": "{howMany, plural, one {1 порция} few {{howMany} порции} other {{howMany} порций}}",
+  "search": "Поиск",
+  "search_no_result": "Поиск не дал результатов",
+  "add": "Добавить",
+  "settings": "Настройки",
+  "dark_theme": "Тёмная тема",
+  "search_of_recipes": "Поиск рецептов...",
+  "amount_of_recipes": "Количество рецептов",
+  "app_version": "Версия приложения"
 }

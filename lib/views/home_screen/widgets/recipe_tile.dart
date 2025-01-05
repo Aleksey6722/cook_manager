@@ -149,8 +149,6 @@ class _RecipeTileState extends State<RecipeTile> {
     );
   }
 
-
-
   void _setFavourite() async {
     await _recipeCubit.switchFavourite(widget.recipe.rowid!);
     _isFavourite = !_isFavourite;

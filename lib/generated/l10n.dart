@@ -489,6 +489,122 @@ class S {
       args: [],
     );
   }
+
+  /// `{howMany, plural, one{1 hour} other{{howMany} hours}}`
+  String hoursCount(num howMany) {
+    return Intl.plural(
+      howMany,
+      one: '1 hour',
+      other: '$howMany hours',
+      name: 'hoursCount',
+      desc: '',
+      args: [howMany],
+    );
+  }
+
+  /// `{howMany, plural, one{1 minute} other{{howMany} minutes}}`
+  String minutesCount(num howMany) {
+    return Intl.plural(
+      howMany,
+      one: '1 minute',
+      other: '$howMany minutes',
+      name: 'minutesCount',
+      desc: '',
+      args: [howMany],
+    );
+  }
+
+  /// `{howMany, plural, one{1 portion} other{{howMany} portions}}`
+  String portionsCount(num howMany) {
+    return Intl.plural(
+      howMany,
+      one: '1 portion',
+      other: '$howMany portions',
+      name: 'portionsCount',
+      desc: '',
+      args: [howMany],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The search did not yield any results`
+  String get search_no_result {
+    return Intl.message(
+      'The search did not yield any results',
+      name: 'search_no_result',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark theme`
+  String get dark_theme {
+    return Intl.message(
+      'Dark theme',
+      name: 'dark_theme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search of recipes...`
+  String get search_of_recipes {
+    return Intl.message(
+      'Search of recipes...',
+      name: 'search_of_recipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount of recipes`
+  String get amount_of_recipes {
+    return Intl.message(
+      'Amount of recipes',
+      name: 'amount_of_recipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App version`
+  String get app_version {
+    return Intl.message(
+      'App version',
+      name: 'app_version',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
