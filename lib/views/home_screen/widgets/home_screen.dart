@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/domain/home_screen/category_bloc.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Категории'),
+        title: Text(S.of(context).categories),
         surfaceTintColor: theme.colorScheme.surface,
         backgroundColor: theme.colorScheme.surface,
         shadowColor: theme.colorScheme.surface,
@@ -55,6 +56,15 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   _buildPage(CategoryStateLoaded state) {
+    final List<String> categories = [
+      S.of(context).all_recipes,
+      S.of(context).salads,
+      S.of(context).snacks,
+      S.of(context).soups,
+      S.of(context).main_course,
+      S.of(context).desserts,
+      S.of(context).drinks
+    ];
     List<Category> list = state.listOfCategories.toList();
     list.insert(
         0,
@@ -69,11 +79,17 @@ class _MainScreenState extends State<MainScreen> {
         onTap: () {
           context.router.push(RecipesListRoute(
             categoryId: list[index].id,
-            categoryName: list[index].name,
+            categoryName: Localizations.localeOf(context).toString() == 'ru'
+                ? list[index].name
+                : categories[index],
           ));
         },
         child: MainMenuContainer(
-            imageUrl: list[index].imageUrl, label: list[index].name),
+          label: Localizations.localeOf(context).toString() == 'ru'
+              ? list[index].name
+              : categories[index],
+          imageUrl: list[index].imageUrl,
+        ),
       ),
     );
   }

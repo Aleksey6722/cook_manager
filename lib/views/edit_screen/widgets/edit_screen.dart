@@ -4,6 +4,8 @@ import 'package:cook_manager/domain/edit_recipe/structure_widget_bloc/structure_
 import 'package:cook_manager/domain/edit_recipe/image_box_bloc/image_box_bloc.dart';
 import 'package:cook_manager/domain/edit_recipe/recipe_steps_bloc/recipe_steps_bloc.dart';
 import 'package:cook_manager/domain/home_screen/category_bloc.dart';
+import 'package:cook_manager/domain/settings/settings_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
@@ -18,14 +20,12 @@ class EditScreen extends StatefulWidget {
     this.recipe,
     this.listScreenCategoryId,
     this.isFromAllCategoryList = false,
-    // this.isFromFavouriteScreen = false,
     this.isFromSearchScreen = false,
   });
 
   final Recipe? recipe;
   final int? listScreenCategoryId;
   final bool isFromAllCategoryList;
-  // final bool isFromFavouriteScreen;
   final bool isFromSearchScreen;
 
   @override
@@ -52,6 +52,8 @@ class _EditScreenState extends State<EditScreen> {
   final StructureBloc _structureBloc = GetIt.instance<StructureBloc>();
   final ImageBoxBloc _imageBoxBloc = GetIt.instance<ImageBoxBloc>();
   final CategoryBloc _categoryBloc = GetIt.instance<CategoryBloc>();
+
+  final SettingsCubit _settingsCubit = GetIt.instance<SettingsCubit>();
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController cookingTimeController = TextEditingController();
@@ -84,17 +86,18 @@ class _EditScreenState extends State<EditScreen> {
 
   @override
   void initState() {
-    if (widget.recipe != null) {
-      _fillFormForEditing();
-      super.initState();
-    } else {
+    if (widget.recipe == null) {
       _structureBloc.add(GetInitIngredients());
       _recipeStepsBloc.add(GetInitSteps());
     }
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.recipe != null) {
+      _fillFormForEditing();
+    }
     final theme = Theme.of(context);
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
@@ -105,7 +108,7 @@ class _EditScreenState extends State<EditScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            widget.recipe == null ? 'Добавить рецепт' : 'Редактировать рецепт',
+            widget.recipe == null ? S.of(context).add_recipe : S.of(context).edit_recipe,
             style: theme.textTheme.headlineSmall,
           ),
           surfaceTintColor: theme.colorScheme.surface,
@@ -127,12 +130,12 @@ class _EditScreenState extends State<EditScreen> {
                         const ImageBox(),
                         const SizedBox(height: 15),
                         BaseFormField(
-                          labelText: 'Название',
+                          labelText: S.of(context).recipe_name,
                           controller: titleController,
-                          hintText: 'Рецепт малинового пирога',
+                          hintText: S.of(context).recipe_name_placeholder,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add('название');
+                              errors.add(S.of(context).recipe_name.toLowerCase());
                               return '';
                             }
                             return null;
@@ -143,13 +146,13 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         const SizedBox(height: 10),
                         BaseFormField(
-                          labelText: 'Время приготовления',
+                          labelText: S.of(context).cooking_time,
                           controller: cookingTimeController,
-                          hintText: 'Часов',
+                          hintText: S.of(context).hours,
                           onlyNumber: true,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add('время приготовления');
+                              errors.add(S.of(context).cooking_time.toLowerCase());
                               return '';
                             }
                             return null;
@@ -160,12 +163,12 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         const SizedBox(height: 10),
                         BaseFormField(
-                          labelText: 'Количество порций',
+                          labelText: S.of(context).number_of_servings,
                           controller: numOfPortionsController,
                           onlyNumber: true,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add('количество порций');
+                              errors.add(S.of(context).number_of_servings.toLowerCase());
                               return '';
                             }
                             return null;
@@ -179,7 +182,7 @@ class _EditScreenState extends State<EditScreen> {
                           categoryController: categoryController,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add('категорию');
+                              errors.add(S.of(context).category_1);
                               return '';
                             }
                             return null;
@@ -191,7 +194,7 @@ class _EditScreenState extends State<EditScreen> {
                         const SizedBox(height: 10),
                         BaseFormField(
                           controller: descriptionController,
-                          labelText: 'Описание',
+                          labelText: S.of(context).description,
                           maxLines: 3,
                           onSaved: (val) {
                             description = val;
@@ -210,7 +213,7 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         const SizedBox(height: 10),
                         BaseFormField(
-                          labelText: 'Ссылка на источник',
+                          labelText: S.of(context).source_link,
                           controller: linkController,
                           hintText: 'https://',
                           onSaved: (val) {
@@ -221,7 +224,7 @@ class _EditScreenState extends State<EditScreen> {
                         Row(
                           children: [
                             Text(
-                              'Состав',
+                              S.of(context).ingredients,
                               style: theme.textTheme.titleLarge,
                             ),
                           ],
@@ -231,7 +234,7 @@ class _EditScreenState extends State<EditScreen> {
                         Row(
                           children: [
                             Text(
-                              'Пошаговый рецепт',
+                              S.of(context).method,
                               style: theme.textTheme.titleLarge,
                             ),
                           ],
@@ -266,7 +269,7 @@ class _EditScreenState extends State<EditScreen> {
                           _showSnackBar();
                         }
                       },
-                      child: const Text('Сохранить рецепт'),
+                      child: Text(S.of(context).save_recipe),
                     ),
                   ),
                 ],
@@ -281,7 +284,7 @@ class _EditScreenState extends State<EditScreen> {
   void _showSnackBar() {
     String errorText = errors.join(', ');
     final snackBar = SnackBar(
-      content: Text('Введите $errorText'),
+      content: Text('${S.of(context).enter} $errorText'),
       backgroundColor: const Color(0xFFa83434),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -299,6 +302,19 @@ class _EditScreenState extends State<EditScreen> {
   int _getCategoryId(String name) {
     final List<Category> categories =
         (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
+    final List<String> categoriesNames = [
+      S.of(context).salads,
+      S.of(context).snacks,
+      S.of(context).soups,
+      S.of(context).main_course,
+      S.of(context).desserts,
+      S.of(context).drinks
+    ];
+
+    if(Localizations.localeOf(context).toString() == 'en'){
+      return categoriesNames.indexOf(name)+1;
+    }
+
     int id = 0;
     for (Category e in categories) {
       if (e.name == name) {
@@ -311,6 +327,19 @@ class _EditScreenState extends State<EditScreen> {
   String _getCategoryName(int id) {
     final List<Category> categories =
         (_categoryBloc.state as CategoryStateLoaded).listOfCategories;
+    final List<String> categoriesNames = [
+      S.of(context).salads,
+      S.of(context).snacks,
+      S.of(context).soups,
+      S.of(context).main_course,
+      S.of(context).desserts,
+      S.of(context).drinks
+    ];
+
+    if(Localizations.localeOf(context).toString() == 'en') {
+      return categoriesNames[id-1];
+    }
+
     String name = '';
     for (Category e in categories) {
       if (e.id == id) {
@@ -359,6 +388,7 @@ class _EditScreenState extends State<EditScreen> {
   Future<void> _addRecipe() async {
     Recipe recipe = _createRecipe();
     final int id = await db.insertRecipe(recipe);
+    _settingsCubit.changeAmountOfRecipes();
     context.router.push(RecipeRoute(
       // recipe: recipe.copyWith(id: id),
       recipeId: id,
@@ -375,7 +405,6 @@ class _EditScreenState extends State<EditScreen> {
           recipeId: widget.recipe!.rowid!,
           isFromAllCategoryScreen: widget.isFromAllCategoryList,
           categoryIdFromListScreen: widget.listScreenCategoryId,
-          // isFromFavouriteScreen : widget.isFromFavouriteScreen,
           isFromSearchScreen : widget.isFromSearchScreen,
         ),
         predicate: (rout) => rout.isFirst,

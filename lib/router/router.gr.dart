@@ -287,10 +287,13 @@ class SearchRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SettingsScreen]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
-      : super(
+class SettingsRoute extends PageRouteInfo<SettingsRouteArgs> {
+  SettingsRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           SettingsRoute.name,
+          args: SettingsRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -299,7 +302,20 @@ class SettingsRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const SettingsScreen();
+      final args = data.argsAs<SettingsRouteArgs>(
+          orElse: () => const SettingsRouteArgs());
+      return SettingsScreen(key: args.key);
     },
   );
+}
+
+class SettingsRouteArgs {
+  const SettingsRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'SettingsRouteArgs{key: $key}';
+  }
 }

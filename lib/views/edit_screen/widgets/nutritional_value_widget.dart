@@ -1,4 +1,5 @@
 import 'package:cook_manager/domain/edit_recipe/nutrition_label_bloc/nutrition_label_bloc.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -65,7 +66,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Пищевая ценность',
+                S.of(context).nutrition_label,
                 style: theme.textTheme.bodyMedium!.copyWith(
                     color: state.isLabelFocused
                         ? currentPrimaryColor
@@ -76,7 +77,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Белки: ",
+                    '${S.of(context).proteins}: ',
                     style: theme.textTheme.bodyMedium!.copyWith(
                         color: state.isProteinsLabelFocused
                             ? currentPrimaryColor
@@ -106,7 +107,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Жиры: ",
+                    '${S.of(context).fats}: ',
                     style: theme.textTheme.bodyMedium!.copyWith(
                         color: state.isFatsLabelFocused
                             ? currentPrimaryColor
@@ -137,7 +138,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Углеводы: ",
+                    '${S.of(context).carbohydrates}: ',
                     style: theme.textTheme.bodyMedium!.copyWith(
                         color: state.isCarbsLabelFocused
                             ? currentPrimaryColor
@@ -168,7 +169,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Калории: ",
+                    '${S.of(context).calories}: ',
                     style: theme.textTheme.bodyMedium!.copyWith(
                         color: state.isCallorLabelFocused
                             ? currentPrimaryColor

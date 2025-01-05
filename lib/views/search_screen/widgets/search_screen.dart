@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/data/data_repository.dart';
-import 'package:cook_manager/domain/search_screen/search_cubit.dart';
+import 'package:cook_manager/domain/search/search_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
-import 'package:cook_manager/views/recipe_screen/recipe_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../home_screen/widgets/widgets.dart';
 
 @RoutePage()
 class SearchScreen extends StatefulWidget {
@@ -49,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
               preferredSize: const Size.fromHeight(15),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
@@ -59,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: TextFormField(
                   controller: _textController,
                   decoration: InputDecoration(
-                    hintText: 'Поиск рецептов...',
+                    hintText: S.of(context).search_of_recipes,
                     border: InputBorder.none,
                     suffixIcon: GestureDetector(
                       onTap: () =>
@@ -78,16 +80,13 @@ class _SearchScreenState extends State<SearchScreen> {
             builder: (BuildContext context, SearchState state) {
               switch (state) {
                 case SearchEmptyState():
-                  return const SliverToBoxAdapter(
+                  return SliverToBoxAdapter(
                     child: Center(
-                      child: Text('Поиск не дал результатов'),
+                      child: Text(S.of(context).search_no_result),
                     ),
                   );
                 case SearchInitState():
                   return const SliverToBoxAdapter(
-                    // child: Center(
-                    //   child: Text('Введите слова в строку поиска'),
-                    // ),
                     child: SizedBox(),
                   );
                 case SearchLoadedState():
