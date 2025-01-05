@@ -1,4 +1,5 @@
 import 'package:cook_manager/domain/edit_recipe/recipe_steps_bloc/recipe_steps_bloc.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/models/recipe_step.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _RecipeStepTileState extends State<RecipeStepTile> {
             child: Column(
               children: [
                 BaseFormField(
-                  labelText: "Шаг ${widget.index + 1}",
+                  labelText: "${S.of(context).step} ${widget.index + 1}",
                   controller: stepFieldController,
                   onChanged: _setName,
                   maxLines: 2,

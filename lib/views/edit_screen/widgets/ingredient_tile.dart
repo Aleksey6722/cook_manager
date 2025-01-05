@@ -1,4 +1,5 @@
 import 'package:cook_manager/domain/edit_recipe/structure_widget_bloc/structure_bloc.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/models/ingredient.dart';
 import 'package:cook_manager/utils/ingredient_field_type_enum.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -54,13 +55,13 @@ class _IngredientTileState extends State<IngredientTile> {
             child: Column(
               children: [
                 BaseFormField(
-                  labelText: "Ингредиент",
+                  labelText: S.of(context).ingredient,
                   controller: nameFieldController,
                   onChanged: _setName,
                 ),
                 const SizedBox(height: 6),
                 BaseFormField(
-                  labelText: "Количество",
+                  labelText: S.of(context).amount,
                   controller: valueFieldController,
                   onChanged: _setValue,
                 ),

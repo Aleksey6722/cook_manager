@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cook_manager/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_manager/router/router.dart';
 
@@ -12,10 +13,10 @@ class HomeScreen extends StatelessWidget {
     return AutoTabsRouter(
       routes: [
         const MainRoute(),
-        SearchRoute(),
+        const SearchRoute(),
         EditRoute(),
         const FavouritesRoute(),
-        const SettingsRoute()
+        SettingsRoute()
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -26,26 +27,26 @@ class HomeScreen extends StatelessWidget {
             unselectedItemColor: theme.colorScheme.secondary.withOpacity(0.3),
             currentIndex: tabsRouter.activeIndex,
             onTap: (index) => _openPage(index, tabsRouter),
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Главная',
+                icon: const Icon(Icons.home),
+                label: S.of(context).main,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search_rounded),
-                label: 'Поиск',
+                icon: const Icon(Icons.search_rounded),
+                label: S.of(context).search,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle, size: 40),
-                label: 'Добавить',
+                icon: const Icon(Icons.add_circle, size: 40),
+                label: S.of(context).add,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark_border),
-                label: 'Избранное',
+                icon: const Icon(Icons.bookmark_border),
+                label: S.of(context).favourite,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Настройки',
+                icon: const Icon(Icons.settings),
+                label: S.of(context).settings,
               ),
             ],
           ),

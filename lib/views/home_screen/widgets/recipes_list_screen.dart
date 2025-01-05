@@ -3,11 +3,10 @@ import 'package:cook_manager/domain/home_screen/recipes_list_cubit.dart';
 
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
+import 'package:cook_manager/views/home_screen/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../recipe_screen/widgets/widgets.dart';
 
 @RoutePage()
 class RecipesListScreen extends StatefulWidget {
@@ -77,17 +76,18 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
           const SizedBox(height: 15),
       itemBuilder: (context, index, animation) {
         return GestureDetector(
-            onTap: () => context.router.push(RecipeRoute(
-                  recipeId: state.listOfRecipes[index].rowid!,
-                  isFromAllCategoryScreen: widget.categoryId == null,
-                  categoryIdFromListScreen: widget.categoryId,
-                )),
-            child: RecipeTile(
-              recipe: state.listOfRecipes[index],
-              isFromAllCategoryScreen: widget.categoryId == null,
-              categoryIdFromListScreen: widget.categoryId,
-              onDelete: () => removeItem(state.listOfRecipes[index], index),
-            ));
+          onTap: () => context.router.push(RecipeRoute(
+            recipeId: state.listOfRecipes[index].rowid!,
+            isFromAllCategoryScreen: widget.categoryId == null,
+            categoryIdFromListScreen: widget.categoryId,
+          )),
+          child: RecipeTile(
+            recipe: state.listOfRecipes[index],
+            isFromAllCategoryScreen: widget.categoryId == null,
+            categoryIdFromListScreen: widget.categoryId,
+            onDelete: () => removeItem(state.listOfRecipes[index], index),
+          ),
+        );
       },
     );
   }

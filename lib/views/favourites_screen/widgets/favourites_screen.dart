@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
 
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../recipe_screen/widgets/widgets.dart';
+import '../../home_screen/widgets/widgets.dart';
 
 @RoutePage()
 class FavouritesScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Избранное'),
+        title: Text(S.of(context).favourite),
         surfaceTintColor: theme.colorScheme.surface,
         backgroundColor: theme.colorScheme.surface,
         shadowColor: theme.colorScheme.surface,
@@ -110,7 +110,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         child: Column(
           children: [
             Text(
-              'У Вас нет ни одного рецепта в избранном',
+              S.of(context).favourite_empty_message,
               style: theme.textTheme.labelLarge,
               textAlign: TextAlign.center,
             ),
@@ -125,7 +125,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8))),
               ),
-              child: const Text('Создать рецепт'),
+              child: Text(S.of(context).create_recipe),
             )
           ],
         ),
