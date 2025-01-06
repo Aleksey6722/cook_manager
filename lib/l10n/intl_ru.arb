@@ -11,7 +11,7 @@
   "category_1": "категорию",
   "description": "Описание",
   "source_link": "Ссылка на источник",
-  "ingredients": "Состав",
+  "ingredients": "Ингредиенты",
   "method": "Пошаговый рецепт",
   "save_recipe": "Сохранить рецепт",
   "enter": "Введите",
@@ -53,5 +53,6 @@
   "dark_theme": "Тёмная тема",
   "search_of_recipes": "Поиск рецептов...",
   "amount_of_recipes": "Количество рецептов",
-  "app_version": "Версия приложения"
+  "app_version": "Версия приложения",
+  "recipe_step_number": "Шаг {name}: "
 }

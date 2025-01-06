@@ -5,10 +5,14 @@ import 'package:cook_manager/domain/favourite/favourite_list_cubit.dart';
 import 'package:cook_manager/domain/home_screen/recipes_list_cubit.dart';
 import 'package:cook_manager/domain/recipes/recipe_cubit.dart';
 import 'package:cook_manager/domain/search/search_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
+import 'package:cook_manager/models/ingredient.dart';
+import 'package:cook_manager/models/recipe_step.dart';
 
 import 'package:cook_manager/views/recipe_screen/widgets/widgets.dart';
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -39,7 +43,7 @@ class RecipeScreen extends StatefulWidget {
 class _RecipeScreenState extends State<RecipeScreen> {
   final RecipeCubit _recipeCubit = GetIt.instance<RecipeCubit>();
   final SearchCubit _searchCubit = GetIt.instance<SearchCubit>();
-    final RecipesListCubit _recipeListCubit = GetIt.instance<RecipesListCubit>();
+  final RecipesListCubit _recipeListCubit = GetIt.instance<RecipesListCubit>();
   final FavouriteListCubit _favouriteListCubit =
       GetIt.instance<FavouriteListCubit>();
 
@@ -63,7 +67,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
               return _buildPage(state);
             case RecipeStateError():
               return const SafeArea(
-                  child: Scaffold(body: Text('Ошибка чтения из базы данных')));
+                  child: Scaffold(body: Text('Error reading from database')));
           }
         },
       ),
@@ -158,7 +162,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       children: [
                         Center(
                           child: Text(
-                            '${state.recipe.title}(${state.recipe.rowid})',
+                            state.recipe.title,
                             style: theme.textTheme.headlineMedium,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.clip,
@@ -170,10 +174,12 @@ class _RecipeScreenState extends State<RecipeScreen> {
                             numberOfPortions: state.recipe.numberOfPortions),
                         const SizedBox(height: 10),
                         NutritionBanner(recipe: state.recipe),
-                        const SizedBox(height: 10),
-                        Text(state.recipe.description ?? ''),
-                        const SizedBox(height: 10),
-                        Row(children: [
+                        if (state.recipe.description != '') ...[
+                          const SizedBox(height: 10),
+                          Text(state.recipe.description ?? '')
+                        ],
+                        if(state.recipe.recipeUrl != '') ...[
+                          const SizedBox(height: 10),
                           InkWell(
                             onTap: () async {
                               final url = state.recipe.recipeUrl ?? "";
@@ -187,11 +193,19 @@ class _RecipeScreenState extends State<RecipeScreen> {
                                   ?.copyWith(color: theme.primaryColor),
                             ),
                           ),
-                        ]),
-                        TabWidget(
-                          steps: state.recipe.listOfSteps,
-                          ingredients: state.recipe.listOfIngredients,
+                        ],
+                        const SizedBox(height: 10),
+                        Text(
+                          S.of(context).ingredients,
+                          style: theme.textTheme.headlineSmall,
                         ),
+                        _ingredientsSection(state.recipe.listOfIngredients),
+                        const SizedBox(height: 10),
+                        Text(
+                          S.of(context).method,
+                          style: theme.textTheme.headlineSmall,
+                        ),
+                        _methodSection(state.recipe.listOfSteps),
                       ],
                     ),
                   ),
@@ -201,6 +215,62 @@ class _RecipeScreenState extends State<RecipeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _ingredientsSection(List<Ingredient> ingredients) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      separatorBuilder: (context, index) => const DottedLine(),
+      itemCount: ingredients.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(ingredients[index].name ?? ''),
+              Text(ingredients[index].value ?? ''),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _methodSection(List<RecipeStep> steps) {
+    final theme = Theme.of(context);
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      separatorBuilder: (context, index) => const DottedLine(),
+      itemCount: steps.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text.rich(
+                  TextSpan(
+                    text: S.of(context).recipe_step_number(index + 1),
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w500),
+                    children: [
+                      TextSpan(
+                        text: steps[index].stepText ?? '',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

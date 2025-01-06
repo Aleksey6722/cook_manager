@@ -53,5 +53,6 @@
   "dark_theme": "Dark theme",
   "search_of_recipes": "Search of recipes...",
   "amount_of_recipes": "Amount of recipes",
-  "app_version": "App version"
+  "app_version": "App version",
+  "recipe_step_number": "Step {name}: "
 }

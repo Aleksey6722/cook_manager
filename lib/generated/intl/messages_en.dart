@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(howMany) =>
       "${Intl.plural(howMany, one: '1 portion', other: '${howMany} portions')}";
 
+  static String m3(name) => "Step ${name}: ";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("Add"),
@@ -88,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recipe_name": MessageLookupByLibrary.simpleMessage("Name"),
         "recipe_name_placeholder":
             MessageLookupByLibrary.simpleMessage("Strawberry cake"),
+        "recipe_step_number": m3,
         "salads": MessageLookupByLibrary.simpleMessage("Salads"),
         "save_recipe": MessageLookupByLibrary.simpleMessage("Save recipe"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),

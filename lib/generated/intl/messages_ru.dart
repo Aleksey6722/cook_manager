@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(howMany) =>
       "${Intl.plural(howMany, one: '1 порция', few: '${howMany} порции', other: '${howMany} порций')}";
 
+  static String m3(name) => "Шаг ${name}: ";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add": MessageLookupByLibrary.simpleMessage("Добавить"),
@@ -73,7 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "hours": MessageLookupByLibrary.simpleMessage("Часов"),
         "hoursCount": m0,
         "ingredient": MessageLookupByLibrary.simpleMessage("Ингредиент"),
-        "ingredients": MessageLookupByLibrary.simpleMessage("Состав"),
+        "ingredients": MessageLookupByLibrary.simpleMessage("Ингредиенты"),
         "main": MessageLookupByLibrary.simpleMessage("Главная"),
         "main_course": MessageLookupByLibrary.simpleMessage("Вторые блюда"),
         "method": MessageLookupByLibrary.simpleMessage("Пошаговый рецепт"),
@@ -91,6 +93,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recipe_name": MessageLookupByLibrary.simpleMessage("Название"),
         "recipe_name_placeholder":
             MessageLookupByLibrary.simpleMessage("Рецепт малинового пирога"),
+        "recipe_step_number": m3,
         "salads": MessageLookupByLibrary.simpleMessage("Салаты"),
         "save_recipe": MessageLookupByLibrary.simpleMessage("Сохранить рецепт"),
         "search": MessageLookupByLibrary.simpleMessage("Поиск"),

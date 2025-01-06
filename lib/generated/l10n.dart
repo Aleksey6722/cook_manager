@@ -605,6 +605,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Step {name}: `
+  String recipe_step_number(Object name) {
+    return Intl.message(
+      'Step $name: ',
+      name: 'recipe_step_number',
+      desc: '',
+      args: [name],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
