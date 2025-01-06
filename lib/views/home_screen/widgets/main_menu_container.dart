@@ -14,7 +14,7 @@ class MainMenuContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      height: 200,
+      height: (MediaQuery.of(context).size.width - 40) / 1.9,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.black),
