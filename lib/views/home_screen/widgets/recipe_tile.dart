@@ -52,7 +52,7 @@ class _RecipeTileState extends State<RecipeTile> {
       children: [
         Stack(children: [
           Container(
-            height: 180,
+            height: (MediaQuery.of(context).size.width - 40) / 1.9,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
@@ -74,7 +74,7 @@ class _RecipeTileState extends State<RecipeTile> {
               child: Center(
                 child: Text(
                   _getCategoryName(widget.recipe.category),
-                  style: theme.textTheme.headlineSmall!
+                  style: theme.textTheme.labelLarge!
                       .copyWith(color: theme.colorScheme.onPrimary),
                 ),
               ),
@@ -82,7 +82,7 @@ class _RecipeTileState extends State<RecipeTile> {
           ),
           Positioned(
             top: 10,
-            right: 60,
+            right: 55,
             child: GestureDetector(
               onTap: () => _setFavourite(),
               child: Container(
@@ -94,14 +94,14 @@ class _RecipeTileState extends State<RecipeTile> {
                 child: Icon(
                   Icons.bookmark_border_outlined,
                   color: theme.colorScheme.onPrimary,
-                  size: 31,
+                  size: 24,
                 ),
               ),
             ),
           ),
           Positioned(
-            top: 17,
-            right: 67.5,
+            top: 15,
+            right: 60.5,
             child: Visibility(
               visible: _isFavourite,
               child: GestureDetector(
@@ -109,7 +109,7 @@ class _RecipeTileState extends State<RecipeTile> {
                 child: const Icon(
                   Icons.bookmark,
                   color: Color(0xFFd14141),
-                  size: 23,
+                  size: 18,
                 ),
               ),
             ),
@@ -128,7 +128,7 @@ class _RecipeTileState extends State<RecipeTile> {
                 child: Icon(
                   Icons.delete,
                   color: theme.colorScheme.onPrimary,
-                  size: 31,
+                  size: 24,
                 ),
               ),
             ),

@@ -36,7 +36,7 @@ class _ImageBoxState extends State<ImageBox> {
           return Stack(
             children: [
               Container(
-                height: (MediaQuery.of(context).size.width - 40) / 1.5,
+                height: (MediaQuery.of(context).size.width - 40) / 1.8,
                 width: MediaQuery.of(context).size.width - 40,
                 decoration: state.imageFile != null
                     ? BoxDecoration(
@@ -58,7 +58,7 @@ class _ImageBoxState extends State<ImageBox> {
   Future<CroppedFile?> _cropImage(File imageFile) async =>
       await ImageCropper().cropImage(
         sourcePath: imageFile.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1.5, ratioY: 1),
+        aspectRatio: const CropAspectRatio(ratioX: 1.8, ratioY: 1),
       );
 
   Widget _buildButtonsColumn() {
