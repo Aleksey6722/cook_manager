@@ -165,7 +165,7 @@ class DatabaseService {
         $_recipeStepsColumnName,
         $_recipeIsFavouriteColumnName
         FROM ${_recipeTableName} 
-        WHERE ${_recipeTableName} MATCH ?;''', [text]);
+        WHERE ${_recipeTableName} MATCH ?;''', [text+'*']);
     List<Recipe> result = [];
     for (Object recipe in rows) {
       final json = _decode(recipe as Map<String, Object?>);
@@ -224,9 +224,6 @@ class DatabaseService {
       _recipeStepsColumnName,
       _recipeIsFavouriteColumnName,
     ], whereArgs: [categoryId]);
-    // final rows = await db.rawQuery('''
-    // SELECT * FROM $_recipeTableName WHERE category = ?
-    // ''', [categoryId]);
     List<Recipe> result = [];
     for (Object recipe in rows) {
       final json = _decode(recipe as Map<String, Object?>);

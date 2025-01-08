@@ -46,12 +46,12 @@ class _SearchScreenState extends State<SearchScreen> {
             surfaceTintColor: Colors.transparent,
             elevation: 5,
             shadowColor: theme.colorScheme.surface,
-            // title: const Center(child: Text('Cook manager')),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(15),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
@@ -59,14 +59,24 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextFormField(
+                  onFieldSubmitted: (val) => _searchCubit.searchRecipes(val),
                   controller: _textController,
+                  onChanged: (val) => setState(() {}),
                   decoration: InputDecoration(
                     hintText: S.of(context).search_of_recipes,
                     border: InputBorder.none,
+                    icon: const Icon(
+                      Icons.search,
+                      size: 26,
+                    ),
                     suffixIcon: GestureDetector(
-                      onTap: () =>
-                          _searchCubit.searchRecipes(_textController.text),
-                      child: const Icon(Icons.search),
+                      onTap: () {
+                        _textController.clear();
+                        setState(() {});
+                      },
+                      child: Visibility(
+                          visible: _textController.text.isNotEmpty,
+                          child: const Icon(Icons.close)),
                     ),
                     suffixIconConstraints: const BoxConstraints(maxHeight: 30),
                     contentPadding: const EdgeInsets.all(5),
