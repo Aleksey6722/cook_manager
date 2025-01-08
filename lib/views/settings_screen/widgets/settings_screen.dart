@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/domain/settings/settings_cubit.dart';
 import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/views/settings_screen/widgets/settings_toggle_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({super.key});
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -17,10 +17,12 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final SettingsCubit _settingsCubit = GetIt.instance<SettingsCubit>();
+  late final Future<PackageInfo> packageInfo;
 
   @override
   void initState() {
     _settingsCubit.changeAmountOfRecipes();
+    packageInfo = PackageInfo.fromPlatform();
     super.initState();
   }
 
@@ -81,7 +83,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       children: [
                         Text(S.of(context).app_version,
                             style: theme.textTheme.bodyLarge),
-                        Text('1.0.0', style: theme.textTheme.bodyLarge),
+                        FutureBuilder(
+                          future: packageInfo,
+                          builder:  (context, snapshot) {
+                            if(snapshot.connectionState == ConnectionState.done){
+                              return Text(snapshot.data?.version ?? '', style: theme.textTheme.bodyLarge);
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
