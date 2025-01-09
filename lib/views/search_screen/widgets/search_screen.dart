@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/data/data_repository.dart';
 import 'package:cook_manager/domain/search/search_cubit.dart';
@@ -23,10 +25,12 @@ class _SearchScreenState extends State<SearchScreen> {
   final SearchCubit _searchCubit = GetIt.instance<SearchCubit>();
   final TextEditingController _textController = TextEditingController();
   late GlobalKey<SliverAnimatedListState> listKey;
+  Timer? _debounce;
 
   @override
   void dispose() {
     _textController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -61,7 +65,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: TextFormField(
                   onFieldSubmitted: (val) => _searchCubit.searchRecipes(val),
                   controller: _textController,
-                  onChanged: (val) => setState(() {}),
+                  onChanged: (val) async {
+                    setState(() {});
+                    if (_debounce?.isActive ?? false) _debounce?.cancel();
+                    _debounce = Timer(
+                      const Duration(milliseconds: 500),
+                      () => _searchCubit.searchRecipes(val),
+                    );
+                  },
                   decoration: InputDecoration(
                     hintText: S.of(context).search_of_recipes,
                     border: InputBorder.none,

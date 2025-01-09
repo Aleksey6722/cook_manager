@@ -50,8 +50,7 @@ dependencies:
   path: ^1.9.0
   url_launcher: ^6.3.1
   package_info_plus: ^8.1.2
-
-
+  fimber: ^0.7.0
 
 dev_dependencies:
 

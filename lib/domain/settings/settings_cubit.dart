@@ -18,16 +18,16 @@ class SettingsCubit extends Cubit<SettingsCurrentState> {
   void changeAmountOfRecipes() async {
     int amount = await _dataRepository.getAmountOfRecipes();
     emit(SettingsCurrentState(
-      brightness: this.state.brightness,
+      brightness: state.brightness,
       amountOfRecipes: amount,
-      locale: this.state.locale,
+      locale: state.locale,
     ));
   }
 
   void changeTheme(Brightness brightness) {
     emit(SettingsCurrentState(
-      amountOfRecipes: this.state.amountOfRecipes,
-      locale: this.state.locale,
+      amountOfRecipes: state.amountOfRecipes,
+      locale: state.locale,
       brightness: brightness
     ));
   }

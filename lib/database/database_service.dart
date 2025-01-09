@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cook_manager/models/category.dart';
 import 'package:cook_manager/models/recipe.dart';
+import 'package:fimber/fimber.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,10 +30,6 @@ class DatabaseService {
   final String _categoryNameColumnName = 'name';
 
   static Database? _db;
-
-  // static final DatabaseService instance = DatabaseService._constructor();
-  //
-  // DatabaseService._constructor();
 
   Future<Database> get database async {
     if (_db != null) return _db!;
@@ -84,12 +81,14 @@ class DatabaseService {
         ''');
       },
     );
+    Fimber.d('Database created');
     return database;
   }
 
   Future<void> deleteDB() async {
     final path = await getDatabasesPath();
     await deleteDatabase(join(path, 'cook_database'));
+    Fimber.d('Database deleted');
   }
 
   Future<List<Map<String, Object?>>> showData() async {

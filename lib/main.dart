@@ -3,6 +3,7 @@ import 'package:cook_manager/domain/settings/settings_cubit.dart';
 import 'package:cook_manager/generated/l10n.dart';
 import 'package:cook_manager/router/router.dart';
 import 'package:cook_manager/theme/theme.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,10 +14,10 @@ import 'di/di.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+  Fimber.plantTree(DebugTree());
   runApp(const CookManager());
   final DatabaseService db = GetIt.instance<DatabaseService>();
   // db.deleteDB();
-  // db.showData();
 }
 
 class CookManager extends StatefulWidget {
