@@ -178,7 +178,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                           const SizedBox(height: 10),
                           Text(state.recipe.description ?? '')
                         ],
-                        if(state.recipe.recipeUrl != '') ...[
+                        if (state.recipe.recipeUrl != '') ...[
                           const SizedBox(height: 10),
                           InkWell(
                             onTap: () async {
@@ -190,7 +190,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                             child: Text(
                               state.recipe.recipeUrl ?? "",
                               style: theme.textTheme.bodyMedium
-                                  ?.copyWith(color: theme.primaryColor),
+                                  ?.copyWith(color: theme.colorScheme.primary),
                             ),
                           ),
                         ],
@@ -219,10 +219,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
   }
 
   Widget _ingredientsSection(List<Ingredient> ingredients) {
+    final theme = Theme.of(context);
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (context, index) => const DottedLine(),
+      separatorBuilder: (context, index) => DottedLine(
+        dashColor: theme.colorScheme.onSurface,
+      ),
       itemCount: ingredients.length,
       itemBuilder: (context, index) {
         return Padding(
@@ -244,7 +247,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (context, index) => const DottedLine(),
+      separatorBuilder: (context, index) => DottedLine(
+        dashColor: theme.colorScheme.onSurface,
+      ),
       itemCount: steps.length,
       itemBuilder: (context, index) {
         return Padding(
