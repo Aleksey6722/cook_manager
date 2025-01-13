@@ -56,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }),
                     const SizedBox(height: 12),
                     SettingsToggleCard(
-                        title: 'English language',
+                        title: S.of(context).english_language,
                         initValue: state.locale == 'en',
                         onChanged: (bool val) {
                           _settingsCubit.changeLocale(val ? 'en' : 'ru');

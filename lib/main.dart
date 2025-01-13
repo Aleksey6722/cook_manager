@@ -17,7 +17,7 @@ void main() async {
   Fimber.plantTree(DebugTree());
   runApp(const CookManager());
   final DatabaseService db = GetIt.instance<DatabaseService>();
-  // db.deleteDB();
+  db.deleteDB();
 }
 
 class CookManager extends StatefulWidget {
@@ -37,7 +37,7 @@ class _CookManagerState extends State<CookManager> {
       bloc: _settingsCubit,
       builder: (context, state) {
         return MaterialApp.router(
-          localizationsDelegates: [
+          localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

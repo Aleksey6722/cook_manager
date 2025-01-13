@@ -24,7 +24,7 @@ class MainMenuContainer extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(9),
               image: DecorationImage(
                 image: AssetImage(imageUrl),
                 fit: BoxFit.cover,

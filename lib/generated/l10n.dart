@@ -615,6 +615,16 @@ class S {
       args: [name],
     );
   }
+
+  /// `Press one more time to close`
+  String get double_tap_to_exit_message {
+    return Intl.message(
+      'Press one more time to close',
+      name: 'double_tap_to_exit_message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

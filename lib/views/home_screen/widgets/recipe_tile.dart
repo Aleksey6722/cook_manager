@@ -100,8 +100,8 @@ class _RecipeTileState extends State<RecipeTile> {
             ),
           ),
           Positioned(
-            top: 15,
-            right: 60.5,
+            top: 15.5,
+            right: 61,
             child: Visibility(
               visible: _isFavourite,
               child: GestureDetector(
@@ -141,7 +141,7 @@ class _RecipeTileState extends State<RecipeTile> {
         ),
         Text(
           widget.recipe.title,
-          style: theme.textTheme.headlineSmall,
+          style: theme.textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w500),
           textAlign: TextAlign.start,
           overflow: TextOverflow.clip,
         ),

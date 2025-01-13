@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Вы уверене что хотите удалить рецепт?"),
         "description": MessageLookupByLibrary.simpleMessage("Описание"),
         "desserts": MessageLookupByLibrary.simpleMessage("Десерты и выпечка"),
+        "double_tap_to_exit_message":
+            MessageLookupByLibrary.simpleMessage("Нажмите ещё раз чтобы выйти"),
         "drinks": MessageLookupByLibrary.simpleMessage("Напитки"),
         "edit_recipe":
             MessageLookupByLibrary.simpleMessage("Редактировать рецепт"),

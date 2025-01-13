@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to delete this recipe?"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "desserts": MessageLookupByLibrary.simpleMessage("Desserts and bakery"),
+        "double_tap_to_exit_message": MessageLookupByLibrary.simpleMessage(
+            "Press one more time to close"),
         "drinks": MessageLookupByLibrary.simpleMessage("Drinks"),
         "edit_recipe": MessageLookupByLibrary.simpleMessage("Edit recipe"),
         "english_language":

@@ -54,5 +54,6 @@
   "search_of_recipes": "Search of recipes...",
   "amount_of_recipes": "Amount of recipes",
   "app_version": "App version",
-  "recipe_step_number": "Step {name}: "
+  "recipe_step_number": "Step {name}: ",
+  "double_tap_to_exit_message": "Press one more time to close"
 }

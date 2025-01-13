@@ -54,5 +54,6 @@
   "search_of_recipes": "Поиск рецептов...",
   "amount_of_recipes": "Количество рецептов",
   "app_version": "Версия приложения",
-  "recipe_step_number": "Шаг {name}: "
+  "recipe_step_number": "Шаг {name}: ",
+  "double_tap_to_exit_message": "Нажмите ещё раз чтобы выйти"
 }

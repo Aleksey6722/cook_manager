@@ -1,9 +1,9 @@
-
 import 'package:cook_manager/data/data_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'dart:io';
 
 part 'settings_state.dart';
 
@@ -13,7 +13,11 @@ class SettingsCubit extends Cubit<SettingsCurrentState> {
 
   SettingsCubit(DataRepository dataRepository)
       : _dataRepository = dataRepository,
-        super(const SettingsCurrentState());
+        super(
+          SettingsCurrentState(
+              locale:
+                  Platform.localeName.substring(0, 2) == 'ru' ? 'ru' : 'en'),
+        );
 
   void changeAmountOfRecipes() async {
     int amount = await _dataRepository.getAmountOfRecipes();
@@ -26,17 +30,16 @@ class SettingsCubit extends Cubit<SettingsCurrentState> {
 
   void changeTheme(Brightness brightness) {
     emit(SettingsCurrentState(
-      amountOfRecipes: state.amountOfRecipes,
-      locale: state.locale,
-      brightness: brightness
-    ));
+        amountOfRecipes: state.amountOfRecipes,
+        locale: state.locale,
+        brightness: brightness));
   }
 
   void changeLocale(String locale) {
     emit(SettingsCurrentState(
-        amountOfRecipes: this.state.amountOfRecipes,
-        locale: locale,
-        brightness: this.state.brightness,
+      amountOfRecipes: state.amountOfRecipes,
+      locale: locale,
+      brightness: state.brightness,
     ));
   }
 }

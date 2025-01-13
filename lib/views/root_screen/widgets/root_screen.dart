@@ -84,11 +84,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   SnackBar _showSnackBar(BuildContext context) {
-    return const SnackBar(
-      content: Text('Press one more time to close'),
-      duration: Duration(milliseconds: 2000),
-      // backgroundColor: Color(0xFFa83434),
-      shape: RoundedRectangleBorder(
+    return SnackBar(
+      content: Text(S.of(context).double_tap_to_exit_message),
+      duration: const Duration(milliseconds: 2000),
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(8),
         topRight: Radius.circular(8),

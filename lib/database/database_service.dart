@@ -75,7 +75,7 @@ class DatabaseService {
         VALUES ('assets/images/salad.jpg', 'Салаты'),
                ('assets/images/snaks.jpg', 'Закуски'),  
                ('assets/images/soup.jpg', 'Первые блюда'),  
-               ('assets/images/main_dishes.jpg', 'Главные блюда'),  
+               ('assets/images/main_dishes.jpg', 'Вторые блюда'),  
                ('assets/images/desert.jpg', 'Десерты и выпечка'),  
                ('assets/images/drinks.jpg', 'Напитки');
         ''');

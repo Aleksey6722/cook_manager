@@ -44,11 +44,11 @@ class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
             Stack(
               children: [
                 Positioned(
-                  left: 10,
+                  left: 7,
                   top: 13,
                   child: Container(
-                    height: 22,
-                    width: 22,
+                    height: 25,
+                    width: 25,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surface,
                       shape: BoxShape.circle,
@@ -77,11 +77,11 @@ class _RecipeStepsButtonsBarState extends State<RecipeStepsButtonsBar> {
             Stack(
               children: [
                 Positioned(
-                  left: 10,
+                  left: 7,
                   top: 13,
                   child: Container(
-                    height: 22,
-                    width: 22,
+                    height: 25,
+                    width: 25,
                     decoration: BoxDecoration(
                         color: theme.colorScheme.surface,
                         shape: BoxShape.circle),
