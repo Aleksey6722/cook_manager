@@ -60,6 +60,7 @@ class DatabaseService {
          $_recipeIngredientsColumnName TEXT NOT NULL,
          $_recipeStepsColumnName TEXT NOT NULL,
          $_recipeIsFavouriteColumnName INTEGER DEFAULT 0,
+         tokenize=icu,
          FOREIGN KEY($_recipeCategoryIdColumnName) REFERENCES $_categoryTableName($_categoryIdColumnName) 
         );  
         ''');

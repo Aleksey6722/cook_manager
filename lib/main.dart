@@ -43,6 +43,7 @@ class _CookManagerState extends State<CookManager> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+          debugShowCheckedModeBanner: false,
           locale: Locale(state.locale),
           supportedLocales: S.delegate.supportedLocales,
           title: 'CookManager',
