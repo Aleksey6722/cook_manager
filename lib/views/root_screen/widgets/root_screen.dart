@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:cook_manager/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_manager/router/router.dart';
@@ -33,44 +34,69 @@ class HomeScreen extends StatelessWidget {
           ],
           builder: (context, child) {
             final tabsRouter = AutoTabsRouter.of(context);
-            return StreamBuilder<Object>(
-                stream: null,
-                builder: (context, snapshot) {
-                  return PopScope(
-                    child: Scaffold(
-                      body: child,
-                      bottomNavigationBar: BottomNavigationBar(
-                        selectedItemColor: theme.colorScheme.primary,
-                        unselectedItemColor:
-                            theme.colorScheme.secondary.withOpacity(0.3),
-                        currentIndex: tabsRouter.activeIndex,
-                        onTap: (index) => _openPage(index, tabsRouter),
-                        items: [
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.home),
-                            label: S.of(context).main,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.search_rounded),
-                            label: S.of(context).search,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.add_circle, size: 40),
-                            label: S.of(context).add,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.bookmark_border),
-                            label: S.of(context).favourite,
-                          ),
-                          BottomNavigationBarItem(
-                            icon: const Icon(Icons.settings),
-                            label: S.of(context).settings,
-                          ),
-                        ],
-                      ),
+            return PopScope(
+              child: Scaffold(
+                body: child,
+                bottomNavigationBar: BottomBarCreative(
+                  indexSelected: tabsRouter.activeIndex,
+                  onTap: (index) => _openPage(index, tabsRouter),
+                  items: [
+                    TabItem(
+                      icon: Icons.home,
+                      title: S.of(context).main,
                     ),
-                  );
-                });
+                    TabItem(
+                      icon: Icons.search_rounded,
+                      title: S.of(context).search,
+                    ),
+                    TabItem(
+                      icon: Icons.add,
+                      title: S.of(context).add,
+                    ),
+                    TabItem(
+                      icon: Icons.bookmark_border,
+                      title: S.of(context).favourite,
+                    ),
+                    TabItem(
+                      icon: Icons.settings,
+                      title: S.of(context).settings,
+                    ),
+                  ],
+                  backgroundColor: theme.colorScheme.surface,
+                  color: Colors.black,
+                  colorSelected: theme.colorScheme.primary,
+                ),
+                // bottomNavigationBar: BottomNavigationBar(
+                //   selectedItemColor: theme.colorScheme.primary,
+                //   unselectedItemColor:
+                //       theme.colorScheme.secondary.withOpacity(0.3),
+                //   currentIndex: tabsRouter.activeIndex,
+                //   onTap: (index) => _openPage(index, tabsRouter),
+                //   items: [
+                //     BottomNavigationBarItem(
+                //       icon: const Icon(Icons.home),
+                //       label: S.of(context).main,
+                //     ),
+                //     BottomNavigationBarItem(
+                //       icon: const Icon(Icons.search_rounded),
+                //       label: S.of(context).search,
+                //     ),
+                //     BottomNavigationBarItem(
+                //       icon: const Icon(Icons.add_circle, size: 40),
+                //       label: S.of(context).add,
+                //     ),
+                //     BottomNavigationBarItem(
+                //       icon: const Icon(Icons.bookmark_border),
+                //       label: S.of(context).favourite,
+                //     ),
+                //     BottomNavigationBarItem(
+                //       icon: const Icon(Icons.settings),
+                //       label: S.of(context).settings,
+                //     ),
+                //   ],
+                // ),
+              ),
+            );
           },
         ),
       ),

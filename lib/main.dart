@@ -17,7 +17,7 @@ void main() async {
   Fimber.plantTree(DebugTree());
   runApp(const CookManager());
   final DatabaseService db = GetIt.instance<DatabaseService>();
-  db.deleteDB();
+  // db.deleteDB();
 }
 
 class CookManager extends StatefulWidget {
