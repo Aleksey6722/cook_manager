@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                   backgroundColor: theme.colorScheme.surface,
-                  color: Colors.black,
+                  color: theme.colorScheme.onSurface,
                   colorSelected: theme.colorScheme.primary,
                 ),
                 // bottomNavigationBar: BottomNavigationBar(
