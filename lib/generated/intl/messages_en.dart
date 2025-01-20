@@ -75,6 +75,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hoursCount": m0,
         "ingredient": MessageLookupByLibrary.simpleMessage("Ingredient"),
         "ingredients": MessageLookupByLibrary.simpleMessage("Ingredients"),
+        "list_empty_message": MessageLookupByLibrary.simpleMessage(
+            "You don\'t have any recipes in this category"),
         "main": MessageLookupByLibrary.simpleMessage("main"),
         "main_course": MessageLookupByLibrary.simpleMessage("Main course"),
         "method": MessageLookupByLibrary.simpleMessage("Method"),

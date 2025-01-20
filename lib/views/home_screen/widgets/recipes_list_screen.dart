@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cook_manager/domain/home_screen/recipes_list_cubit.dart';
+import 'package:cook_manager/generated/l10n.dart';
 
 import 'package:cook_manager/models/recipe.dart';
 import 'package:cook_manager/router/router.dart';
@@ -115,7 +116,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
         child: Column(
           children: [
             Text(
-              'У Вас нет ни одного рецепта в этой категории',
+              S.of(context).list_empty_message,
               style: theme.textTheme.labelLarge,
               textAlign: TextAlign.center,
             ),
@@ -130,7 +131,7 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8))),
               ),
-              child: const Text('Создать рецепт'),
+              child: Text(S.of(context).create_recipe),
             )
           ],
         ),

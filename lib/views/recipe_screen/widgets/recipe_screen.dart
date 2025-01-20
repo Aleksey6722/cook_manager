@@ -97,7 +97,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
               },
               icon: const Icon(
                 Icons.edit,
-                size: 28,
+                size: 24,
               )),
           const SizedBox(width: 10),
           Stack(children: [
@@ -105,12 +105,12 @@ class _RecipeScreenState extends State<RecipeScreen> {
               onTap: () => _setFavourite(state.recipe),
               child: const Icon(
                 Icons.bookmark_border_outlined,
-                size: 32,
+                size: 28,
               ),
             ),
             Positioned(
-              top: 3.5,
-              left: 3.5,
+              top: 2.5,
+              left: 3,
               child: Visibility(
                 visible: state.recipe.isFavourite,
                 child: GestureDetector(
@@ -118,7 +118,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   child: const Icon(
                     Icons.bookmark,
                     color: Colors.red,
-                    size: 25,
+                    size: 22,
                   ),
                 ),
               ),

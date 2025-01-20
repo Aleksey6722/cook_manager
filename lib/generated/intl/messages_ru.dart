@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hoursCount": m0,
         "ingredient": MessageLookupByLibrary.simpleMessage("Ингредиент"),
         "ingredients": MessageLookupByLibrary.simpleMessage("Ингредиенты"),
+        "list_empty_message": MessageLookupByLibrary.simpleMessage(
+            "У Вас нет ни одного рецепта в этой категории"),
         "main": MessageLookupByLibrary.simpleMessage("Главная"),
         "main_course": MessageLookupByLibrary.simpleMessage("Вторые блюда"),
         "method": MessageLookupByLibrary.simpleMessage("Пошаговый рецепт"),

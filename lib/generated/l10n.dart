@@ -625,6 +625,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You don't have any recipes in this category`
+  String get list_empty_message {
+    return Intl.message(
+      'You don\'t have any recipes in this category',
+      name: 'list_empty_message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
