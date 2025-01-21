@@ -38,6 +38,8 @@ class Subtitle extends StatelessWidget {
 
     if (minutes == 0) {
       return Text(S.of(context).hoursCount(hours));
+    } else if (hours == 0) {
+      return Text(S.of(context).minutesCount(minutes));
     } else {
       return Text('${S.of(context).hoursCount(hours)} ${S.of(context).minutesCount(minutes)}');
     }
