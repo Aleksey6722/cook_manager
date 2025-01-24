@@ -4,14 +4,15 @@ final class SettingsCurrentState extends Equatable {
   final int amountOfRecipes;
   final Brightness brightness;
   final String locale;
+  final SharedPreferencesHelper sharedPreferencesHelper =
+      GetIt.instance<SharedPreferencesHelper>();
 
-  const SettingsCurrentState({
+  SettingsCurrentState({
     this.amountOfRecipes = 0,
-    this.brightness = Brightness.light,
+    required this.brightness,
     required this.locale,
   });
 
   @override
   List<Object?> get props => [amountOfRecipes, brightness, locale];
-
 }
