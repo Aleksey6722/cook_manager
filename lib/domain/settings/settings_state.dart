@@ -7,11 +7,10 @@ final class SettingsCurrentState extends Equatable {
 
   const SettingsCurrentState({
     this.amountOfRecipes = 0,
-    this.brightness = Brightness.light,
+    required this.brightness,
     required this.locale,
   });
 
   @override
   List<Object?> get props => [amountOfRecipes, brightness, locale];
-
 }

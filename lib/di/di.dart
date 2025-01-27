@@ -1,3 +1,4 @@
+import 'package:cook_manager/database/theme_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,4 +11,9 @@ final getIt = GetIt.instance;
   preferRelativeImports: true, // default
   asExtension: true, // default
 )
-void configureDependencies() => getIt.init();
+
+Future<void> configureDependencies() async {
+  getIt.registerSingletonAsync<ThemeStorage>(()=>ThemeStorage.create());
+  await getIt.allReady();
+  getIt.init();
+}

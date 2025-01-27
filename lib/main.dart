@@ -13,7 +13,7 @@ import 'di/di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
+  await configureDependencies();
   Fimber.plantTree(DebugTree());
   runApp(const CookManager());
   final DatabaseService db = GetIt.instance<DatabaseService>();
