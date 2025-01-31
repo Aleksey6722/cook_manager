@@ -88,6 +88,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       controller: widget.proteinsController,
                       keyboardType: TextInputType.number,
                       focusNode: _focusNodeProteins,
+                      style: theme.textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: '20 г',
                         hintStyle: theme.textTheme.bodyMedium!.copyWith(
@@ -118,6 +119,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       controller: widget.fatsController,
                       keyboardType: TextInputType.number,
                       focusNode: _focusNodeFats,
+                      style: theme.textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: '20 г',
                         hintStyle: theme.textTheme.bodyMedium!.copyWith(
@@ -149,6 +151,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       controller: widget.carbohydratesController,
                       keyboardType: TextInputType.number,
                       focusNode: _focusNodeCarb,
+                      style: theme.textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: '20 г',
                         hintStyle: theme.textTheme.bodyMedium!.copyWith(
@@ -180,6 +183,7 @@ class _NutritionalValueWidgetState extends State<NutritionalValueWidget> {
                       controller: widget.caloriesController,
                       keyboardType: TextInputType.number,
                       focusNode: _focusNodeCallories,
+                      style: theme.textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: '342',
                         hintStyle: theme.textTheme.bodyMedium!.copyWith(

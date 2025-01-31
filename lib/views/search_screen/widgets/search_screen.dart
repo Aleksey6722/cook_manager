@@ -65,14 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: TextFormField(
                   onFieldSubmitted: (val) => _searchCubit.searchRecipes(val),
                   controller: _textController,
-                  onChanged: (val) async {
-                    setState(() {});
-                    if (_debounce?.isActive ?? false) _debounce?.cancel();
-                    _debounce = Timer(
-                      const Duration(milliseconds: 500),
-                      () => _searchCubit.searchRecipes(val),
-                    );
-                  },
+                  onChanged: _search,
                   decoration: InputDecoration(
                     hintText: S.of(context).search_of_recipes,
                     border: InputBorder.none,
@@ -141,6 +134,15 @@ class _SearchScreenState extends State<SearchScreen> {
         ]),
       ),
     );
+  }
+
+  void _search(String val) async {
+      setState(() {});
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(
+        const Duration(milliseconds: 500),
+            () => _searchCubit.searchRecipes(val),
+      );
   }
 
   void removeItem(Recipe recipe, index) {

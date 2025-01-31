@@ -62,39 +62,10 @@ class HomeScreen extends StatelessWidget {
                       title: S.of(context).settings,
                     ),
                   ],
-                  backgroundColor: theme.colorScheme.surface,
+                  backgroundColor: theme.colorScheme.surfaceContainer,
                   color: theme.colorScheme.onSurface,
                   colorSelected: theme.colorScheme.primary,
                 ),
-                // bottomNavigationBar: BottomNavigationBar(
-                //   selectedItemColor: theme.colorScheme.primary,
-                //   unselectedItemColor:
-                //       theme.colorScheme.secondary.withOpacity(0.3),
-                //   currentIndex: tabsRouter.activeIndex,
-                //   onTap: (index) => _openPage(index, tabsRouter),
-                //   items: [
-                //     BottomNavigationBarItem(
-                //       icon: const Icon(Icons.home),
-                //       label: S.of(context).main,
-                //     ),
-                //     BottomNavigationBarItem(
-                //       icon: const Icon(Icons.search_rounded),
-                //       label: S.of(context).search,
-                //     ),
-                //     BottomNavigationBarItem(
-                //       icon: const Icon(Icons.add_circle, size: 40),
-                //       label: S.of(context).add,
-                //     ),
-                //     BottomNavigationBarItem(
-                //       icon: const Icon(Icons.bookmark_border),
-                //       label: S.of(context).favourite,
-                //     ),
-                //     BottomNavigationBarItem(
-                //       icon: const Icon(Icons.settings),
-                //       label: S.of(context).settings,
-                //     ),
-                //   ],
-                // ),
               ),
             );
           },

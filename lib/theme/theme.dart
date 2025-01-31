@@ -15,11 +15,11 @@ ThemeData getTheme(Brightness brightness){
     useMaterial3: true,
     textTheme: const TextTheme(
       headlineSmall: TextStyle(
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: FontWeight.w500,
       ),
       headlineMedium: TextStyle(
-        fontSize: 30,
+        fontSize: 26,
         fontWeight: FontWeight.w500,
       ),// AppBar title
       bodyMedium: TextStyle(fontSize: 16),

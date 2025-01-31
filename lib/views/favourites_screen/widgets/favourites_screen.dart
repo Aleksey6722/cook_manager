@@ -111,7 +111,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           children: [
             Text(
               S.of(context).favourite_empty_message,
-              style: theme.textTheme.labelLarge,
+              style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
@@ -122,6 +122,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               style: TextButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,
+                textStyle: theme.textTheme.bodyLarge,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8))),
               ),

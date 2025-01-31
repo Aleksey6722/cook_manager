@@ -44,8 +44,8 @@ class MainMenuContainer extends StatelessWidget {
               child: Text(
                 label,
                 style: const TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
                     color: Colors.white),
               ),
             ),
