@@ -39,12 +39,12 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     gh.singleton<_i711.DatabaseService>(() => _i711.DatabaseService());
-    gh.singleton<_i925.SharedPreferencesHelper>(
-        () => _i925.SharedPreferencesHelper());
     gh.singleton<_i537.ImageBoxBloc>(() => _i537.ImageBoxBloc());
     gh.singleton<_i678.NutritionLabelBloc>(() => _i678.NutritionLabelBloc());
     gh.singleton<_i20.RecipeStepsBloc>(() => _i20.RecipeStepsBloc());
     gh.singleton<_i967.StructureBloc>(() => _i967.StructureBloc());
+    gh.singleton<_i925.SharedPreferencesHelper>(
+        () => _i925.SharedPreferencesHelper());
     gh.factory<_i717.DataRepository>(
         () => _i717.DataRepository(gh<_i711.DatabaseService>()));
     gh.singleton<_i162.FavouriteListCubit>(

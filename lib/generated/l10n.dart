@@ -430,10 +430,10 @@ class S {
     );
   }
 
-  /// `Main course`
+  /// `Main courses`
   String get main_course {
     return Intl.message(
-      'Main course',
+      'Main courses',
       name: 'main_course',
       desc: '',
       args: [],

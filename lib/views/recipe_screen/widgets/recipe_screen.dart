@@ -232,9 +232,16 @@ class _RecipeScreenState extends State<RecipeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Text(ingredients[index].name ?? ''),
-              Text(ingredients[index].value ?? ''),
+              Expanded(
+                child: Text(
+                  ingredients[index].name ?? '',
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+              // Spacer(),
+              Expanded(child: Text(ingredients[index].value ?? '', textAlign: TextAlign.end,)),
             ],
           ),
         );

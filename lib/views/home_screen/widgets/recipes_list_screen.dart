@@ -86,7 +86,12 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
             recipe: state.listOfRecipes[index],
             isFromAllCategoryScreen: widget.categoryId == null,
             categoryIdFromListScreen: widget.categoryId,
-            onDelete: () => removeItem(state.listOfRecipes[index], index),
+            onDelete: () async {
+              removeItem(state.listOfRecipes[index], index);
+              await Future.delayed(const Duration(milliseconds: 300), () {
+                _recipesListCubit.getRecipes(widget.categoryId);
+              });
+            },
           ),
         );
       },
@@ -123,7 +128,8 @@ class _RecipesListScreenState extends State<RecipesListScreen> {
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
-                context.router.navigate(EditRoute());
+                context.router.navigate(
+                    EditRoute(listScreenCategoryId: widget.categoryId));
               },
               style: TextButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,

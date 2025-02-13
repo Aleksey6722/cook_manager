@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BaseFormField extends StatelessWidget {
-  const BaseFormField({
+  BaseFormField({
     super.key,
     required this.labelText,
     this.hintText,
@@ -25,6 +25,7 @@ class BaseFormField extends StatelessWidget {
   final void Function(String?)? onChanged;
   final String? initialValue;
   final TextEditingController? controller;
+  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,33 +41,38 @@ class BaseFormField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFormField(
-            controller: controller,
-            initialValue: initialValue,
-            maxLines: maxLines,
-            keyboardType: onlyNumber ? TextInputType.number : null,
-            decoration: InputDecoration(
-              label: Container(
-                transform: Matrix4.translationValues(0.0, -8.0, 0.0),
-                child: Text(labelText),
+          Scrollbar(
+            controller: scrollController,
+            thumbVisibility: true,
+            child: TextFormField(
+              scrollController: scrollController,
+              controller: controller,
+              initialValue: initialValue,
+              maxLines: maxLines,
+              keyboardType: onlyNumber ? TextInputType.number : null,
+              decoration: InputDecoration(
+                label: Container(
+                  transform: Matrix4.translationValues(0.0, -8.0, 0.0),
+                  child: Text(labelText),
+                ),
+                hintText: hintText,
+                hintStyle: theme.textTheme.bodyMedium!
+                    .copyWith(color: currentTextColor.withOpacity(0.5)),
+                suffixIcon: withSufficsIcon
+                    ? const Icon(Icons.keyboard_arrow_down_outlined, size: 30)
+                    : null,
+                suffixIconConstraints: const BoxConstraints(maxHeight: 30),
+                border: InputBorder.none,
+                errorStyle: TextStyle(
+                  color: theme.colorScheme.onSurface,
+                  fontSize: 0,
+                ),
               ),
-              hintText: hintText,
-              hintStyle: theme.textTheme.bodyMedium!
-                  .copyWith(color: currentTextColor.withOpacity(0.5)),
-              suffixIcon: withSufficsIcon
-                  ? const Icon(Icons.keyboard_arrow_down_outlined, size: 30)
-                  : null,
-              suffixIconConstraints: const BoxConstraints(maxHeight: 30),
-              border: InputBorder.none,
-              errorStyle: TextStyle(
-                color: theme.colorScheme.onSurface,
-                fontSize: 0,
-              ),
+              validator: validator,
+              textInputAction: TextInputAction.none,
+              onSaved: onSaved,
+              onChanged: onChanged,
             ),
-            validator: validator,
-            textInputAction: TextInputAction.none,
-            onSaved: onSaved,
-            onChanged: onChanged,
           ),
         ],
       ),

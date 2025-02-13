@@ -81,7 +81,12 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           child: RecipeTile(
             isFromFavouriteScreen: true,
             recipe: state.listOfRecipes[index],
-            onDelete: () => removeItem(state.listOfRecipes[index], index),
+            onDelete: () async {
+              removeItem(state.listOfRecipes[index], index);
+              await Future.delayed(const Duration(milliseconds: 300), () {
+                _favouriteListCubit.getRecipes(emitInitState: false);
+              });
+            },
           ),
         );
       },

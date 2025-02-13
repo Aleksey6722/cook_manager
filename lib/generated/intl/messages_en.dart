@@ -78,7 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "list_empty_message": MessageLookupByLibrary.simpleMessage(
             "You don\'t have any recipes in this category"),
         "main": MessageLookupByLibrary.simpleMessage("main"),
-        "main_course": MessageLookupByLibrary.simpleMessage("Main course"),
+        "main_course": MessageLookupByLibrary.simpleMessage("Main courses"),
         "method": MessageLookupByLibrary.simpleMessage("Method"),
         "minutesCount": m1,
         "number_of_servings":

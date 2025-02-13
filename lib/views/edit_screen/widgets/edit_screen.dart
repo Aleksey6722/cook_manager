@@ -108,7 +108,9 @@ class _EditScreenState extends State<EditScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            widget.recipe == null ? S.of(context).add_recipe : S.of(context).edit_recipe,
+            widget.recipe == null
+                ? S.of(context).add_recipe
+                : S.of(context).edit_recipe,
             style: theme.textTheme.headlineSmall,
           ),
           surfaceTintColor: theme.colorScheme.surface,
@@ -130,12 +132,14 @@ class _EditScreenState extends State<EditScreen> {
                         const ImageBox(),
                         const SizedBox(height: 15),
                         BaseFormField(
+                          // maxLength: 50,
                           labelText: S.of(context).recipe_name,
                           controller: titleController,
                           hintText: S.of(context).recipe_name_placeholder,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add(S.of(context).recipe_name.toLowerCase());
+                              errors
+                                  .add(S.of(context).recipe_name.toLowerCase());
                               return '';
                             }
                             return null;
@@ -152,7 +156,8 @@ class _EditScreenState extends State<EditScreen> {
                           onlyNumber: true,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add(S.of(context).cooking_time.toLowerCase());
+                              errors.add(
+                                  S.of(context).cooking_time.toLowerCase());
                               return '';
                             }
                             return null;
@@ -168,7 +173,10 @@ class _EditScreenState extends State<EditScreen> {
                           onlyNumber: true,
                           validator: (val) {
                             if (val!.isEmpty) {
-                              errors.add(S.of(context).number_of_servings.toLowerCase());
+                              errors.add(S
+                                  .of(context)
+                                  .number_of_servings
+                                  .toLowerCase());
                               return '';
                             }
                             return null;
@@ -311,8 +319,8 @@ class _EditScreenState extends State<EditScreen> {
       S.of(context).drinks
     ];
 
-    if(Localizations.localeOf(context).toString() == 'en'){
-      return categoriesNames.indexOf(name)+1;
+    if (Localizations.localeOf(context).toString() == 'en') {
+      return categoriesNames.indexOf(name) + 1;
     }
 
     int id = 0;
@@ -336,8 +344,8 @@ class _EditScreenState extends State<EditScreen> {
       S.of(context).drinks
     ];
 
-    if(Localizations.localeOf(context).toString() == 'en') {
-      return categoriesNames[id-1];
+    if (Localizations.localeOf(context).toString() == 'en') {
+      return categoriesNames[id - 1];
     }
 
     String name = '';
@@ -405,7 +413,7 @@ class _EditScreenState extends State<EditScreen> {
           recipeId: widget.recipe!.rowid!,
           isFromAllCategoryScreen: widget.isFromAllCategoryList,
           categoryIdFromListScreen: widget.listScreenCategoryId,
-          isFromSearchScreen : widget.isFromSearchScreen,
+          isFromSearchScreen: widget.isFromSearchScreen,
         ),
         predicate: (rout) => rout.isFirst,
       );

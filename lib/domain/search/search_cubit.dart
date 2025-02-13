@@ -38,7 +38,4 @@ class SearchCubit extends Cubit<SearchState> {
     }
   }
 
-  Future<void> getEmptyState() async {
-    emit(SearchEmptyState());
-  }
 }

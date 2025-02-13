@@ -121,8 +121,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: RecipeTile(
                             isFromSearchScreen: true,
                             recipe: state.listOfRecipes[index],
-                            onDelete: () =>
-                                removeItem(state.listOfRecipes[index], index),
+                            onDelete: () async {
+                              removeItem(state.listOfRecipes[index], index);
+                              await Future.delayed(const Duration(milliseconds: 300), () {
+                                _searchCubit.searchRecipes(_textController.text);
+                              });
+                            },
                           ),
                         ),
                       );
@@ -137,12 +141,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _search(String val) async {
-      setState(() {});
-      if (_debounce?.isActive ?? false) _debounce?.cancel();
-      _debounce = Timer(
-        const Duration(milliseconds: 500),
-            () => _searchCubit.searchRecipes(val),
-      );
+    setState(() {});
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(
+      const Duration(milliseconds: 500),
+      () => _searchCubit.searchRecipes(val),
+    );
   }
 
   void removeItem(Recipe recipe, index) {
